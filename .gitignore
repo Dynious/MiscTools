@@ -1,1 +1,6 @@
 Internal/
+build.properties
+build.xml
+build_number.properties
+compile.bat
+release.bat
