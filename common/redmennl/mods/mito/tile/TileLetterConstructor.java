@@ -104,12 +104,14 @@ public class TileLetterConstructor extends TileEntity implements IInventory
 	@Override
 	public boolean isStackValidForSlot(int i, ItemStack itemstack)
 	{
-		if (itemstack.itemID == Block.stone.blockID) 
+		if (i == 1 && itemstack.itemID == Block.stone.blockID) 
 		{
+			System.out.println("Yep");
 			return true;
 		}
 		else 
 		{
+			System.out.println("Nope");
 			return false;
 		}
 	}

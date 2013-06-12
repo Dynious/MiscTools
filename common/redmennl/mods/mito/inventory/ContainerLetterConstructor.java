@@ -45,34 +45,23 @@ public class ContainerLetterConstructor extends Container
 	@Override
     public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotIndex) {
 
-        ItemStack itemStack = null;
+		ItemStack itemStack = null;
         Slot slot = (Slot) inventorySlots.get(slotIndex);
 
-        if (slot != null && slot.getHasStack()) {
-            
+        if (slot != null && slot.getHasStack())
+        {
             ItemStack slotItemStack = slot.getStack();
             itemStack = slotItemStack.copy();
 
-            /**
-             * If we are shift-clicking an item out of the Aludel's container, attempt to put it in the first available slot in the
-             * player's inventory 
-             */
-            if (slotIndex < 1) {
+            if (slotIndex < 25) {
                 
-                if (!this.mergeItemStack(slotItemStack, 1, inventorySlots.size(), false)) {
+                if (!this.mergeItemStack(slotItemStack, 1, inventorySlots.size(), true)) {
                     return null;
                 }
             }
             else {
-                
-                /**
-                 * If the stack being shift-clicked into the Aludel's container is a fuel, first try to put it in the fuel slot.
-                 * If it cannot be merged into the fuel slot, try to put it in the input slot.
-                 */
-                if (slotItemStack.itemID == Block.stone.blockID) {
-                    if (!this.mergeItemStack(slotItemStack, 1, 1, false)) {
-                        return null;
-                    }
+                if (!this.mergeItemStack(slotItemStack, 0, 1, false) || slotItemStack.getItem().itemID != Block.stone.blockID) {
+                    return null;
                 }
             }
 
