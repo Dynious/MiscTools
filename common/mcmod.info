@@ -1,0 +1,16 @@
+[
+{
+  "modid": "MiTo",
+  "name": "Misc Tools",
+  "description": "All sorts of cool looking and handy stuff!",
+  "version": "@VERSION@",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [ "RedmenNL" ],
+  "credits": "By RedmenNL",
+  "logoFile": "",
+  "screenshots": [],
+  "parent":"",
+  "dependencies": []
+}
+]
