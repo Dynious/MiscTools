@@ -26,6 +26,7 @@ public class BlockLetter2 extends BlockContainer
 	{
 		super(id, Material.rock);
 		this.setUnlocalizedName("letter2");
+		this.setHardness(2F);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 

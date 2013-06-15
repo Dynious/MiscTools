@@ -35,7 +35,10 @@ public class MiscTools
     	ConfigurationHandler.init(event.getSuggestedConfigurationFile());
     	
     	BlockRegistery.register();
+    	
     	ItemRegistery.register();
+    	
+    	proxy.registerSoundHandler();
     }
     
     @Init

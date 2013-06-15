@@ -1,6 +1,8 @@
 package redmennl.mods.mito.proxy;
 
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
+import redmennl.mods.mito.client.audio.SoundHandler;
 import redmennl.mods.mito.client.renderer.RendererLetter;
 import redmennl.mods.mito.client.renderer.RendererPortableHouse;
 import redmennl.mods.mito.client.renderer.item.ItemRendererLetter;
@@ -34,4 +36,10 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileAdvancedPortableHouseDeployer.class, new RendererPortableHouse());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileLetter.class, new RendererLetter());
 	}
+	
+    @Override
+    public void registerSoundHandler() {
+
+        MinecraftForge.EVENT_BUS.register(new SoundHandler());
+    }
 }

@@ -15,11 +15,23 @@ public class ContainerLetterConstructor extends Container
 	
 	public ContainerLetterConstructor(InventoryPlayer i, TileLetterConstructor tile)
 	{
-		this.addSlotToContainer(new Slot(tile, 0, 21, 32));
+		this.addSlotToContainer(new RestrictedSlot(tile, 0, 21, 32, Block.stone.blockID));
 		
-        for (int inventoryRowIndex = 1; inventoryRowIndex < 5; ++inventoryRowIndex) {
+        for (int inventoryRowIndex = 1; inventoryRowIndex < 2; ++inventoryRowIndex) {
+            for (int inventoryColumnIndex = 1; inventoryColumnIndex < 8; ++inventoryColumnIndex) {
+                this.addSlotToContainer(new RestrictedSlot(tile, (inventoryColumnIndex + ((inventoryRowIndex - 1)*6)), 44 + (inventoryColumnIndex -1) * 18, 6 + (inventoryRowIndex -1) * 18, 0));
+            }
+        }
+        
+        for (int inventoryRowIndex = 2; inventoryRowIndex < 4; ++inventoryRowIndex) {
             for (int inventoryColumnIndex = 1; inventoryColumnIndex < 7; ++inventoryColumnIndex) {
-                this.addSlotToContainer(new Slot(tile, (inventoryColumnIndex + ((inventoryRowIndex - 1)*6)), 62 + (inventoryColumnIndex -1) * 18, 6 + (inventoryRowIndex -1) * 18));
+                this.addSlotToContainer(new RestrictedSlot(tile, (inventoryColumnIndex + 1 + ((inventoryRowIndex - 1)*6)), 53 + (inventoryColumnIndex -1) * 18, 6 + (inventoryRowIndex -1) * 18, 0));
+            }
+        }
+        
+        for (int inventoryRowIndex = 4; inventoryRowIndex < 5; ++inventoryRowIndex) {
+            for (int inventoryColumnIndex = 1; inventoryColumnIndex < 8; ++inventoryColumnIndex) {
+                this.addSlotToContainer(new RestrictedSlot(tile, (inventoryColumnIndex + 1 + ((inventoryRowIndex - 1)*6)), 44 + (inventoryColumnIndex -1) * 18, 6 + (inventoryRowIndex -1) * 18, 0));
             }
         }
 		
@@ -53,16 +65,17 @@ public class ContainerLetterConstructor extends Container
             ItemStack slotItemStack = slot.getStack();
             itemStack = slotItemStack.copy();
 
-            if (slotIndex < 25) {
-                
-                if (!this.mergeItemStack(slotItemStack, 1, inventorySlots.size(), true)) {
-                    return null;
-                }
+            if (slotIndex < 27) {
+                return null;
             }
             else {
-                if (!this.mergeItemStack(slotItemStack, 0, 1, false) || slotItemStack.getItem().itemID != Block.stone.blockID) {
-                    return null;
-                }
+            	if (slotItemStack.itemID == Block.stone.blockID)
+            	{
+            		if (!this.mergeItemStack(slotItemStack, 0, 1, false)) {
+                    	return null;
+                	}
+            	}
+            	else return null;
             }
 
             if (slotItemStack.stackSize == 0) {

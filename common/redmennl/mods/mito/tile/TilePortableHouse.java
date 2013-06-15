@@ -2,15 +2,15 @@ package redmennl.mods.mito.tile;
 
 import java.util.Random;
 
-import redmennl.mods.mito.entity.EntityPowerLaser;
-import redmennl.mods.mito.helper.Pos3d;
-import redmennl.mods.mito.lib.Library;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import redmennl.mods.mito.entity.EntityPowerLaser;
+import redmennl.mods.mito.helper.Pos3d;
+import redmennl.mods.mito.lib.Library;
 
 public class TilePortableHouse extends TileEntity
 {
@@ -80,7 +80,10 @@ public class TilePortableHouse extends TileEntity
         stack.getTagCompound().setInteger("hight", hight);
         if (name != ""){stack.getTagCompound().setString("name", name);}
         
+        world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, Library.SOUND_PORTABLEHOUSE, 1.0F, 1.0F);
+        
         //new DelayedAction("Portable House", 5, world, this.xCoord, this.yCoord, this.zCoord, size, hight);
+        
         
     	for (byte x = 0; x < size; x++) 
     	{
@@ -102,6 +105,7 @@ public class TilePortableHouse extends TileEntity
             	}
         	}
     	}
+    	
 
         Random rand = new Random();
     	float rx = rand.nextFloat() * 0.4F + 0.1F;

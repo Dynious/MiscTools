@@ -13,6 +13,10 @@ public class Library
     
     
     public static final String MODEL_LOCATION = "/mods/MiTo/models/";
+    
+    private static final String SOUND_PREFIX = "mods.MiTo.sounds.";
+    public static final String SOUND_LOCATION = "mods/MiTo/sounds/";
+    
     public static final String GUI_SHEET_LOCATION = "/mods/MiTo/textures/gui/";
     public static final String ENTITY_SHEET_LOCATION = "/mods/MiTo/textures/entities/";
     public static final String MODEL_SHEET_LOCATION = "/mods/MiTo/textures/models/";
@@ -29,5 +33,8 @@ public class Library
     
     public static final String MODEL_LETTERS = MODEL_LOCATION + "letters.obj";
     
-    public static final int GUIID_PORTABLEHOUSE = 0;
+    public static String[] soundFiles = { SOUND_LOCATION + "makeLetter.ogg", SOUND_LOCATION + "saveBlocks.ogg" };
+    
+    public static final String SOUND_LETTERCONSTRUCTOR = SOUND_PREFIX + "makeLetter";
+    public static final String SOUND_PORTABLEHOUSE = SOUND_PREFIX + "saveBlocks";
 }
