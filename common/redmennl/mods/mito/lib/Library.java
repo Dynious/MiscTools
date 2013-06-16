@@ -30,11 +30,23 @@ public class Library
     public static final String MODEL_TEXTURE_PORTABLEHOUSE = MODEL_SHEET_LOCATION + "portableHouse.png";
     public static final String MODEL_TEXTURE_ADVANCEDPORTABLEHOUSE = MODEL_SHEET_LOCATION + "advancedPortableHouse.png";
     public static final String MODEL_TEXTURE_LETTER = MODEL_SHEET_LOCATION + "letter.png";
+    public static final String MODEL_TEXTURE_COMPANION_BODY = MODEL_SHEET_LOCATION + "companionBody.png";
+    public static final String MODEL_TEXTURE_COMPANION_ARMS = MODEL_SHEET_LOCATION + "companionArms.png";
+    public static final String MODEL_TEXTURE_COMPANION_EYE = MODEL_SHEET_LOCATION + "companionEye.png";
+    public static final String MODEL_TEXTURE_COMPANION_EYELID = MODEL_SHEET_LOCATION + "companionEyelid.png";
+    public static final String MODEL_TEXTURE_COMPANION_WHEEL = MODEL_SHEET_LOCATION + "companionWheel.png";
     
     public static final String MODEL_LETTERS = MODEL_LOCATION + "letters.obj";
+    public static final String MODEL_COMPANION = MODEL_LOCATION + "companion.obj";
     
-    public static String[] soundFiles = { SOUND_LOCATION + "makeLetter.ogg", SOUND_LOCATION + "saveBlocks.ogg" };
+    public static String[] soundFiles = { SOUND_LOCATION + "makeLetter.ogg", SOUND_LOCATION + "saveBlocks.ogg", SOUND_LOCATION + "companionHurt1.ogg",
+    	SOUND_LOCATION + "companionHurt2.ogg", SOUND_LOCATION + "companionHurt3.ogg", SOUND_LOCATION + "companionHurt4.ogg", SOUND_LOCATION + "companionHurt5.ogg",
+    	SOUND_LOCATION + "companionHurt6.ogg", SOUND_LOCATION + "companionSay1.ogg", SOUND_LOCATION + "companionSay2.ogg", SOUND_LOCATION + "companionSay3.ogg", 
+    	SOUND_LOCATION + "companionSay4.ogg", SOUND_LOCATION + "companionSay5.ogg", SOUND_LOCATION + "companionDeath.ogg"};
     
     public static final String SOUND_LETTERCONSTRUCTOR = SOUND_PREFIX + "makeLetter";
     public static final String SOUND_PORTABLEHOUSE = SOUND_PREFIX + "saveBlocks";
+    public static final String SOUND_COMPANION_HURT = SOUND_PREFIX + "companionHurt";
+    public static final String SOUND_COMPANION_SAY = SOUND_PREFIX + "companionSay";
+    public static final String SOUND_COMPANION_DEATH = SOUND_PREFIX + "companionDeath";
 }

@@ -47,6 +47,9 @@ public class MiscTools
     	NetworkRegistry.instance().registerGuiHandler(instance, proxy);
     	
         proxy.initTileEntities();
+        
+        proxy.initEntities(this);
+        
         proxy.initRenderingAndTextures();
         
         MinecraftForge.EVENT_BUS.register(new LightEmitterEvent());

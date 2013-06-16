@@ -72,9 +72,9 @@ public class BlockLetterConstructor extends BlockContainer
         }
         else
         {
-            TileLetterConstructor tileentityfurnace = (TileLetterConstructor)world.getBlockTileEntity(x, y, z);
+            TileLetterConstructor tile = (TileLetterConstructor)world.getBlockTileEntity(x, y, z);
 
-            if (tileentityfurnace != null)
+            if (tile != null)
             {
             	player.openGui(MiscTools.instance, GuiIds.LETTERCONSTRUCTOR, world, x, y, z);
             }

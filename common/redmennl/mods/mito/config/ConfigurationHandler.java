@@ -26,6 +26,7 @@ public class ConfigurationHandler
 	            BlockIds.LETTER = configuration.getBlock("letter", BlockIds.LETTER_DEFAULT).getInt(BlockIds.LETTER_DEFAULT);
 	            BlockIds.LETTER2 = configuration.getBlock("letter2", BlockIds.LETTER2_DEFAULT).getInt(BlockIds.LETTER2_DEFAULT);
 	            BlockIds.LETTERCONSTRUCTOR = configuration.getBlock("letterConstructor", BlockIds.LETTERCONSTRUCTOR_DEFAULT).getInt(BlockIds.LETTERCONSTRUCTOR_DEFAULT);
+	            BlockIds.COMPANIONCREATOR = configuration.getBlock("companionCreator", BlockIds.COMPANIONCREATOR_DEFAULT).getInt(BlockIds.COMPANIONCREATOR_DEFAULT);
 	            
 	            ItemIds.HELMETTORCH = configuration.getItem("helmetTorch", ItemIds.HELMETTORCH_DEFAULT).getInt(ItemIds.HELMETTORCH_DEFAULT);
 	            ItemIds.MINERSIRONHELMET = configuration.getItem("minersIronHelmet", ItemIds.MINERSIRONHELMET_DEFAULT).getInt(ItemIds.MINERSIRONHELMET_DEFAULT);

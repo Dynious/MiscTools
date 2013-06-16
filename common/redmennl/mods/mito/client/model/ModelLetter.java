@@ -1,13 +1,13 @@
 package redmennl.mods.mito.client.model;
 
-import redmennl.mods.mito.lib.Library;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import redmennl.mods.mito.lib.Library;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelLetter {
+public class ModelLetter{
 
     private IModelCustom modelLetter;
 

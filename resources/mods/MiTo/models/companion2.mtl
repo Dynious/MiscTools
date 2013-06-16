@@ -1,0 +1,86 @@
+# Blender MTL File: 'None'
+# Material Count: 8
+
+newmtl Arm
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.512000 0.512000 0.512000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Alexander\Desktop\bugl3a-ClapTrap\Modeldatei\UV Arm Links.png
+map_d C:\\Users\\Alexander\\Desktop\\bugl3a-ClapTrap\\Modeldatei\\UV Arm Links.png
+
+newmtl Material.001
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.512000 0.512000 0.512000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Alexander\Desktop\bugl3a-ClapTrap\Modeldatei\UV Rad2.png
+map_d C:\\Users\\Alexander\\Desktop\\bugl3a-ClapTrap\\Modeldatei\\UV Rad2.png
+
+newmtl Material.002
+Ns 107.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.512000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Alexander\Desktop\bugl3a-ClapTrap\Modeldatei\UV Auge Innen.png
+map_d C:\\Users\\Alexander\\Desktop\\bugl3a-ClapTrap\\Modeldatei\\UV Auge Innen.png
+
+newmtl Material.003
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.028450 0.027251 0.026886
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Material.004
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.032000 0.032000 0.032000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Material.005
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.512000 0.512000 0.512000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Alexander\Desktop\bugl3a-ClapTrap\Modeldatei\UV Auge ausen.png
+map_d C:\\Users\\Alexander\\Desktop\\bugl3a-ClapTrap\\Modeldatei\\UV Auge ausen.png
+
+newmtl Material.007
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.512000 0.512000 0.512000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Alexander\Desktop\bugl3a-ClapTrap\Modeldatei\UV Arm Links.png
+map_d C:\\Users\\Alexander\\Desktop\\bugl3a-ClapTrap\\Modeldatei\\UV Arm Links.png
+
+newmtl Material.008
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.512000 0.512000 0.512000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Alexander\Desktop\bugl3a-ClapTrap\Modeldatei\UV body.png
+map_d C:\\Users\\Alexander\\Desktop\\bugl3a-ClapTrap\\Modeldatei\\UV body.png
