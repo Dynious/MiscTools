@@ -168,9 +168,9 @@ public class TilePortableHouse extends TileEntity
 		if (worldObj.isRemote) return;
 
 		EntityPowerLaser laser = new EntityPowerLaser(worldObj, head, tail);
-		laser.show();
-
 		laser.setTexture(Library.ENTITY_TEXTURE_LASER);
+		laser.show();
+		
 		worldObj.spawnEntityInWorld(laser);
 		if (num != 11)
 		{

@@ -36,11 +36,7 @@ public class TilePortableHouseDeployer extends TileEntity
 	            	{
 	            		int zTrans = this.zCoord -((size - 1)/2) + z;
 	            		
-	            		if (xTrans == this.xCoord && yTrans == this.yCoord && zTrans == this.zCoord)
-	            		{
-	            			
-	            		}
-	            		else
+	            		if (xTrans != this.xCoord || yTrans != this.yCoord || zTrans != this.zCoord)
 	            		{
 	            			world.destroyBlock(xTrans, yTrans, zTrans, false);
 	            		}

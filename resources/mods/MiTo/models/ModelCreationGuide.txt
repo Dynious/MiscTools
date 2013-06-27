@@ -1,0 +1,44 @@
+Companion model creation guide:
+
+The standard block created in Blender represents a Minecraft block.
+The companion model should be max two blocks high and one block deep
+and wide.
+
+Save your model as YOURMODELNAME.obj and make sure you select triangulate
+faces when you export it to .obj in Blender.
+
+Now make a file named YOURMODELNAME.properties.
+
+In this file create this line:
+modelOffsetY:number
+
+'number' Is how much the model needs to go up or down to be exactly on the 
+floor. The distance is measured in standard Blender blocks. The claptrap
+model is 1 Standard Blender Blocks under the floor so 'number' is
+1.0F for the claptrap model.
+
+
+Now create this line:
+armOffsetY:number
+
+'number' Is the distance between the 'floor' of your model
+and the point it sould rotate from in float. The distance is measured 
+in standard Blender blocks. The arms of the Claptrap model are 0.6
+Standard Blender Block from the rotationpoint. So 'number' for the
+Claptrap model is 0.6F
+
+Now create another line:
+hasWheel:true/false(:number)
+
+If your model has a weel (or multiple) make this true and put a colon(:)
+and after that the distance from the rotationpoint in float, measured
+again in Standard Blender Blocks. If false just put false without something
+after it.
+
+Now create one more line:
+hasLegs:true/false(:number)
+
+If your model has legs (or multiple) make this true and put a colon(:)
+and after that the distance from the rotationpoint in float, measured
+again in Standard Blender Blocks. If false just put false without something
+after it.

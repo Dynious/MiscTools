@@ -62,8 +62,9 @@ public class ContainerLetterConstructor extends Container
         {
             ItemStack slotItemStack = slot.getStack();
             itemStack = slotItemStack.copy();
-
-            if (slotIndex < 27) {
+            
+            //27
+            if (slotIndex < inventorySlots.size()) {
                 return null;
             }
             else {

@@ -14,7 +14,6 @@ public class SoundHandler {
             // Try to add the custom sound file to the pool of sounds
             try {
                 event.manager.soundPoolSounds.addSound(soundFile, this.getClass().getResource("/" + soundFile));
-                System.out.println("MiTo " + this.getClass().getResource("/" + soundFile));
             }
             // If we cannot add the custom sound file to the pool, log the exception
             catch (Exception e) {

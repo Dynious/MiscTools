@@ -1,19 +1,24 @@
 package redmennl.mods.mito.inventory;
 
+import redmennl.mods.mito.entity.EntityCompanion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import redmennl.mods.mito.tile.TileCompanionCreator;
 
-public class ContainerCompanionCreator extends Container
+public class ContainerCompanion extends Container
 {
     private final int PLAYER_INVENTORY_ROWS = 3;
     private final int PLAYER_INVENTORY_COLUMNS = 9;
     
-    public ContainerCompanionCreator(InventoryPlayer i, TileCompanionCreator tile)
+    public ContainerCompanion(InventoryPlayer i, EntityCompanion e)
 	{
+        for (int inventoryRowIndex = 0; inventoryRowIndex < 3; ++inventoryRowIndex) {
+            for (int inventoryColumnIndex = 0; inventoryColumnIndex < 3; ++inventoryColumnIndex) {
+                this.addSlotToContainer(new Slot(e, (inventoryColumnIndex + inventoryRowIndex * 3), 116 + inventoryColumnIndex * 18, 16 + inventoryRowIndex * 18));
+            }
+        }
 
         for (int inventoryRowIndex = 0; inventoryRowIndex < PLAYER_INVENTORY_ROWS; ++inventoryRowIndex) {
             for (int inventoryColumnIndex = 0; inventoryColumnIndex < PLAYER_INVENTORY_COLUMNS; ++inventoryColumnIndex) {

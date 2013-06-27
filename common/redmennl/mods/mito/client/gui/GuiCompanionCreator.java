@@ -15,7 +15,6 @@ public class GuiCompanionCreator extends GuiContainer
     public GuiCompanionCreator(InventoryPlayer i, TileCompanionCreator tile)
 	{
 		super(new ContainerCompanionCreator(i, tile));
-		//TODO set size
 		xSize = 176;
 		ySize = 166;
 	}
