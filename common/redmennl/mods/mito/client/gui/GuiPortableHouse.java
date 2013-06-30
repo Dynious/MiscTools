@@ -136,7 +136,7 @@ public class GuiPortableHouse extends GuiScreen
     	{
     		if (tile.lasersCreated == false)
     		{
-    			tile.createLaserBox();
+    			//tile.createLaserBox();
     		}
     	}
         if(guibutton.id == 1 && tile.size < 9)

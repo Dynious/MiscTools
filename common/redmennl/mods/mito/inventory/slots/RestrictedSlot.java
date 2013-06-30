@@ -1,4 +1,4 @@
-package redmennl.mods.mito.inventory;
+package redmennl.mods.mito.inventory.slots;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

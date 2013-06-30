@@ -48,7 +48,7 @@ public class CommonProxy implements IGuiHandler
 	
 	public void initEntities(Object mod)
 	{
-		 EntityRegistry.registerGlobalEntityID(EntityCompanion.class, "companion", EntityRegistry.findGlobalUniqueEntityId());
+		//EntityRegistry.registerGlobalEntityID(EntityCompanion.class, "companion", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityCompanion.class, "companion", 1, mod, 40, 1, true);
 		LanguageRegistry.instance().addStringLocalization("entity." + Library.MOD_ID + ".companion.name", "Companion");
 		registerEntityEgg(EntityCompanion.class, 0xffffff, 0x000000);

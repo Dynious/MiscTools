@@ -6,6 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import redmennl.mods.mito.inventory.slots.RestrictedSlot;
 import redmennl.mods.mito.tile.TileLetterConstructor;
 
 public class ContainerLetterConstructor extends Container
