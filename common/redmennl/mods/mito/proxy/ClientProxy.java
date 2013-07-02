@@ -54,4 +54,10 @@ public class ClientProxy extends CommonProxy
 
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
     }
+    
+    @Override
+	public void initTextureLocations()
+    {
+    	
+    }
 }

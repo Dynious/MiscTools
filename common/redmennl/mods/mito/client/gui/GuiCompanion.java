@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import redmennl.mods.mito.entity.EntityCompanion;
 import redmennl.mods.mito.inventory.ContainerCompanion;
 import redmennl.mods.mito.lib.Library;
+import redmennl.mods.mito.lib.Resources;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class GuiCompanion extends GuiAdvancedContainer
@@ -90,18 +91,21 @@ public class GuiCompanion extends GuiAdvancedContainer
             	else if(x >= 60 && x <= 89 && tabs >= 3)
             	{
             		e.activeTab = 3;
+            		activeTab = null;
             		buttonList.clear();
             		clearContainerScreen();
             	}
             	else if(x >= 90 && x <= 119 && tabs >= 4)
             	{
             		e.activeTab = 4;
+            		activeTab = null;
             		buttonList.clear();
             		clearContainerScreen();
             	}
             	else if(x >= 120 && x <= 149 && tabs >= 5)
             	{
             		e.activeTab = 5;
+            		activeTab = null;
             		buttonList.clear();
             		clearContainerScreen();
             	}
@@ -220,7 +224,7 @@ public class GuiCompanion extends GuiAdvancedContainer
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(Library.GUI_COMPANION);
+        mc.renderEngine.func_110577_a(Resources.GUI_COMPANION);
 		xStart = (width - xSize) / 2;
 		yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
@@ -251,6 +255,8 @@ public class GuiCompanion extends GuiAdvancedContainer
 	    else if (activeTab == "crafting")
 	    {
 	        this.drawTexturedModalRect(xStart + 7, yStart + 24, 176, 48, 54, 54);
+	        this.drawTexturedModalRect(xStart + 93, yStart + 38, 176, 102, 26, 26);
+	        this.drawTexturedModalRect(xStart + 67, yStart + 43, 202, 102, 24, 15);
 	    }
 	}
 }

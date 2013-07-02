@@ -3,7 +3,7 @@ package redmennl.mods.mito.lib;
 public class Library
 {
 
-    public static final String MOD_ID = "MiTo";
+    public static final String MOD_ID = "mito";
     public static final String MOD_NAME = "Misc Tools";
     public static final String VERSION = "@VERSION@";
     public static final String CHANNEL_NAME = MOD_ID;
@@ -12,15 +12,15 @@ public class Library
     public static final int ITEM_ID_OFFSET = 256;
     
     
-    public static final String MODEL_LOCATION = "/mods/MiTo/models/";
+    public static final String MODEL_LOCATION = "/mods/mito/models/";
     
-    private static final String SOUND_PREFIX = "mods.MiTo.sounds.";
-    public static final String SOUND_LOCATION = "mods/MiTo/sounds/";
+    private static final String SOUND_PREFIX = "mods.mito.sounds.";
+    public static final String SOUND_LOCATION = "mods/mito/sounds/";
     
-    public static final String GUI_SHEET_LOCATION = "/mods/MiTo/textures/gui/";
-    public static final String ENTITY_SHEET_LOCATION = "/mods/MiTo/textures/entities/";
-    public static final String MODEL_SHEET_LOCATION = "/mods/MiTo/textures/models/";
-    public static final String ARMOR_SHEET_LOCATION = "/mods/MiTo/textures/armor/";
+    public static final String GUI_SHEET_LOCATION = "/mods/mito/textures/gui/";
+    public static final String ENTITY_SHEET_LOCATION = "/mods/mito/textures/entities/";
+    public static final String MODEL_SHEET_LOCATION = "/mods/mito/textures/models/";
+    public static final String ARMOR_SHEET_LOCATION = "/mods/mito/textures/armor/";
     
     public static final String GUI_PORTABLEHOUSE = GUI_SHEET_LOCATION + "portableHouse.png";
     public static final String GUI_LETTERCONSTRUCTOR = GUI_SHEET_LOCATION + "letterConstructor.png";

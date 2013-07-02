@@ -67,6 +67,7 @@ public class TileAdvancedPortableHouse extends TilePortableHouse
             						nbttaglist.appendTag(nbt);
             						stack.getTagCompound().setTag(Integer.toString(idNum), nbttaglist);
             						hasTag[idNum] = 1;
+            						TE.invalidate();
             					} catch (Exception e) {hasTag[idNum] = 0;}
             				}
             				else
@@ -74,15 +75,10 @@ public class TileAdvancedPortableHouse extends TilePortableHouse
             					hasTag[idNum] = 0;
             				}
             				idNum++;
-            				
+        					
             				try
 							{
             					Block.blocksList[id].getClass().getDeclaredMethod("canPlaceBlockAt", new Class[] { World.class, int.class, int.class, int.class });
-            					
-            					if(TE != null)
-            					{
-            						TE.invalidate();
-            					}
                     			world.destroyBlock(xTrans, yTrans, zTrans, false);
 							} catch (Exception e) {System.out.println(id);}
             			}

@@ -13,11 +13,11 @@ public class SoundHandler {
         for (String soundFile : Library.soundFiles) {
             // Try to add the custom sound file to the pool of sounds
             try {
-                event.manager.soundPoolSounds.addSound(soundFile, this.getClass().getResource("/" + soundFile));
+                event.manager.soundPoolSounds.addSound("CHANGE!!! assets/minecraft/sounds");
             }
             // If we cannot add the custom sound file to the pool, log the exception
             catch (Exception e) {
-            	System.out.println("MiTo had a problem loading sounds! Error: " + e);
+            	System.out.println("mito had a problem loading sounds! Error: " + e);
             }
         }
     }

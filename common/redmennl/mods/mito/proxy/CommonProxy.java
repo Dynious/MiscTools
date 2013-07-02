@@ -110,9 +110,9 @@ public class CommonProxy implements IGuiHandler
 		return null;
 	}
 	
-    public void registerSoundHandler() {
-
-    }
+    public void registerSoundHandler() {}
+    
+    public void initTextureLocations() {}
     
     public static int getUniqueEntityId() 
     {

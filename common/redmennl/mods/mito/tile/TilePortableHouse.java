@@ -207,17 +207,17 @@ public class TilePortableHouse extends TileEntity
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		if (size != 1){nbt.setInteger("MiTo_TPH_size", size);}
-		if (hight != 1){nbt.setInteger("MiTo_TPH_hight", hight);}
-		if (name != ""){nbt.setString("MiTo_TPH_name", name);}
+		if (size != 1){nbt.setInteger("mito_TPH_size", size);}
+		if (hight != 1){nbt.setInteger("mito_TPH_hight", hight);}
+		if (name != ""){nbt.setString("mito_TPH_name", name);}
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		size = nbt.getInteger("MiTo_TPH_size");
-		hight = nbt.getInteger("MiTo_TPH_hight");
-		name = nbt.getString("MiTo_TPH_name");
+		size = nbt.getInteger("mito_TPH_size");
+		hight = nbt.getInteger("mito_TPH_hight");
+		name = nbt.getString("mito_TPH_name");
 	}
 }

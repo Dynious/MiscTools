@@ -15,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import redmennl.mods.mito.client.model.ModelPortableHouse;
-import redmennl.mods.mito.lib.Library;
+import redmennl.mods.mito.lib.Resources;
 import redmennl.mods.mito.tile.TileAdvancedPortableHouse;
 import redmennl.mods.mito.tile.TileAdvancedPortableHouseDeployer;
 import redmennl.mods.mito.tile.TilePortableHouse;
@@ -71,11 +71,11 @@ public class RendererPortableHouse extends TileEntitySpecialRenderer
 		
 		if (tileentity instanceof TilePortableHouseDeployer || tileentity instanceof TilePortableHouse)
 		{
-			bindTextureByName(Library.MODEL_TEXTURE_PORTABLEHOUSE);
+			tileEntityRenderer.renderEngine.func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
 		}
 		if (tileentity instanceof TileAdvancedPortableHouseDeployer || tileentity instanceof TileAdvancedPortableHouse)
 		{
-			bindTextureByName(Library.MODEL_TEXTURE_ADVANCEDPORTABLEHOUSE);
+			tileEntityRenderer.renderEngine.func_110577_a(Resources.MODEL_TEXTURE_ADVANCEDPORTABLEHOUSE);
 		}
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GL11.glScalef(1.0F, -1F, -1F);
@@ -135,7 +135,7 @@ public class RendererPortableHouse extends TileEntitySpecialRenderer
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPushMatrix();
 		
-		bindTextureByName(Library.MODEL_TEXTURE_PORTABLEHOUSE);
+		tileEntityRenderer.renderEngine.func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
 		GL11.glColor4f(1F, 1F, 1F, pulse);
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GL11.glScalef(1.0F, -1F, -1F);

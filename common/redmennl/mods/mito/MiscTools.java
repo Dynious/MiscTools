@@ -8,9 +8,8 @@ import redmennl.mods.mito.item.ItemRegistery;
 import redmennl.mods.mito.lib.Library;
 import redmennl.mods.mito.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -29,7 +28,7 @@ public class MiscTools
     @SidedProxy(clientSide = Library.CLIENT_PROXY_CLASS, serverSide = Library.SERVER_PROXY_CLASS)
     public static CommonProxy proxy;
 	
-    @PreInit
+    @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
     	ConfigurationHandler.init(event.getSuggestedConfigurationFile());
@@ -41,7 +40,7 @@ public class MiscTools
     	proxy.registerSoundHandler();
     }
     
-    @Init
+    @EventHandler
     public void load(FMLInitializationEvent event)
     {
     	NetworkRegistry.instance().registerGuiHandler(instance, proxy);
