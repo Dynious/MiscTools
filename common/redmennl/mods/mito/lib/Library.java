@@ -3,7 +3,7 @@ package redmennl.mods.mito.lib;
 public class Library
 {
 
-    public static final String MOD_ID = "MiTo";
+    public static final String MOD_ID = "mito";
     public static final String MOD_NAME = "Misc Tools";
     public static final String VERSION = "@VERSION@";
     public static final String CHANNEL_NAME = MOD_ID;
@@ -12,15 +12,15 @@ public class Library
     public static final int ITEM_ID_OFFSET = 256;
     
     
-    public static final String MODEL_LOCATION = "/mods/MiTo/models/";
+    public static final String MODEL_LOCATION = "/mods/mito/models/";
     
-    private static final String SOUND_PREFIX = "mods.MiTo.sounds.";
-    public static final String SOUND_LOCATION = "mods/MiTo/sounds/";
+    private static final String SOUND_PREFIX = "mods.mito.sounds.";
+    public static final String SOUND_LOCATION = "mods/mito/sounds/";
     
-    public static final String GUI_SHEET_LOCATION = "/mods/MiTo/textures/gui/";
-    public static final String ENTITY_SHEET_LOCATION = "/mods/MiTo/textures/entities/";
-    public static final String MODEL_SHEET_LOCATION = "/mods/MiTo/textures/models/";
-    public static final String ARMOR_SHEET_LOCATION = "/mods/MiTo/textures/armor/";
+    public static final String GUI_SHEET_LOCATION = "/mods/mito/textures/gui/";
+    public static final String ENTITY_SHEET_LOCATION = "/mods/mito/textures/entities/";
+    public static final String MODEL_SHEET_LOCATION = "/mods/mito/textures/models/";
+    public static final String ARMOR_SHEET_LOCATION = "/mods/mito/textures/armor/";
     
     public static final String GUI_PORTABLEHOUSE = GUI_SHEET_LOCATION + "portableHouse.png";
     public static final String GUI_LETTERCONSTRUCTOR = GUI_SHEET_LOCATION + "letterConstructor.png";
@@ -39,10 +39,10 @@ public class Library
     
     public static final String MODEL_LETTERS = MODEL_LOCATION + "letters.obj";
     
-    public static String[] soundFiles = { SOUND_LOCATION + "makeLetter.ogg", SOUND_LOCATION + "saveBlocks.ogg", SOUND_LOCATION + "companionHurt1.ogg",
-    	SOUND_LOCATION + "companionHurt2.ogg", SOUND_LOCATION + "companionHurt3.ogg", SOUND_LOCATION + "companionHurt4.ogg", SOUND_LOCATION + "companionHurt5.ogg",
-    	SOUND_LOCATION + "companionHurt6.ogg", SOUND_LOCATION + "companionSay1.ogg", SOUND_LOCATION + "companionSay2.ogg", SOUND_LOCATION + "companionSay3.ogg", 
-    	SOUND_LOCATION + "companionSay4.ogg", SOUND_LOCATION + "companionSay5.ogg", SOUND_LOCATION + "companionDeath.ogg", SOUND_LOCATION + "companionWalk.ogg"};
+    public static String[] soundFiles = { "makeLetter.ogg", "saveBlocks.ogg", "companionHurt1.ogg",
+    	"companionHurt2.ogg", "companionHurt3.ogg", "companionHurt4.ogg", "companionHurt5.ogg",
+    	"companionHurt6.ogg", "companionSay1.ogg", "companionSay2.ogg", "companionSay3.ogg", 
+    	"companionSay4.ogg", "companionSay5.ogg", "companionDeath.ogg", "companionWalk.ogg"};
     
     public static final String SOUND_LETTERCONSTRUCTOR = SOUND_PREFIX + "makeLetter";
     public static final String SOUND_PORTABLEHOUSE = SOUND_PREFIX + "saveBlocks";

@@ -17,6 +17,7 @@ public class ItemRegistery
 	public static Item minersIronHelmetOn;
 	public static Item minersGoldHelmetOn;
 	public static Item minersDiamondHelmetOn;
+	public static Item companion;
 	
 	public static void register()
 	{
@@ -27,6 +28,7 @@ public class ItemRegistery
 		minersIronHelmetOn = new ItemMinersHelmetOn(ItemIds.MINERSIRONHELMETON, EnumArmorMaterial.IRON, 2, 0).setUnlocalizedName("OminersIronHelmet");
 		minersGoldHelmetOn = new ItemMinersHelmetOn(ItemIds.MINERSGOLDHELMETON, EnumArmorMaterial.GOLD, 2, 0).setUnlocalizedName("OminersGoldHelmet");
 		minersDiamondHelmetOn = new ItemMinersHelmetOn(ItemIds.MINERSDIAMONDHELMETON, EnumArmorMaterial.DIAMOND, 2, 0).setUnlocalizedName("OminersDiamondHelmet");
+		companion = new ItemCompanion(ItemIds.COMPANION);
 		
 		LanguageRegistry.addName(minersIronHelmet, "Iron Miners Helmet");
 		LanguageRegistry.addName(minersGoldHelmet, "Gold Miners Helmet");
@@ -34,6 +36,7 @@ public class ItemRegistery
 		LanguageRegistry.addName(minersIronHelmetOn, "Iron Miners Helmet");
 		LanguageRegistry.addName(minersGoldHelmetOn, "Gold Miners Helmet");
 		LanguageRegistry.addName(minersDiamondHelmetOn, "Diamond Miners Helmet");
+		LanguageRegistry.addName(companion, "Companion");
 		
 		registerItemRecipes();
 	}

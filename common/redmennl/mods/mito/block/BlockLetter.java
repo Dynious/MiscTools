@@ -169,6 +169,6 @@ public class BlockLetter extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
-             this.blockIcon = par1IconRegister.registerIcon("cloth_0");
+             this.blockIcon = par1IconRegister.registerIcon("wool_colored_white");
     }
 }

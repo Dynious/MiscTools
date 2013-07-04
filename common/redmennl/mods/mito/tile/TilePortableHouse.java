@@ -80,7 +80,7 @@ public class TilePortableHouse extends TileEntity
         stack.getTagCompound().setInteger("hight", hight);
         if (name != ""){stack.getTagCompound().setString("name", name);}
         
-        world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, Library.SOUND_PORTABLEHOUSE, 1.0F, 1.0F);
+        world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "mito:saveBlocks", 1.0F, 1.0F);
         
         //new DelayedAction("Portable House", 5, world, this.xCoord, this.yCoord, this.zCoord, size, hight);
         
@@ -207,17 +207,17 @@ public class TilePortableHouse extends TileEntity
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		if (size != 1){nbt.setInteger("MiTo_TPH_size", size);}
-		if (hight != 1){nbt.setInteger("MiTo_TPH_hight", hight);}
-		if (name != ""){nbt.setString("MiTo_TPH_name", name);}
+		if (size != 1){nbt.setInteger("mito_TPH_size", size);}
+		if (hight != 1){nbt.setInteger("mito_TPH_hight", hight);}
+		if (name != ""){nbt.setString("mito_TPH_name", name);}
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		size = nbt.getInteger("MiTo_TPH_size");
-		hight = nbt.getInteger("MiTo_TPH_hight");
-		name = nbt.getString("MiTo_TPH_name");
+		size = nbt.getInteger("mito_TPH_size");
+		hight = nbt.getInteger("mito_TPH_hight");
+		name = nbt.getString("mito_TPH_name");
 	}
 }

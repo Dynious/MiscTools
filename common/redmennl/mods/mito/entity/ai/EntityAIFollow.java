@@ -1,6 +1,6 @@
 package redmennl.mods.mito.entity.ai;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.MathHelper;
@@ -10,7 +10,7 @@ import redmennl.mods.mito.entity.EntityCompanion;
 public class EntityAIFollow extends EntityAIBase
 {
     private EntityCompanion thePet;
-    private EntityLiving theOwner;
+    private Entity theOwner;
     World theWorld;
     private float field_75336_f;
     private PathNavigate petPathfinder;
@@ -36,9 +36,9 @@ public class EntityAIFollow extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        EntityLiving entityliving = this.thePet.getOwner();
+        Entity entity = this.thePet.getOwner();
 
-        if (entityliving == null)
+        if (entity == null)
         {
             return false;
         }
@@ -46,13 +46,13 @@ public class EntityAIFollow extends EntityAIBase
         {
             return false;
         }
-        else if (this.thePet.getDistanceSqToEntity(entityliving) < (double)(this.minDist * this.minDist))
+        else if (this.thePet.getDistanceSqToEntity(entity) < (double)(this.minDist * this.minDist))
         {
             return false;
         }
         else
         {
-            this.theOwner = entityliving;
+            this.theOwner = entity;
             return true;
         }
     }

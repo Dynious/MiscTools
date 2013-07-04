@@ -89,27 +89,27 @@ public class TilePortableHouseDeployer extends TileEntity
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setIntArray("MiTo_TPHD_id", idArr);
-		nbt.setIntArray("MiTo_TPHD_meta", metaArr);
-		nbt.setIntArray("MiTo_TPHD_x", xArr);
-		nbt.setIntArray("MiTo_TPHD_y", yArr);
-		nbt.setIntArray("MiTo_TPHD_z", zArr);
-		nbt.setInteger("MiTo_TPHD_size", size);
-		nbt.setInteger("MiTo_TPHD_hight", hight);
-		if (name != null) {nbt.setString("MiTo_TPHD_name", name);}
+		nbt.setIntArray("mito_TPHD_id", idArr);
+		nbt.setIntArray("mito_TPHD_meta", metaArr);
+		nbt.setIntArray("mito_TPHD_x", xArr);
+		nbt.setIntArray("mito_TPHD_y", yArr);
+		nbt.setIntArray("mito_TPHD_z", zArr);
+		nbt.setInteger("mito_TPHD_size", size);
+		nbt.setInteger("mito_TPHD_hight", hight);
+		if (name != null) {nbt.setString("mito_TPHD_name", name);}
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		idArr = nbt.getIntArray("MiTo_TPHD_id");
-		metaArr = nbt.getIntArray("MiTo_TPHD_meta");
-		xArr = nbt.getIntArray("MiTo_TPHD_x");
-		yArr = nbt.getIntArray("MiTo_TPHD_y");
-		zArr = nbt.getIntArray("MiTo_TPHD_z");
-		size = nbt.getInteger("MiTo_TPHD_size");
-		hight = nbt.getInteger("MiTo_TPHD_hight");
-		if (nbt.getString("name") != null){name = nbt.getString("MiTo_TPHD_name");}
+		idArr = nbt.getIntArray("mito_TPHD_id");
+		metaArr = nbt.getIntArray("mito_TPHD_meta");
+		xArr = nbt.getIntArray("mito_TPHD_x");
+		yArr = nbt.getIntArray("mito_TPHD_y");
+		zArr = nbt.getIntArray("mito_TPHD_z");
+		size = nbt.getInteger("mito_TPHD_size");
+		hight = nbt.getInteger("mito_TPHD_hight");
+		if (nbt.getString("name") != null){name = nbt.getString("mito_TPHD_name");}
 	}
 }

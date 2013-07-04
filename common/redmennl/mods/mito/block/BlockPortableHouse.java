@@ -7,7 +7,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -125,11 +125,8 @@ public class BlockPortableHouse extends BlockContainer
 
     
     @Override
-    public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entity, ItemStack item)
+    public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entity, ItemStack item)
     {
-    	
-
-    	
     	if(item.hasTagCompound() && world.getBlockTileEntity(i, j, k) instanceof TileAdvancedPortableHouseDeployer)
     	{
     		TileAdvancedPortableHouseDeployer tile = (TileAdvancedPortableHouseDeployer) world.getBlockTileEntity(i, j, k);
@@ -194,7 +191,7 @@ public class BlockPortableHouse extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
-             this.blockIcon = par1IconRegister.registerIcon(Library.MOD_ID + ":" + this.getUnlocalizedName2());
+             this.blockIcon = par1IconRegister.registerIcon(Library.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
     }
 
 }

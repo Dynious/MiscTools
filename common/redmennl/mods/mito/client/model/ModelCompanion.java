@@ -7,7 +7,6 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import redmennl.mods.mito.entity.EntityCompanion;
-import redmennl.mods.mito.lib.Library;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,6 +19,7 @@ public class ModelCompanion extends ModelBase{
     public ModelCompanion()
     {
     }
+    
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7) 
     {
     	EntityCompanion e = (EntityCompanion)par1Entity;
@@ -30,14 +30,14 @@ public class ModelCompanion extends ModelBase{
     	GL11.glTranslatef(0F, -(e.modelOffsetY * blockSizeOffset) + 4.5F, 0F);
     	GL11.glRotatef(180F, 1F, 0F, 0F);
     	
-    	FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_COMPANION_BODY);
+    	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(e.textureBody);
     	
     	e.model.renderAllExcept("rightArm", "leftArm", "wheel", "rightLeg", "leftLeg");
     	
     	if (e.hasWheel)
     	{
 	    	GL11.glPushMatrix();
-	    	FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_COMPANION_WHEEL);
+	    	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(e.textureWheel);
 	    	
 	    	GL11.glTranslatef(0F, blockSizeOffset * e.wheelOffsetY, 0F);
 	    	GL11.glRotatef(par2 * 20F, 1.0F, 0.0F, 0.0F);
@@ -50,7 +50,7 @@ public class ModelCompanion extends ModelBase{
     	if (e.hasLegs)
     	{
         	GL11.glPushMatrix();
-        	FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_COMPANION_ARMS);
+        	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(e.textureLegs);
         	
         	GL11.glTranslatef(0F, blockSizeOffset * e.legOffsetY, 0F);
         	float LeftArmAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
@@ -62,7 +62,7 @@ public class ModelCompanion extends ModelBase{
         	GL11.glPopMatrix();
         	
         	GL11.glPushMatrix();
-        	FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_COMPANION_ARMS);
+        	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(e.textureLegs);
         	
         	GL11.glTranslatef(0F, blockSizeOffset * e.legOffsetY, 0F);
         	float RightArmAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
@@ -75,7 +75,7 @@ public class ModelCompanion extends ModelBase{
     	}
     	
     	GL11.glPushMatrix();
-    	FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_COMPANION_ARMS);
+    	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(e.textureArms);
     	
     	GL11.glTranslatef(0F, blockSizeOffset * e.armOffsetY, 0F);
     	float LeftArmAngleX = MathHelper.cos(par2 * 0.6662F) * 2.0F * par3;
@@ -87,7 +87,7 @@ public class ModelCompanion extends ModelBase{
     	GL11.glPopMatrix();
     	
     	GL11.glPushMatrix();
-    	FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_COMPANION_ARMS);
+    	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(e.textureArms);
     	
     	GL11.glTranslatef(0F, blockSizeOffset * e.armOffsetY, 0F);
     	float RightArmAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 2.0F * par3;
