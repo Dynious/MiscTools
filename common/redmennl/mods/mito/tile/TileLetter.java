@@ -5,12 +5,12 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class TileLetter extends TileEntity
 {
-	public String letter;
-	public ForgeDirection orientation = ForgeDirection.SOUTH;
-	public int color;
-	
-	public TileLetter(String letter)
-	{
-		this.letter = letter;
-	}
+    public String letter;
+    public ForgeDirection orientation = ForgeDirection.SOUTH;
+    public int color;
+
+    public TileLetter(String letter)
+    {
+        this.letter = letter;
+    }
 }

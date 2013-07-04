@@ -7,19 +7,20 @@ import net.minecraft.item.ItemStack;
 
 public class RestrictedSlot extends Slot
 {
-	int id;
+    int id;
 
-	public RestrictedSlot(IInventory par1iInventory, int par2, int par3, int par4, int id)
-	{
-		super(par1iInventory, par2, par3, par4);
-		this.id = id;
-	}
-	
-    public boolean isItemValid(ItemStack i) {
-        if(i.getItem() == Item.itemsList[id] )
-        {
-        	return true;
-        }
+    public RestrictedSlot(IInventory par1iInventory, int par2, int par3,
+            int par4, int id)
+    {
+        super(par1iInventory, par2, par3, par4);
+        this.id = id;
+    }
+
+    @Override
+    public boolean isItemValid(ItemStack i)
+    {
+        if (i.getItem() == Item.itemsList[id])
+            return true;
         return false;
     }
 }

@@ -9,16 +9,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemHelmetTorch extends ItemMito
 {
 
-	public ItemHelmetTorch(int id)
-	{
-		super(id);
-		this.setCreativeTab(CreativeTabs.tabMisc);
-		this.setUnlocalizedName("helmetTorch");
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister ir)
-	{
-		this.itemIcon = ir.registerIcon(Library.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
-	}
+    public ItemHelmetTorch(int id)
+    {
+        super(id);
+        this.setCreativeTab(CreativeTabs.tabMisc);
+        this.setUnlocalizedName("helmetTorch");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister ir)
+    {
+        itemIcon = ir.registerIcon(Library.MOD_ID + ":"
+                + this.getUnlocalizedName().substring(5));
+    }
 }

@@ -20,37 +20,47 @@ import redmennl.mods.mito.lib.Resources;
 
 public class ItemCompanion extends ItemMito
 {
-	public IModelCustom model;
-	public String modelName = "companion";
-	public boolean hasWheel = false;
-	public boolean hasLegs = false;
-	
-	public  ResourceLocation textureBody;
-	public  ResourceLocation textureArms;
-	public  ResourceLocation textureWheel;
-	public  ResourceLocation textureLegs;
-	
-	public ItemCompanion(int id)
-	{
-		super(id);
-		this.setCreativeTab(CreativeTabs.tabMisc);
-		this.setUnlocalizedName("companion");
-		
-		model = AdvancedModelLoader.loadModel(Resources.MODEL_LOCATION + modelName + ".obj");
-        textureBody = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Body.png");
-        textureArms = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Arms.png");
+    public IModelCustom model;
+    public String modelName = "companion";
+    public boolean hasWheel = false;
+    public boolean hasLegs = false;
+
+    public ResourceLocation textureBody;
+    public ResourceLocation textureArms;
+    public ResourceLocation textureWheel;
+    public ResourceLocation textureLegs;
+
+    public ItemCompanion(int id)
+    {
+        super(id);
+        this.setCreativeTab(CreativeTabs.tabMisc);
+        this.setUnlocalizedName("companion");
+
+        model = AdvancedModelLoader.loadModel(Resources.MODEL_LOCATION
+                + modelName + ".obj");
+        textureBody = new ResourceLocation(Library.MOD_ID,
+                Resources.ENTITY_SHEET_LOCATION + modelName + "Body.png");
+        textureArms = new ResourceLocation(Library.MOD_ID,
+                Resources.ENTITY_SHEET_LOCATION + modelName + "Arms.png");
         if (hasWheel)
-        	textureWheel = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Wheel.png");
+        {
+            textureWheel = new ResourceLocation(Library.MOD_ID,
+                    Resources.ENTITY_SHEET_LOCATION + modelName + "Wheel.png");
+        }
         if (hasLegs)
-        	textureLegs = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Legs.png");
-	}
-	
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+        {
+            textureLegs = new ResourceLocation(Library.MOD_ID,
+                    Resources.ENTITY_SHEET_LOCATION + modelName + "Legs.png");
+        }
+    }
+
+    @Override
+    public boolean onItemUse(ItemStack par1ItemStack,
+            EntityPlayer par2EntityPlayer, World par3World, int par4, int par5,
+            int par6, int par7, float par8, float par9, float par10)
     {
         if (par3World.isRemote)
-        {
             return true;
-        }
         else
         {
             int i1 = par3World.getBlockId(par4, par5, par6);
@@ -59,18 +69,22 @@ public class ItemCompanion extends ItemMito
             par6 += Facing.offsetsZForSide[par7];
             double d0 = 0.0D;
 
-            if (par7 == 1 && Block.blocksList[i1] != null && Block.blocksList[i1].getRenderType() == 11)
+            if (par7 == 1 && Block.blocksList[i1] != null
+                    && Block.blocksList[i1].getRenderType() == 11)
             {
                 d0 = 0.5D;
             }
 
-            Entity entity = spawnCompanion(par3World, (double)par4 + 0.5D, (double)par5 + d0, (double)par6 + 0.5D);
+            Entity entity = spawnCompanion(par3World, par4 + 0.5D, par5 + d0,
+                    par6 + 0.5D);
 
             if (entity != null)
             {
-                if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
+                if (entity instanceof EntityLivingBase
+                        && par1ItemStack.hasDisplayName())
                 {
-                    ((EntityLiving)entity).func_94058_c(par1ItemStack.getDisplayName());
+                    ((EntityLiving) entity).func_94058_c(par1ItemStack
+                            .getDisplayName());
                 }
 
                 if (!par2EntityPlayer.capabilities.isCreativeMode)
@@ -82,18 +96,21 @@ public class ItemCompanion extends ItemMito
             return true;
         }
     }
-    
-    public Entity spawnCompanion(World par0World, double par2, double par4, double par6)
+
+    public Entity spawnCompanion(World par0World, double par2, double par4,
+            double par6)
     {
         Entity entity = new EntityCompanion(par0World);
 
         if (entity != null && entity instanceof EntityLivingBase)
         {
-            EntityLiving entityliving = (EntityLiving)entity;
-            entity.setLocationAndAngles(par2, par4, par6, MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F), 0.0F);
+            EntityLiving entityliving = (EntityLiving) entity;
+            entity.setLocationAndAngles(par2, par4, par6, MathHelper
+                    .wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F),
+                    0.0F);
             entityliving.rotationYawHead = entityliving.rotationYaw;
             entityliving.renderYawOffset = entityliving.rotationYaw;
-            entityliving.func_110161_a((EntityLivingData)null);
+            entityliving.func_110161_a((EntityLivingData) null);
             par0World.spawnEntityInWorld(entity);
         }
         return entity;

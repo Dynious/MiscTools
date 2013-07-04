@@ -1,6 +1,7 @@
 package redmennl.mods.mito.inventory.slots;
 
-public interface IPhantomSlot {
+public interface IPhantomSlot
+{
 
-	boolean canAdjust();
+    boolean canAdjust();
 }

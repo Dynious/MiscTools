@@ -8,21 +8,22 @@ import redmennl.mods.mito.inventory.ContainerCompanionInventory;
 
 public class GuiCompanionInventory extends GuiContainer
 {
-	EntityCompanion e;
-	EntityPlayer p;
-	
-    public GuiCompanionInventory(InventoryPlayer i, EntityCompanion e, EntityPlayer player)
-	{
-		super(new ContainerCompanionInventory(i, e));
-		xSize = 176;
-		ySize = 176;
-		this.e = e;
-		this.p = player;
-	}
+    EntityCompanion e;
+    EntityPlayer p;
 
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
-	{
-		
-	}
+    public GuiCompanionInventory(InventoryPlayer i, EntityCompanion e,
+            EntityPlayer player)
+    {
+        super(new ContainerCompanionInventory(i, e));
+        xSize = 176;
+        ySize = 176;
+        this.e = e;
+        p = player;
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
+    {
+
+    }
 }

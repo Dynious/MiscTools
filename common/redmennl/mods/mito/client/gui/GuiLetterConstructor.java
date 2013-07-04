@@ -13,14 +13,16 @@ public class GuiLetterConstructor extends GuiContainer
 {
 
     public GuiLetterConstructor(InventoryPlayer i, TileLetterConstructor tile)
-	{
-		super(new ContainerLetterConstructor(i, tile));
-		xSize = 176;
-		ySize = 166;
-	}
+    {
+        super(new ContainerLetterConstructor(i, tile));
+        xSize = 176;
+        ySize = 166;
+    }
 
-	@Override
-    protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float var1, int var2,
+            int var3)
+    {
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.func_110577_a(Resources.GUI_LETTERCONSTRUCTOR);

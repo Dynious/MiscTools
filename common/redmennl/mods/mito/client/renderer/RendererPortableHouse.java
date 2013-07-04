@@ -25,88 +25,108 @@ import com.google.common.primitives.SignedBytes;
 
 public class RendererPortableHouse extends TileEntitySpecialRenderer
 {
-	private RenderItem itemRenderer;
-	
-    private static float[][] shifts = { { 0.3F, 0.7F, 0.3F }, { 0.7F, 0.7F, 0.3F }, { 0.3F, 0.7F, 0.7F }, { 0.7F, 0.7F, 0.7F }, { 0.3F, 0.3F, 0.3F },
-        { 0.7F, 0.3F, 0.3F }, { 0.3F, 0.3F, 0.7F }, { 0.7F, 0.3F, 0.7F }, { 0.5F, 0.5F, 0.5F } };
-	
-	public RendererPortableHouse()
+    private RenderItem itemRenderer;
+
+    private static float[][] shifts = { { 0.3F, 0.7F, 0.3F },
+            { 0.7F, 0.7F, 0.3F }, { 0.3F, 0.7F, 0.7F }, { 0.7F, 0.7F, 0.7F },
+            { 0.3F, 0.3F, 0.3F }, { 0.7F, 0.3F, 0.3F }, { 0.3F, 0.3F, 0.7F },
+            { 0.7F, 0.3F, 0.7F }, { 0.5F, 0.5F, 0.5F } };
+
+    public RendererPortableHouse()
     {
-		this.model = new ModelPortableHouse();
-        itemRenderer = new RenderItem() {
+        model = new ModelPortableHouse();
+        itemRenderer = new RenderItem()
+        {
             @Override
-            public byte getMiniBlockCount(ItemStack stack) {
-                return SignedBytes.saturatedCast(Math.min(stack.stackSize / 32, 15) + 1);
+            public byte getMiniBlockCount(ItemStack stack)
+            {
+                return SignedBytes.saturatedCast(Math.min(stack.stackSize / 32,
+                        15) + 1);
             }
+
             @Override
-            public byte getMiniItemCount(ItemStack stack) {
-                return SignedBytes.saturatedCast(Math.min(stack.stackSize / 32, 7) + 1);
+            public byte getMiniItemCount(ItemStack stack)
+            {
+                return SignedBytes.saturatedCast(Math.min(stack.stackSize / 32,
+                        7) + 1);
             }
+
             @Override
-            public boolean shouldBob() {
+            public boolean shouldBob()
+            {
                 return false;
             }
+
             @Override
-            public boolean shouldSpreadItems() {
+            public boolean shouldSpreadItems()
+            {
                 return false;
             }
         };
         itemRenderer.setRenderManager(RenderManager.instance);
     }
 
-	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f)
-	{
-		this.renderAModelAt(tileentity, d0, d1, d2, f);
-	}
-	
-	public void renderAModelAt(TileEntity tileentity, double x, double y, double z, float f)
-	{		
+    @Override
+    public void renderTileEntityAt(TileEntity tileentity, double d0, double d1,
+            double d2, float f)
+    {
+        this.renderAModelAt(tileentity, d0, d1, d2, f);
+    }
 
-		//GL11.glDisable(GL11.GL_LIGHTING);
-        //GL11.glDisable(GL11.GL_CULL_FACE);    
-		
-        //Render frame
-		GL11.glPushMatrix();
-		
-		if (tileentity instanceof TilePortableHouseDeployer || tileentity instanceof TilePortableHouse)
-		{
-			tileEntityRenderer.renderEngine.func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
-		}
-		if (tileentity instanceof TileAdvancedPortableHouseDeployer || tileentity instanceof TileAdvancedPortableHouse)
-		{
-			tileEntityRenderer.renderEngine.func_110577_a(Resources.MODEL_TEXTURE_ADVANCEDPORTABLEHOUSE);
-		}
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		GL11.glScalef(1.0F, -1F, -1F);
-		
-		model.renderFrame();
+    public void renderAModelAt(TileEntity tileentity, double x, double y,
+            double z, float f)
+    {
 
-		GL11.glPopMatrix();
-		
-		if (tileentity instanceof TilePortableHouseDeployer)
-		{
-			TilePortableHouseDeployer tile = (TilePortableHouseDeployer) tileentity;
-        	float shiftX;
-        	float shiftY;
-        	float shiftZ;
-        	int shift = 0;
-        	float blockScale = 0.70F;
-        	float timeD = (float) (360.0 * (double) (System.currentTimeMillis() & 0x3FFFL) / (double) 0x3FFFL);
-        
-			GL11.glPushMatrix();
-			
-			glTranslatef((float) x, (float) y, (float) z);
-			EntityItem customitem = new EntityItem(tileEntityRenderer.worldObj);
-        	customitem.hoverStart = 0f;
-        	for (int i = 0; i < tile.idArr.length; i++)
-        	{
-        		int id = tile.idArr[i];
-        		int meta = tile.metaArr[i];
-                if (id == 0) {
+        // GL11.glDisable(GL11.GL_LIGHTING);
+        // GL11.glDisable(GL11.GL_CULL_FACE);
+
+        // Render frame
+        GL11.glPushMatrix();
+
+        if (tileentity instanceof TilePortableHouseDeployer
+                || tileentity instanceof TilePortableHouse)
+        {
+            tileEntityRenderer.renderEngine
+                    .func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
+        }
+        if (tileentity instanceof TileAdvancedPortableHouseDeployer
+                || tileentity instanceof TileAdvancedPortableHouse)
+        {
+            tileEntityRenderer.renderEngine
+                    .func_110577_a(Resources.MODEL_TEXTURE_ADVANCEDPORTABLEHOUSE);
+        }
+        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+        GL11.glScalef(1.0F, -1F, -1F);
+
+        model.renderFrame();
+
+        GL11.glPopMatrix();
+
+        if (tileentity instanceof TilePortableHouseDeployer)
+        {
+            TilePortableHouseDeployer tile = (TilePortableHouseDeployer) tileentity;
+            float shiftX;
+            float shiftY;
+            float shiftZ;
+            int shift = 0;
+            float blockScale = 0.70F;
+            float timeD = (float) (360.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
+
+            GL11.glPushMatrix();
+
+            glTranslatef((float) x, (float) y, (float) z);
+            EntityItem customitem = new EntityItem(tileEntityRenderer.worldObj);
+            customitem.hoverStart = 0f;
+            for (int i = 0; i < tile.idArr.length; i++)
+            {
+                int id = tile.idArr[i];
+                int meta = tile.metaArr[i];
+                if (id == 0)
+                {
                     continue;
-                }                
-                if (shift >= shifts.length) {
+                }
+                if (shift >= shifts.length)
+                {
                     break;
                 }
                 ItemStack item = new ItemStack(id, 1, meta);
@@ -121,31 +141,30 @@ public class RendererPortableHouse extends TileEntitySpecialRenderer
                 customitem.setEntityItemStack(item);
                 itemRenderer.doRenderItem(customitem, 0, 0, 0, 0, 0);
                 glPopMatrix();
-        	}
-        	
-        	glPopMatrix();
-        	
-		}
-		
-		
-		
-		//Render middle
-		float pulse = 0.1F + (float) (System.currentTimeMillis() % 2000)/8000;
-		
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glPushMatrix();
-		
-		tileEntityRenderer.renderEngine.func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
-		GL11.glColor4f(1F, 1F, 1F, pulse);
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		GL11.glScalef(1.0F, -1F, -1F);
-		model.renderMiddle();
-		GL11.glPopMatrix();
-		
-		GL11.glDisable(GL11.GL_BLEND);
-		//GL11.glEnable(GL11.GL_CULL_FACE);
-        //GL11.glEnable(GL11.GL_LIGHTING);
-	}
-	
-	private ModelPortableHouse model;
+            }
+
+            glPopMatrix();
+
+        }
+
+        // Render middle
+        float pulse = 0.1F + (float) (System.currentTimeMillis() % 2000) / 8000;
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glPushMatrix();
+
+        tileEntityRenderer.renderEngine
+                .func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
+        GL11.glColor4f(1F, 1F, 1F, pulse);
+        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+        GL11.glScalef(1.0F, -1F, -1F);
+        model.renderMiddle();
+        GL11.glPopMatrix();
+
+        GL11.glDisable(GL11.GL_BLEND);
+        // GL11.glEnable(GL11.GL_CULL_FACE);
+        // GL11.glEnable(GL11.GL_LIGHTING);
+    }
+
+    private ModelPortableHouse model;
 }

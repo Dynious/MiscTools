@@ -4,23 +4,30 @@ import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 import redmennl.mods.mito.lib.Library;
 
-public class SoundHandler {
+public class SoundHandler
+{
 
     @ForgeSubscribe
-    public void onSoundLoad(SoundLoadEvent event) {
+    public void onSoundLoad(SoundLoadEvent event)
+    {
 
         // For each custom sound file we have defined in Sounds
-        for (String soundFile : Library.soundFiles) {
+        for (String soundFile : Library.soundFiles)
+        {
             // Try to add the custom sound file to the pool of sounds
-            try {
-            	System.out.println(soundFile);
+            try
+            {
+                System.out.println(soundFile);
                 event.manager.soundPoolSounds.addSound("mito" + soundFile);
             }
-            // If we cannot add the custom sound file to the pool, log the exception
-            catch (Exception e) {
-            	System.out.println("Misc Tools had a problem loading sounds! Error: " + e);
+            // If we cannot add the custom sound file to the pool, log the
+            // exception
+            catch (Exception e)
+            {
+                System.out
+                        .println("Misc Tools had a problem loading sounds! Error: "
+                                + e);
             }
         }
     }
 }
-

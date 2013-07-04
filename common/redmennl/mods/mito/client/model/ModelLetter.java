@@ -7,21 +7,25 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelLetter{
+public class ModelLetter
+{
 
     private IModelCustom modelLetter;
 
-    public ModelLetter() {
+    public ModelLetter()
+    {
 
         modelLetter = AdvancedModelLoader.loadModel(Resources.MODEL_LETTERS);
     }
 
-    public void render() {
+    public void render()
+    {
 
         modelLetter.renderAll();
     }
 
-    public void renderPart(String partName) {
+    public void renderPart(String partName)
+    {
 
         modelLetter.renderPart(partName);
     }

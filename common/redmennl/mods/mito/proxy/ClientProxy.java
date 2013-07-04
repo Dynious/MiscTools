@@ -27,78 +27,98 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-	@Override
-	public void initRenderingAndTextures() 
-	{
-		MinecraftForgeClient.registerItemRenderer(BlockIds.PORTABLEHOUSE, new ItemRendererPortableHouse());
-		MinecraftForgeClient.registerItemRenderer(BlockIds.LETTER, new ItemRendererLetter());
-		MinecraftForgeClient.registerItemRenderer(BlockIds.LETTER2, new ItemRendererLetter());
-		MinecraftForgeClient.registerItemRenderer(ItemIds.COMPANION, new ItemRendererCompanion());
-    }
-	
-	@Override
-	public void initTileEntities() 
-	{
-		super.initTileEntities();
-		
-		ClientRegistry.bindTileEntitySpecialRenderer(TilePortableHouse.class, new RendererPortableHouse());
-		ClientRegistry.bindTileEntitySpecialRenderer(TilePortableHouseDeployer.class, new RendererPortableHouse());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileAdvancedPortableHouse.class, new RendererPortableHouse());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileAdvancedPortableHouseDeployer.class, new RendererPortableHouse());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileLetter.class, new RendererLetter());
-	}
-	
-	@Override
-	public void initEntities()
-	{
-		super.initEntities();
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityCompanion.class, new RendererEntityCompanion(new ModelCompanion()));
-	}
-	
     @Override
-    public void registerSoundHandler() {
+    public void initRenderingAndTextures()
+    {
+        MinecraftForgeClient.registerItemRenderer(BlockIds.PORTABLEHOUSE,
+                new ItemRendererPortableHouse());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.LETTER,
+                new ItemRendererLetter());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.LETTER2,
+                new ItemRendererLetter());
+        MinecraftForgeClient.registerItemRenderer(ItemIds.COMPANION,
+                new ItemRendererCompanion());
+    }
+
+    @Override
+    public void initTileEntities()
+    {
+        super.initTileEntities();
+
+        ClientRegistry.bindTileEntitySpecialRenderer(TilePortableHouse.class,
+                new RendererPortableHouse());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TilePortableHouseDeployer.class, new RendererPortableHouse());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileAdvancedPortableHouse.class, new RendererPortableHouse());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileAdvancedPortableHouseDeployer.class,
+                new RendererPortableHouse());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLetter.class,
+                new RendererLetter());
+    }
+
+    @Override
+    public void initEntities()
+    {
+        super.initEntities();
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityCompanion.class,
+                new RendererEntityCompanion(new ModelCompanion()));
+    }
+
+    @Override
+    public void registerSoundHandler()
+    {
 
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
     }
-    
+
     @Override
     public void findModels()
     {
-		File dir = new File(this.getClass().getResource(Resources.MODEL_LOCATION).getFile().replace("%20", " "));
-		System.out.println(dir);
-		if (!dir.isDirectory())
-		{
-			System.out.println("FILE!");
-		}
-		if (!dir.isFile())
-		{
-			System.out.println("DIR!");
-		}
-		if (!dir.exists())
-		{
-			System.out.println(":(");
-		}
-		File[] list = dir.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File file) 
-			{
-				return file.isFile() && file.getName().endsWith(".obj");
-			}
-		});
+        File dir = new File(this.getClass()
+                .getResource(Resources.MODEL_LOCATION).getFile()
+                .replace("%20", " "));
+        System.out.println(dir);
+        if (!dir.isDirectory())
+        {
+            System.out.println("FILE!");
+        }
+        if (!dir.isFile())
+        {
+            System.out.println("DIR!");
+        }
+        if (!dir.exists())
+        {
+            System.out.println(":(");
+        }
+        File[] list = dir.listFiles(new FileFilter()
+        {
+            @Override
+            public boolean accept(File file)
+            {
+                return file.isFile() && file.getName().endsWith(".obj");
+            }
+        });
 
-		if (list.length == 0)
-			return;
-		
-		for (File file : list) 
-		{
-			String m = file.toString().substring(file.toString().lastIndexOf("\\") + 1, file.toString().indexOf("."));
-			if (this.getClass().getResource(Resources.MODEL_LOCATION + m + ".properties") != null)
-				Resources.modelNames.add(m);
-		}
-		for (int i = 0; i < Resources.modelNames.size(); i++)
-		{
-			System.out.println(Resources.modelNames.get(i));
-		}
+        if (list.length == 0)
+            return;
+
+        for (File file : list)
+        {
+            String m = file.toString().substring(
+                    file.toString().lastIndexOf("\\") + 1,
+                    file.toString().indexOf("."));
+            if (this.getClass().getResource(
+                    Resources.MODEL_LOCATION + m + ".properties") != null)
+            {
+                Resources.modelNames.add(m);
+            }
+        }
+        for (int i = 0; i < Resources.modelNames.size(); i++)
+        {
+            System.out.println(Resources.modelNames.get(i));
+        }
     }
 }

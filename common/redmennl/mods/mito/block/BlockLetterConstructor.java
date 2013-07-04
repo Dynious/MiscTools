@@ -23,74 +23,81 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockLetterConstructor extends BlockContainer
 {
-	private Random rand = new Random();
+    private Random rand = new Random();
 
-	protected BlockLetterConstructor(int id)
-	{
-		super(id, Material.rock);
-		this.setUnlocalizedName("letterConstructor");
-		this.setHardness(2F);
-		this.setCreativeTab(CreativeTabs.tabBlock);
-	}
-	
-	 @SideOnly(Side.CLIENT)
-     private Icon[] icons;
-	 
-	  @SideOnly(Side.CLIENT)
-      public void registerIcons(IconRegister par1IconRegister)
-      {
-		  icons = new Icon[2];
-		  for(int i = 0; i < icons.length; i++)
-          {
-                 icons[i] = par1IconRegister.registerIcon(Library.MOD_ID + ":" + (this.getUnlocalizedName().substring(5)) + i);
-          }
-      }
-	 
-     @SideOnly(Side.CLIENT)
-     public Icon getIcon(int par1, int par2)
-     {
-         switch(par1)
-         {
-                case 1:
-                      return icons[0];
-                default:
-                      return icons[1];
-         }
-     }
+    protected BlockLetterConstructor(int id)
+    {
+        super(id, Material.rock);
+        this.setUnlocalizedName("letterConstructor");
+        this.setHardness(2F);
+        this.setCreativeTab(CreativeTabs.tabBlock);
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World world)
-	{
-		return new TileLetterConstructor();
-	}
-	
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
+    @SideOnly(Side.CLIENT)
+    private Icon[] icons;
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister)
+    {
+        icons = new Icon[2];
+        for (int i = 0; i < icons.length; i++)
+        {
+            icons[i] = par1IconRegister.registerIcon(Library.MOD_ID + ":"
+                    + this.getUnlocalizedName().substring(5) + i);
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Icon getIcon(int par1, int par2)
+    {
+        switch (par1)
+        {
+            case 1:
+                return icons[0];
+            default:
+                return icons[1];
+        }
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World world)
+    {
+        return new TileLetterConstructor();
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z,
+            EntityPlayer player, int par6, float par7, float par8, float par9)
     {
         if (world.isRemote)
-        {
             return true;
-        }
         else
         {
-            TileLetterConstructor tile = (TileLetterConstructor)world.getBlockTileEntity(x, y, z);
+            TileLetterConstructor tile = (TileLetterConstructor) world
+                    .getBlockTileEntity(x, y, z);
 
             if (tile != null)
             {
-            	player.openGui(MiscTools.instance, GuiIds.LETTERCONSTRUCTOR, world, x, y, z);
+                player.openGui(MiscTools.instance, GuiIds.LETTERCONSTRUCTOR,
+                        world, x, y, z);
             }
 
             return true;
         }
     }
-    
+
     @Override
-    public void breakBlock(World world, int x, int y, int z, int id, int meta) {
+    public void breakBlock(World world, int x, int y, int z, int id, int meta)
+    {
 
         dropInventory(world, x, y, z);
         super.breakBlock(world, x, y, z, id, meta);
     }
-    
-    private void dropInventory(World world, int x, int y, int z) {
+
+    private void dropInventory(World world, int x, int y, int z)
+    {
 
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -99,19 +106,25 @@ public class BlockLetterConstructor extends BlockContainer
 
         IInventory inventory = (IInventory) tileEntity;
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 1; i++)
+        {
 
             ItemStack itemStack = inventory.getStackInSlot(i);
 
-            if (itemStack != null && itemStack.stackSize > 0) {
+            if (itemStack != null && itemStack.stackSize > 0)
+            {
                 float dX = rand.nextFloat() * 0.8F + 0.1F;
                 float dY = rand.nextFloat() * 0.8F + 0.1F;
                 float dZ = rand.nextFloat() * 0.8F + 0.1F;
 
-                EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.itemID, itemStack.stackSize, itemStack.getItemDamage()));
+                EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z
+                        + dZ, new ItemStack(itemStack.itemID,
+                        itemStack.stackSize, itemStack.getItemDamage()));
 
-                if (itemStack.hasTagCompound()) {
-                    entityItem.getEntityItem().setTagCompound((NBTTagCompound) itemStack.getTagCompound().copy());
+                if (itemStack.hasTagCompound())
+                {
+                    entityItem.getEntityItem().setTagCompound(
+                            (NBTTagCompound) itemStack.getTagCompound().copy());
                 }
 
                 float factor = 0.05F;

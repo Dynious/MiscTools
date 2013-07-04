@@ -22,37 +22,32 @@ public class EntityAIFollow extends EntityAIBase
 
     public EntityAIFollow(EntityCompanion e, float par2, float par3, float par4)
     {
-        this.thePet = e;
-        this.theWorld = e.worldObj;
-        this.field_75336_f = par2;
-        this.petPathfinder = e.getNavigator();
-        this.minDist = par3;
-        this.maxDist = par4;
+        thePet = e;
+        theWorld = e.worldObj;
+        field_75336_f = par2;
+        petPathfinder = e.getNavigator();
+        minDist = par3;
+        maxDist = par4;
         this.setMutexBits(3);
     }
 
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
+    @Override
     public boolean shouldExecute()
     {
-        Entity entity = this.thePet.getOwner();
+        Entity entity = thePet.getOwner();
 
         if (entity == null)
-        {
             return false;
-        }
-        else if (this.thePet.isSitting())
-        {
+        else if (thePet.isSitting())
             return false;
-        }
-        else if (this.thePet.getDistanceSqToEntity(entity) < (double)(this.minDist * this.minDist))
-        {
+        else if (thePet.getDistanceSqToEntity(entity) < minDist * minDist)
             return false;
-        }
         else
         {
-            this.theOwner = entity;
+            theOwner = entity;
             return true;
         }
     }
@@ -60,61 +55,80 @@ public class EntityAIFollow extends EntityAIBase
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
+    @Override
     public boolean continueExecuting()
     {
-    	System.out.println(shouldFollow);
-        return !this.petPathfinder.noPath() && this.thePet.getDistanceSqToEntity(this.theOwner) > (double)(this.maxDist * this.maxDist) && !this.thePet.isSitting() && shouldFollow == true;
+        System.out.println(shouldFollow);
+        return !petPathfinder.noPath()
+                && thePet.getDistanceSqToEntity(theOwner) > maxDist * maxDist
+                && !thePet.isSitting() && shouldFollow == true;
     }
 
     /**
      * Execute a one shot task or start executing a continuous task
      */
+    @Override
     public void startExecuting()
     {
-        this.field_75343_h = 0;
-        this.field_75344_i = this.thePet.getNavigator().getAvoidsWater();
-        this.thePet.getNavigator().setAvoidsWater(false);
+        field_75343_h = 0;
+        field_75344_i = thePet.getNavigator().getAvoidsWater();
+        thePet.getNavigator().setAvoidsWater(false);
     }
 
     /**
      * Resets the task
      */
+    @Override
     public void resetTask()
     {
-        this.theOwner = null;
-        this.petPathfinder.clearPathEntity();
-        this.thePet.getNavigator().setAvoidsWater(this.field_75344_i);
+        theOwner = null;
+        petPathfinder.clearPathEntity();
+        thePet.getNavigator().setAvoidsWater(field_75344_i);
     }
 
     /**
      * Updates the task
      */
+    @Override
     public void updateTask()
     {
-        this.thePet.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float)this.thePet.getVerticalFaceSpeed());
+        thePet.getLookHelper().setLookPositionWithEntity(theOwner, 10.0F,
+                thePet.getVerticalFaceSpeed());
 
-        if (!this.thePet.isSitting())
+        if (!thePet.isSitting())
         {
-            if (--this.field_75343_h <= 0)
+            if (--field_75343_h <= 0)
             {
-                this.field_75343_h = 10;
+                field_75343_h = 10;
 
-                if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.field_75336_f))
+                if (!petPathfinder.tryMoveToEntityLiving(theOwner,
+                        field_75336_f))
                 {
-                    if (this.thePet.getDistanceSqToEntity(this.theOwner) >= 144.0D)
+                    if (thePet.getDistanceSqToEntity(theOwner) >= 144.0D)
                     {
-                        int i = MathHelper.floor_double(this.theOwner.posX) - 2;
-                        int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
-                        int k = MathHelper.floor_double(this.theOwner.boundingBox.minY);
+                        int i = MathHelper.floor_double(theOwner.posX) - 2;
+                        int j = MathHelper.floor_double(theOwner.posZ) - 2;
+                        int k = MathHelper
+                                .floor_double(theOwner.boundingBox.minY);
 
                         for (int l = 0; l <= 4; ++l)
                         {
                             for (int i1 = 0; i1 <= 4; ++i1)
                             {
-                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.doesBlockHaveSolidTopSurface(i + l, k - 1, j + i1) && !this.theWorld.isBlockNormalCube(i + l, k, j + i1) && !this.theWorld.isBlockNormalCube(i + l, k + 1, j + i1))
+                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3)
+                                        && theWorld
+                                                .doesBlockHaveSolidTopSurface(i
+                                                        + l, k - 1, j + i1)
+                                        && !theWorld.isBlockNormalCube(i + l,
+                                                k, j + i1)
+                                        && !theWorld.isBlockNormalCube(i + l,
+                                                k + 1, j + i1))
                                 {
-                                    this.thePet.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), this.thePet.rotationYaw, this.thePet.rotationPitch);
-                                    this.petPathfinder.clearPathEntity();
+                                    thePet.setLocationAndAngles(i + l + 0.5F,
+                                            k, j + i1 + 0.5F,
+                                            thePet.rotationYaw,
+                                            thePet.rotationPitch);
+                                    petPathfinder.clearPathEntity();
                                     return;
                                 }
                             }
@@ -125,4 +139,3 @@ public class EntityAIFollow extends EntityAIBase
         }
     }
 }
-

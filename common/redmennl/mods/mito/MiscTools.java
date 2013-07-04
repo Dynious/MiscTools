@@ -18,42 +18,40 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Library.MOD_ID, name = Library.MOD_NAME, version = Library.VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
-
-
 public class MiscTools
 {
-	@Instance(Library.MOD_ID)
+    @Instance(Library.MOD_ID)
     public static MiscTools instance;
 
     @SidedProxy(clientSide = Library.CLIENT_PROXY_CLASS, serverSide = Library.SERVER_PROXY_CLASS)
     public static CommonProxy proxy;
-	
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-    	ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-    	
-    	BlockRegistery.register();
-    	
-    	ItemRegistery.register();
-    	
-    	proxy.registerSoundHandler();
+        ConfigurationHandler.init(event.getSuggestedConfigurationFile());
+
+        BlockRegistery.register();
+
+        ItemRegistery.register();
+
+        proxy.registerSoundHandler();
     }
-    
+
     @EventHandler
     public void load(FMLInitializationEvent event)
     {
-    	NetworkRegistry.instance().registerGuiHandler(instance, proxy);
-    	
+        NetworkRegistry.instance().registerGuiHandler(instance, proxy);
+
         proxy.initTileEntities();
-        
+
         proxy.initEntities();
-        
+
         proxy.initRenderingAndTextures();
-        
+
         proxy.findModels();
-        
+
         MinecraftForge.EVENT_BUS.register(new LightEmitterEvent());
     }
-    
+
 }

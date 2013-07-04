@@ -30,107 +30,121 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class CommonProxy implements IGuiHandler
 {
-	static int startEntityId = 300;
+    static int startEntityId = 300;
 
-	public void initRenderingAndTextures() 
-	{
-		
-    }
-	
-	public void initTileEntities() 
-	{
-		GameRegistry.registerTileEntity(TilePortableHouse.class, "portableHouse");
-		GameRegistry.registerTileEntity(TilePortableHouseDeployer.class, "portableHouseDeployer");
-		GameRegistry.registerTileEntity(TileAdvancedPortableHouse.class, "advancedPortableHouse");
-		GameRegistry.registerTileEntity(TileAdvancedPortableHouseDeployer.class, "advancedPortableHouseDeployer");
-		GameRegistry.registerTileEntity(TileLetter.class, "letter");
-		GameRegistry.registerTileEntity(TileLetterConstructor.class, "letterConstructor");
-		GameRegistry.registerTileEntity(TileCompanionCreator.class, "companionCreator");
-	}
-	
-	public void initEntities()
-	{
-		//EntityRegistry.registerGlobalEntityID(EntityCompanion.class, "companion", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityCompanion.class, "companion", 0, MiscTools.instance, 80, 1, true);
-		LanguageRegistry.instance().addStringLocalization("entity." + Library.MOD_ID + ".companion.name", "Companion");
-		registerEntityEgg(EntityCompanion.class, 0xffffff, 0x000000);
-		
-		EntityRegistry.registerModEntity(EntityPowerLaser.class, "laser", 1, MiscTools.instance, 40, 1, true);
-	}
-
-	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z)
-	{
-        if (ID == GuiIds.LETTERCONSTRUCTOR)
-        {
-        	TileLetterConstructor tile = (TileLetterConstructor) world.getBlockTileEntity(x, y, z);
-        	return new ContainerLetterConstructor(player.inventory, tile);
-        }
-        else if (ID == GuiIds.COMPANION)
-        {
-        	EntityCompanion e = findCompanion(x, world);
-            if (e != null)
-            	return new ContainerCompanion(player.inventory, e);
-        }
-		return null;
-	}
-
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z)
-	{
-        if (ID == GuiIds.LETTERCONSTRUCTOR)
-        {
-        	TileLetterConstructor tile = (TileLetterConstructor) world.getBlockTileEntity(x, y, z);
-        	return new GuiLetterConstructor(player.inventory, tile);
-        }
-        else if (ID == GuiIds.COMPANION)
-        {
-        	EntityCompanion e = findCompanion(x, world);
-            if (e != null)
-            	return new GuiCompanion(player.inventory, e, player);
-        }
-		return null;
-	}
-	
-	@SuppressWarnings("rawtypes")
-	private EntityCompanion findCompanion(int ID, World world) 
-	{
-		for (Iterator i$ = world.loadedEntityList.iterator(); i$.hasNext(); ) 
-		{
-			Object e = i$.next();
-			if (((e instanceof Entity)) && (((Entity)e).entityId == ID) && ((e instanceof EntityCompanion))) 
-			{
-				return (EntityCompanion)e;
-			}
-		}
-		return null;
-	}
-	
-    public void registerSoundHandler() {}
-    
-    public void findModels() {}
-    
-    public static int getUniqueEntityId() 
+    public void initRenderingAndTextures()
     {
-    	do
-    	{
-    		startEntityId++;
-    	}
-    	
-    	while (EntityList.getStringFromID(startEntityId) != null);
-    	
-    	return startEntityId;
+
     }
-    
+
+    public void initTileEntities()
+    {
+        GameRegistry.registerTileEntity(TilePortableHouse.class,
+                "portableHouse");
+        GameRegistry.registerTileEntity(TilePortableHouseDeployer.class,
+                "portableHouseDeployer");
+        GameRegistry.registerTileEntity(TileAdvancedPortableHouse.class,
+                "advancedPortableHouse");
+        GameRegistry.registerTileEntity(
+                TileAdvancedPortableHouseDeployer.class,
+                "advancedPortableHouseDeployer");
+        GameRegistry.registerTileEntity(TileLetter.class, "letter");
+        GameRegistry.registerTileEntity(TileLetterConstructor.class,
+                "letterConstructor");
+        GameRegistry.registerTileEntity(TileCompanionCreator.class,
+                "companionCreator");
+    }
+
+    public void initEntities()
+    {
+        // EntityRegistry.registerGlobalEntityID(EntityCompanion.class,
+        // "companion", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerModEntity(EntityCompanion.class, "companion", 0,
+                MiscTools.instance, 80, 1, true);
+        LanguageRegistry.instance().addStringLocalization(
+                "entity." + Library.MOD_ID + ".companion.name", "Companion");
+        registerEntityEgg(EntityCompanion.class, 0xffffff, 0x000000);
+
+        EntityRegistry.registerModEntity(EntityPowerLaser.class, "laser", 1,
+                MiscTools.instance, 40, 1, true);
+    }
+
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world,
+            int x, int y, int z)
+    {
+        if (ID == GuiIds.LETTERCONSTRUCTOR)
+        {
+            TileLetterConstructor tile = (TileLetterConstructor) world
+                    .getBlockTileEntity(x, y, z);
+            return new ContainerLetterConstructor(player.inventory, tile);
+        } else if (ID == GuiIds.COMPANION)
+        {
+            EntityCompanion e = findCompanion(x, world);
+            if (e != null)
+                return new ContainerCompanion(player.inventory, e);
+        }
+        return null;
+    }
+
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world,
+            int x, int y, int z)
+    {
+        if (ID == GuiIds.LETTERCONSTRUCTOR)
+        {
+            TileLetterConstructor tile = (TileLetterConstructor) world
+                    .getBlockTileEntity(x, y, z);
+            return new GuiLetterConstructor(player.inventory, tile);
+        } else if (ID == GuiIds.COMPANION)
+        {
+            EntityCompanion e = findCompanion(x, world);
+            if (e != null)
+                return new GuiCompanion(player.inventory, e, player);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("rawtypes")
+    private EntityCompanion findCompanion(int ID, World world)
+    {
+        for (Iterator i$ = world.loadedEntityList.iterator(); i$.hasNext();)
+        {
+            Object e = i$.next();
+            if (e instanceof Entity && ((Entity) e).entityId == ID
+                    && e instanceof EntityCompanion)
+                return (EntityCompanion) e;
+        }
+        return null;
+    }
+
+    public void registerSoundHandler()
+    {
+    }
+
+    public void findModels()
+    {
+    }
+
+    public static int getUniqueEntityId()
+    {
+        do
+        {
+            startEntityId++;
+        }
+
+        while (EntityList.getStringFromID(startEntityId) != null);
+
+        return startEntityId;
+    }
+
     @SuppressWarnings("unchecked")
-	public static void registerEntityEgg(Class<? extends Entity> entity, int primaryColor, int secondaryColor) 
+    public static void registerEntityEgg(Class<? extends Entity> entity,
+            int primaryColor, int secondaryColor)
     {
-    	int id = getUniqueEntityId();
-    	EntityList.IDtoClassMapping.put(id, entity);
-    	EntityList.entityEggs.put(id, new EntityEggInfo(id, primaryColor, secondaryColor));
+        int id = getUniqueEntityId();
+        EntityList.IDtoClassMapping.put(id, entity);
+        EntityList.entityEggs.put(id, new EntityEggInfo(id, primaryColor,
+                secondaryColor));
     }
 }
-
-
