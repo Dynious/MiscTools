@@ -29,8 +29,11 @@ public class ContainerCompanion extends ContainerPhantom
             this.addSlotToContainer(new AdvancedSlot(i, actionBarSlotIndex, 8 + actionBarSlotIndex * 18, 151));
         }
         
+        System.out.println("1");
         initSlots(e);
+        System.out.println("2");
         addSlots();
+        System.out.println("3");
         
         onCraftMatrixChanged(e.craftMatrix);
 	}
@@ -48,8 +51,7 @@ public class ContainerCompanion extends ContainerPhantom
                 this.addSlotToContainer(e.slotCrafting[inventoryColumnIndex + inventoryRowIndex * 3] = new PhantomSlot(e.craftMatrix, inventoryColumnIndex + inventoryRowIndex * 3 , 8 + inventoryColumnIndex * 18, 25 + inventoryRowIndex * 18));
             }
         }
-        //102
-        e.slotCraftingResult = new SlotUntouchable(e.craftResult, (1 + 3 * 3), 152, 43);
+        e.slotCraftingResult = new SlotUntouchable(e.craftResult, 0, 98, 43);
     }
     
     public void addSlots()
@@ -69,7 +71,6 @@ public class ContainerCompanion extends ContainerPhantom
     
     public ItemStack slotClick(int slotNum, int mouseButton, int modifier, EntityPlayer player)
     {
-    	e.canCraft();
     	return super.slotClick(slotNum, mouseButton, modifier, player);
     }
     

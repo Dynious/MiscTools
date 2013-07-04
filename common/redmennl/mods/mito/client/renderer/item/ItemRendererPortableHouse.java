@@ -10,7 +10,7 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 import redmennl.mods.mito.client.model.ModelPortableHouse;
-import redmennl.mods.mito.lib.Library;
+import redmennl.mods.mito.lib.Resources;
 
 import com.google.common.primitives.SignedBytes;
 
@@ -82,11 +82,11 @@ public class ItemRendererPortableHouse implements IItemRenderer
 		
 		if (i.getItemDamage() == 0 || i.getItemDamage() == 1)
 		{
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_PORTABLEHOUSE);
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
 		}
 		if (i.getItemDamage() == 2 || i.getItemDamage() == 3)
 		{
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_ADVANCEDPORTABLEHOUSE);
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(Resources.MODEL_TEXTURE_ADVANCEDPORTABLEHOUSE);
 		}
 
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
@@ -148,8 +148,7 @@ public class ItemRendererPortableHouse implements IItemRenderer
                 {
                     GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
                     
-                    
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture("/terrain.png");
+                    //FMLClientHandler.instance().getClient().renderEngine.func_110577_a("/terrain.png");
                     float f7 = 0.25F;
                     int j = block.getRenderType();
 
@@ -197,7 +196,7 @@ public class ItemRendererPortableHouse implements IItemRenderer
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPushMatrix();
 		
-		FMLClientHandler.instance().getClient().renderEngine.bindTexture(Library.MODEL_TEXTURE_PORTABLEHOUSE);
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(Resources.MODEL_TEXTURE_PORTABLEHOUSE);
 		GL11.glColor4f(1F, 1F, 1F, pulse);
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GL11.glScalef(1.0F, -1F, -1F);

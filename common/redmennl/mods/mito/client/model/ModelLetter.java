@@ -2,7 +2,7 @@ package redmennl.mods.mito.client.model;
 
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-import redmennl.mods.mito.lib.Library;
+import redmennl.mods.mito.lib.Resources;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -13,7 +13,7 @@ public class ModelLetter{
 
     public ModelLetter() {
 
-        modelLetter = AdvancedModelLoader.loadModel(Library.MODEL_LETTERS);
+        modelLetter = AdvancedModelLoader.loadModel(Resources.MODEL_LETTERS);
     }
 
     public void render() {

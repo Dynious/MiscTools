@@ -1,13 +1,16 @@
 package redmennl.mods.mito.entity;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -23,23 +26,34 @@ import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.inventory.slots.AdvancedSlot;
 import redmennl.mods.mito.inventory.slots.PhantomSlot;
 import redmennl.mods.mito.inventory.slots.SlotUntouchable;
+import redmennl.mods.mito.item.ItemCompanion;
+import redmennl.mods.mito.item.ItemRegistery;
 import redmennl.mods.mito.lib.GuiIds;
 import redmennl.mods.mito.lib.Library;
+import redmennl.mods.mito.lib.Resources;
 
 public class EntityCompanion extends EntityTameable implements IInventory
 {
 	private ItemStack inventory[];
 	public int health = 20;
+	
 	public String modelName = "companion";
 	public IModelCustom model;
+	List<String> modelNames = new ArrayList<String>();
+	
 	public float modelOffsetY;
 	public float armOffsetY;
 	public boolean hasWheel = false;
 	public float wheelOffsetY;
 	public boolean hasLegs = false;
 	public float legOffsetY;
-	public int activeTab = 1;
 	
+	public  ResourceLocation textureBody;
+	public  ResourceLocation textureArms;
+	public  ResourceLocation textureWheel;
+	public  ResourceLocation textureLegs;
+	
+	public int activeTab = 1;
 	public InventoryCrafting craftMatrix = new LocalInventoryCrafting();
 	public IInventory craftResult = new InventoryCraftResult();
 	
@@ -59,7 +73,6 @@ public class EntityCompanion extends EntityTameable implements IInventory
 			    public void onCraftMatrixChanged(IInventory par1IInventory)
 			    {
 			    	craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(craftMatrix, worldObj));
-			        System.out.println(canCraft());
 			    }
 			}, 3, 3);
 		}
@@ -68,44 +81,43 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	public EntityCompanion(World world)
 	{
 		super(world);
-		inventory = new ItemStack[71];
-		this.moveSpeed = 0.3F;
+		inventory = new ItemStack[19];
+		setEntityHealth(20F);
 		this.setSize(0.8F, 1.0F);
 		this.getNavigator().setAvoidsWater(true);
-		readModelData(this.getClass().getResource(Library.MODEL_LOCATION + modelName + ".properties"));
+		readModelData();
 		refreshModel();
 		
         this.tasks.addTask(1, this.aiSit);
-        this.tasks.addTask(2, new EntityAIFollowOwner(this, this.moveSpeed, 10.0F, 2.0F));
+        this.tasks.addTask(2, new EntityAIFollowOwner(this, getAIMoveSpeed(), 10.0F, 2.0F));
 	}
 	
 	public boolean interact(EntityPlayer ep)
     {
 		if (!this.worldObj.isRemote)
         {
-			/*
+			
 			try
 			{
-				ep.openGui(MiscTools.instance, GuiIds.COMPANION, worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
+				ep.openGui(MiscTools.instance, GuiIds.COMPANION, worldObj, this.entityId, 0, 0);
 			}
 			catch(Exception e)
 			{
 				System.out.println("Failed to open GUI");
 			}
-			*/
-			ep.openGui(MiscTools.instance, GuiIds.COMPANION, worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
 			return true;
         }
 		return super.interact(ep);
     }
 	
-	public void readModelData(URL url)
+	public void readModelData()
 	{
+		URL url = this.getClass().getResource(Resources.MODEL_LOCATION + modelName + ".properties");
+		
         BufferedReader reader = null;
         InputStream inputStream = null;
 
         String currentLine = null;
-        
         try
         {
             inputStream = url.openStream();
@@ -155,7 +167,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
             {
                 reader.close();
             }
-            catch (IOException e)
+            catch (Exception e)
             {
             }
 
@@ -163,88 +175,134 @@ public class EntityCompanion extends EntityTameable implements IInventory
             {
                 inputStream.close();
             }
-            catch (IOException e)
+            catch (Exception e)
             {
             }
         }
+        
+        textureBody = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Body.png");
+        textureArms = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Arms.png");
+        if (hasWheel)
+        	textureWheel = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Wheel.png");
+        if (hasLegs)
+        	textureLegs = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Legs.png");
 	}
 	
-	public boolean canCraft()
+	public ItemStack[] craftResult()
     {
     	if (craftResult.getStackInSlot(0) != null)
     	{
-    		AdvancedSlot tempInvItems[] = slotInventory.clone();
-    		
-    		//List neededItems = new ArrayList();
+    		ItemStack craftedItems = CraftingManager.getInstance().findMatchingRecipe(craftMatrix, worldObj);
+    		ItemStack[] finishedInventory =  new ItemStack[9];
+			for (int y = 0; y < slotInventory.length; ++y)
+	        {
+				finishedInventory[y] = slotInventory[y].getStack();
+	        }
     		for (int i = 0; i < this.craftMatrix.getSizeInventory(); ++i)
             {
     			//System.out.println(i);
                 ItemStack neededItemStack = this.craftMatrix.getStackInSlot(i);
-                //neededItems.add(neededItemStack);
                 if (neededItemStack != null)
                 {
-	                for (int y = 0; y < tempInvItems.length; ++y)
+	                for (int y = 0; y < slotInventory.length; ++y)
 	                {
-	                	ItemStack inventoryItemStack = tempInvItems[y].getStack();
-	                	//System.out.println(inventoryItemStack);
-	                	if (inventoryItemStack != null && neededItemStack != null && neededItemStack.getItem() == inventoryItemStack.getItem())
+	                	if (finishedInventory[y] != null && neededItemStack.getItem() == finishedInventory[y].getItem())
 	                	{
 	                		
-	                		if(neededItemStack.stackSize < inventoryItemStack.stackSize)
+	                		if(neededItemStack.stackSize < finishedInventory[y].stackSize)
 	                		{
-	                			inventoryItemStack.stackSize = inventoryItemStack.stackSize - neededItemStack.stackSize;
-	                			tempInvItems[y].inventory.setInventorySlotContents(y, inventoryItemStack);
+	                			finishedInventory[y].stackSize -= neededItemStack.stackSize;
 	                			neededItemStack = null;
 	                			break;
 	                		}
-	                		else if(neededItemStack.stackSize == inventoryItemStack.stackSize)
+	                		else if(neededItemStack.stackSize == finishedInventory[y].stackSize)
 	                		{
 	                			neededItemStack = null;
-	                			tempInvItems[y].inventory.setInventorySlotContents(y, null);
+	                			finishedInventory[y] = null;
 	                			break;
 	                		}
 	                		else
 	                		{
-	                			neededItemStack.stackSize = neededItemStack.stackSize - inventoryItemStack.stackSize;
-	                			tempInvItems[y].inventory.setInventorySlotContents(y, null);
-	                			tempInvItems[y].inventory.getStackInSlot(0);
+	                			neededItemStack.stackSize -= finishedInventory[y].stackSize;
+	                			finishedInventory[y] = null;
 	                		}
 	                	}
 	                }
                 }
                 if (neededItemStack != null)
                 {
-                	return false;
+                	return null;
                 }
             }
-    		for (int y = 0; y < tempInvItems.length; ++y)
+    		for (int y = 0; y < finishedInventory.length; ++y)
             {
-    			System.out.println("y = " + y);
-    			ItemStack inventoryItemStack = tempInvItems[y].getStack();
-    			//System.out.println(inventoryItemStack.stackSize + " : " + slotCraftingResult.getStack().stackSize);
-    			if (inventoryItemStack != null) 
+    			if (finishedInventory[y] != null && finishedInventory[y].getItem() == craftedItems.getItem()) 
     			{
-    				System.out.println("StackSize = " + inventoryItemStack.stackSize);
-	    			if (inventoryItemStack.getItem() == slotCraftingResult.getStack().getItem() && inventoryItemStack.stackSize + slotCraftingResult.getStack().stackSize <= 64)
+        			System.out.println("Adding: " + finishedInventory[y].stackSize + " and " + craftedItems.stackSize);
+	    			if (finishedInventory[y].stackSize + craftedItems.stackSize <= finishedInventory[y].getMaxStackSize())
 	    			{
-	    				System.out.println("Adding...");
-	    				inventoryItemStack.stackSize = inventoryItemStack.stackSize + slotCraftingResult.getStack().stackSize;
-	    				tempInvItems[y].inventory.setInventorySlotContents(y, inventoryItemStack);
-	    				return true;
+	    				System.out.println("Fits!");
+	    				finishedInventory[y].stackSize += craftedItems.stackSize;
+	    				finishedInventory[y] = finishedInventory[y];
+	    				return finishedInventory;
 	    			}
-	    			else
-	    				System.out.println("Impossibru");
+	    			else if (finishedInventory[y].stackSize != finishedInventory[y].getMaxStackSize())
+	    			{
+	    				finishedInventory[y].stackSize = finishedInventory[y].getMaxStackSize();
+	    				finishedInventory[y] = finishedInventory[y];
+	    				craftedItems.stackSize -= (finishedInventory[y].getMaxStackSize()-finishedInventory[y].stackSize);
+	    				System.out.println("Didn't fit, adding " + craftedItems.stackSize + " to next slot!");
+	    			}
     			}
     			else
-				{
-					System.out.println("Stack is null");
-    				tempInvItems[y].inventory.setInventorySlotContents(y, slotCraftingResult.inventory.getStackInSlot(0));
-					return true;
-				}
+    			{
+    				System.out.println("Stack is null OR Item != Same");
+    			}
+            }
+    		for (int y = 0; y < finishedInventory.length; ++y)
+            {
+    			if (finishedInventory[y] == null)
+    			{
+					System.out.println("Stack is null " + craftedItems);
+					finishedInventory[y] = craftedItems;
+					return finishedInventory;
+    			}
             }
     	}
-    	return false;
+    	return null;
     }
+	
+	public boolean canCraft(ItemStack[] finishedInventory)
+	{
+		if (finishedInventory != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public void craft(ItemStack[] finishedInventory)
+	{
+		if (canCraft(finishedInventory))
+			for (int y = 0; y < finishedInventory.length; ++y)
+	        {
+				System.out.println(finishedInventory[y]);
+				slotInventory[y].putStack(finishedInventory[y]);
+	        }
+	}
+	
+	public void killCompanion()
+	{
+		ItemCompanion i = (ItemCompanion) ItemRegistery.companion;
+		i.hasLegs = hasLegs;
+		i.hasWheel = hasWheel;
+		i.modelName = modelName;
+		i.model = model;
+		ItemStack item = new ItemStack(i);
+		System.out.println(item);
+		EntityItem entity = new EntityItem(worldObj, posX, posY, posZ, item);
+		worldObj.spawnEntityInWorld(entity);
+		setDead();
+	}
 	
 	@Override
     public void setSitting(boolean par1)
@@ -261,19 +319,13 @@ public class EntityCompanion extends EntityTameable implements IInventory
     
     public void refreshModel()
     {
-    	model = AdvancedModelLoader.loadModel(Library.MODEL_LOCATION + modelName + ".obj");
+    	model = AdvancedModelLoader.loadModel(Resources.MODEL_LOCATION + modelName + ".obj");
     }
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityageable)
 	{
 		return null;
-	}
-
-	@Override
-	public int getMaxHealth()
-	{
-		return 20;
 	}
 	
 	public int getTalkInterval()
@@ -289,22 +341,22 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	
     protected String getHurtSound()
     {
-        return Library.SOUND_COMPANION_HURT;
+        return "mito:companionHurt";
     }
     
     protected String getLivingSound()
     {
-        return Library.SOUND_COMPANION_SAY;
+        return "mito:companionSay";
     }
     
     protected String getDeathSound()
     {
-        return Library.SOUND_COMPANION_DEATH;
+        return "mito:companionDeath";
     }
     
     protected void playStepSound(int par1, int par2, int par3, int par4)
     {
-    	this.worldObj.playSoundAtEntity(this, Library.SOUND_COMPANION_WALK, 0.15F, 1.0F);
+    	this.worldObj.playSoundAtEntity(this, "mito:companionWalk", 0.15F, 1.0F);
     }
 
     
@@ -384,7 +436,6 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	@Override
 	public void onInventoryChanged()
 	{
-        canCraft();
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import redmennl.mods.mito.lib.Library;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemHelmetTorch extends ItemMiTo
+public class ItemHelmetTorch extends ItemMito
 {
 
 	public ItemHelmetTorch(int id)

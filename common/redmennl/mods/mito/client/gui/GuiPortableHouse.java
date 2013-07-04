@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
-import redmennl.mods.mito.lib.Library;
+import redmennl.mods.mito.lib.Resources;
 import redmennl.mods.mito.tile.TilePortableHouse;
 import redmennl.mods.mito.tile.TilePortableHouseDeployer;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -208,7 +208,7 @@ public class GuiPortableHouse extends GuiScreen
         int ySize = 166;
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(Library.GUI_PORTABLEHOUSE);
+        mc.renderEngine.func_110577_a(Resources.GUI_PORTABLEHOUSE);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);

@@ -2,17 +2,21 @@ package redmennl.mods.mito.client.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -20,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -29,6 +34,8 @@ import redmennl.mods.mito.inventory.slots.AdvancedSlot;
 @SideOnly(Side.CLIENT)
 public abstract class GuiAdvancedContainer extends GuiScreen
 {
+    protected static final ResourceLocation field_110408_a = new ResourceLocation("textures/gui/container/inventory.png");
+
     /** Stacks renderer. Icons, stack size, health, etc... */
     protected static RenderItem itemRenderer = new RenderItem();
 
@@ -53,34 +60,34 @@ public abstract class GuiAdvancedContainer extends GuiScreen
     private Slot theSlot;
 
     /** Used when touchscreen is enabled */
-    private Slot clickedSlot = null;
+    private Slot clickedSlot;
 
     /** Used when touchscreen is enabled */
-    private boolean isRightMouseClick = false;
+    private boolean isRightMouseClick;
 
     /** Used when touchscreen is enabled */
-    private ItemStack draggedStack = null;
-    private int field_85049_r = 0;
-    private int field_85048_s = 0;
-    private Slot returningStackDestSlot = null;
-    private long returningStackTime = 0L;
+    private ItemStack draggedStack;
+    private int field_85049_r;
+    private int field_85048_s;
+    private Slot returningStackDestSlot;
+    private long returningStackTime;
 
     /** Used when touchscreen is enabled */
-    private ItemStack returningStack = null;
-    private Slot field_92033_y = null;
-    private long field_92032_z = 0L;
+    private ItemStack returningStack;
+    private Slot field_92033_y;
+    private long field_92032_z;
     @SuppressWarnings("rawtypes")
 	protected final Set field_94077_p = new HashSet();
     protected boolean field_94076_q;
-    private int field_94071_C = 0;
-    private int field_94067_D = 0;
-    private boolean field_94068_E = false;
+    private int field_94071_C;
+    private int field_94067_D;
+    private boolean field_94068_E;
     private int field_94069_F;
-    private long field_94070_G = 0L;
-    private Slot field_94072_H = null;
-    private int field_94073_I = 0;
+    private long field_94070_G;
+    private Slot field_94072_H;
+    private int field_94073_I;
     private boolean field_94074_J;
-    private ItemStack field_94075_K = null;
+    private ItemStack field_94075_K;
 
     public GuiAdvancedContainer(Container par1Container)
     {
@@ -127,12 +134,12 @@ public abstract class GuiAdvancedContainer extends GuiScreen
 
         for (int j1 = 0; j1 < this.inventorySlots.inventorySlots.size(); ++j1)
         {
-            AdvancedSlot slot = (AdvancedSlot) this.inventorySlots.inventorySlots.get(j1);
-            if (slot.isVisible)
+            AdvancedSlot slot = (AdvancedSlot)this.inventorySlots.inventorySlots.get(j1);
+            if (slot.isVisible())
             {
 	            this.drawSlotInventory(slot);
 	
-	            if (this.isMouseOverSlot(slot, par1, par2))
+	            if (this.isMouseOverSlot(slot, par1, par2) && slot.func_111238_b())
 	            {
 	                this.theSlot = slot;
 	                GL11.glDisable(GL11.GL_LIGHTING);
@@ -217,13 +224,13 @@ public abstract class GuiAdvancedContainer extends GuiScreen
         FontRenderer font = null;
         if (par1ItemStack != null) font = par1ItemStack.getItem().getFontRenderer(par1ItemStack);
         if (font == null) font = fontRenderer;
-        itemRenderer.renderItemAndEffectIntoGUI(font, this.mc.renderEngine, par1ItemStack, par2, par3);
-        itemRenderer.renderItemOverlayIntoGUI(font, this.mc.renderEngine, par1ItemStack, par2, par3 - (this.draggedStack == null ? 0 : 8), par4Str);
+        itemRenderer.renderItemAndEffectIntoGUI(font, this.mc.func_110434_K(), par1ItemStack, par2, par3);
+        itemRenderer.renderItemOverlayIntoGUI(font, this.mc.func_110434_K(), par1ItemStack, par2, par3 - (this.draggedStack == null ? 0 : 8), par4Str);
         this.zLevel = 0.0F;
         itemRenderer.zLevel = 0.0F;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void drawItemStackTooltip(ItemStack par1ItemStack, int par2, int par3)
     {
         List list = par1ItemStack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
@@ -408,7 +415,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
             if (icon != null)
             {
                 GL11.glDisable(GL11.GL_LIGHTING);
-                this.mc.renderEngine.bindTexture("/gui/items.png");
+                this.mc.func_110434_K().func_110577_a(TextureMap.field_110576_c);
                 this.drawTexturedModelRectFromIcon(i, j, icon, 16, 16);
                 GL11.glEnable(GL11.GL_LIGHTING);
                 flag1 = true;
@@ -423,8 +430,8 @@ public abstract class GuiAdvancedContainer extends GuiScreen
             }
 
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-            itemRenderer.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.renderEngine, itemstack, i, j);
-            itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.renderEngine, itemstack, i, j, s);
+            itemRenderer.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.func_110434_K(), itemstack, i, j);
+            itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.func_110434_K(), itemstack, i, j, s);
         }
 
         itemRenderer.zLevel = 0.0F;
@@ -622,7 +629,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
                 }
             }
         }
-        else if (this.field_94076_q && slot != null && itemstack != null && itemstack.stackSize > this.field_94077_p.size() && Container.func_94527_a(slot, itemstack, true) && slot.isItemValid(itemstack) && this.inventorySlots.func_94531_b(slot) && slot.isVisible)
+        else if (this.field_94076_q && slot != null && itemstack != null && itemstack.stackSize > this.field_94077_p.size() && Container.func_94527_a(slot, itemstack, true) && slot.isItemValid(itemstack) && this.inventorySlots.func_94531_b(slot) && slot.isVisible())
         {
             this.field_94077_p.add(slot);
             this.func_94066_g();
@@ -655,7 +662,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
         Slot slot1;
         Iterator iterator;
 
-        if (this.field_94074_J && slot != null && par3 == 0 && this.inventorySlots.func_94530_a((ItemStack)null, slot) && slot.isVisible)
+        if (this.field_94074_J && slot != null && par3 == 0 && this.inventorySlots.func_94530_a((ItemStack)null, slot) && slot.isVisible())
         {
             if (isShiftKeyDown())
             {
@@ -756,7 +763,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
 
                 this.handleMouseClick((Slot)null, -999, Container.func_94534_d(2, this.field_94071_C), 5);
             }
-            else if (this.mc.thePlayer.inventory.getItemStack() != null && slot != null && slot.isVisible)
+            else if (this.mc.thePlayer.inventory.getItemStack() != null  && slot != null && slot.isVisible())
             {
                 if (par3 == this.mc.gameSettings.keyBindPickBlock.keyCode + 100)
                 {

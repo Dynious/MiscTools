@@ -29,12 +29,12 @@ public class BlockRegistery
 		letterConstructor = new BlockLetterConstructor(BlockIds.LETTERCONSTRUCTOR);
 		companionCreator = new BlockCompanionCreator(BlockIds.COMPANIONCREATOR);
 		
-		GameRegistry.registerBlock(portableHouse, ItemPortableHouse.class, Library.MOD_ID + portableHouse.getUnlocalizedName2());
-		GameRegistry.registerBlock(lightEmitter, Library.MOD_ID + lightEmitter.getUnlocalizedName2());
-		GameRegistry.registerBlock(letter, ItemLetter.class, Library.MOD_ID + letter.getUnlocalizedName2());
-		GameRegistry.registerBlock(letter2, ItemLetter2.class, Library.MOD_ID + letter2.getUnlocalizedName2());
-		GameRegistry.registerBlock(letterConstructor, Library.MOD_ID + letterConstructor.getUnlocalizedName2());
-		GameRegistry.registerBlock(companionCreator, Library.MOD_ID + companionCreator.getUnlocalizedName2());
+		GameRegistry.registerBlock(portableHouse, ItemPortableHouse.class, Library.MOD_ID + portableHouse.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(lightEmitter, Library.MOD_ID + lightEmitter.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(letter, ItemLetter.class, Library.MOD_ID + letter.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(letter2, ItemLetter2.class, Library.MOD_ID + letter2.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(letterConstructor, Library.MOD_ID + letterConstructor.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(companionCreator, Library.MOD_ID + companionCreator.getUnlocalizedName().substring(5));
 		
 		LanguageRegistry.addName(new ItemStack(portableHouse, 1, 0), "Portable House");
 		LanguageRegistry.addName(new ItemStack(portableHouse, 1, 1), "Portable House Deployer");

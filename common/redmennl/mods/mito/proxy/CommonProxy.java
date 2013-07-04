@@ -1,11 +1,13 @@
 package redmennl.mods.mito.proxy;
 
+import java.util.Iterator;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityEggInfo;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.client.gui.GuiCompanion;
 import redmennl.mods.mito.client.gui.GuiLetterConstructor;
 import redmennl.mods.mito.entity.EntityCompanion;
@@ -46,14 +48,14 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerTileEntity(TileCompanionCreator.class, "companionCreator");
 	}
 	
-	public void initEntities(Object mod)
+	public void initEntities()
 	{
 		//EntityRegistry.registerGlobalEntityID(EntityCompanion.class, "companion", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityCompanion.class, "companion", 1, mod, 40, 1, true);
+		EntityRegistry.registerModEntity(EntityCompanion.class, "companion", 0, MiscTools.instance, 80, 1, true);
 		LanguageRegistry.instance().addStringLocalization("entity." + Library.MOD_ID + ".companion.name", "Companion");
 		registerEntityEgg(EntityCompanion.class, 0xffffff, 0x000000);
 		
-		EntityRegistry.registerModEntity(EntityPowerLaser.class, "laser", 2, mod, 40, 1, true);
+		EntityRegistry.registerModEntity(EntityPowerLaser.class, "laser", 1, MiscTools.instance, 40, 1, true);
 	}
 
 	@Override
@@ -67,18 +69,9 @@ public class CommonProxy implements IGuiHandler
         }
         else if (ID == GuiIds.COMPANION)
         {
-        	EntityCompanion e = null;
-        	AxisAlignedBB a = AxisAlignedBB.getBoundingBox(x - 0.4, y - 0.4, z - 0.4, x + 0.4, y + 0.4, z + 0.4);
-        	try
-        	{
-        		e = (EntityCompanion) world.getEntitiesWithinAABB(EntityCompanion.class, a).get(0);
-        	}
-        	catch(Exception ex){}
-        	
-        	if (e != null)
-        	{
-        		return new ContainerCompanion(player.inventory, e);
-        	}
+        	EntityCompanion e = findCompanion(x, world);
+            if (e != null)
+            	return new ContainerCompanion(player.inventory, e);
         }
 		return null;
 	}
@@ -94,25 +87,30 @@ public class CommonProxy implements IGuiHandler
         }
         else if (ID == GuiIds.COMPANION)
         {
-        	EntityCompanion e = null;
-        	AxisAlignedBB a = AxisAlignedBB.getBoundingBox(x - 0.4, y - 0.4, z - 0.4, x + 0.4, y + 0.4, z + 0.4);
-        	try
-        	{
-        		e = (EntityCompanion) world.getEntitiesWithinAABB(EntityCompanion.class, a).get(0);
-        	}
-        	catch(Exception ex){}
-        	
-        	if (e != null)
-        	{
-        		return new GuiCompanion(player.inventory, e, player);
-        	}
+        	EntityCompanion e = findCompanion(x, world);
+            if (e != null)
+            	return new GuiCompanion(player.inventory, e, player);
         }
 		return null;
 	}
 	
-    public void registerSoundHandler() {
-
-    }
+	@SuppressWarnings("rawtypes")
+	private EntityCompanion findCompanion(int ID, World world) 
+	{
+		for (Iterator i$ = world.loadedEntityList.iterator(); i$.hasNext(); ) 
+		{
+			Object e = i$.next();
+			if (((e instanceof Entity)) && (((Entity)e).entityId == ID) && ((e instanceof EntityCompanion))) 
+			{
+				return (EntityCompanion)e;
+			}
+		}
+		return null;
+	}
+	
+    public void registerSoundHandler() {}
+    
+    public void findModels() {}
     
     public static int getUniqueEntityId() 
     {

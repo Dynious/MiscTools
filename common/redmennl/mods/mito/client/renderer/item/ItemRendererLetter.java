@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 
 import redmennl.mods.mito.client.model.ModelLetter;
 import redmennl.mods.mito.lib.BlockIds;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -168,8 +167,8 @@ public class ItemRendererLetter implements IItemRenderer {
         GL11.glRotatef(45F, 0F, 1F, 0F);
         GL11.glRotatef(r, 0F, 1F, 0F);
 
-        // Bind texture
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture("/textures/blocks/cloth_0.png");
+        // TODO Texture
+        GL11.glColor3f(1F, 1F, 1F);
 
         // Render
         modelLetter.renderPart(letter);
