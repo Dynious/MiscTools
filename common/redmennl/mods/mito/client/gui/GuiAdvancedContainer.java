@@ -135,7 +135,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
         for (int j1 = 0; j1 < this.inventorySlots.inventorySlots.size(); ++j1)
         {
             AdvancedSlot slot = (AdvancedSlot)this.inventorySlots.inventorySlots.get(j1);
-            if (slot.isVisible)
+            if (slot.isVisible())
             {
 	            this.drawSlotInventory(slot);
 	
@@ -224,8 +224,8 @@ public abstract class GuiAdvancedContainer extends GuiScreen
         FontRenderer font = null;
         if (par1ItemStack != null) font = par1ItemStack.getItem().getFontRenderer(par1ItemStack);
         if (font == null) font = fontRenderer;
-        itemRenderer.func_110797_b(font, this.mc.func_110434_K(), par1ItemStack, par2, par3);
-        itemRenderer.func_110793_a(font, this.mc.func_110434_K(), par1ItemStack, par2, par3 - (this.draggedStack == null ? 0 : 8), par4Str);
+        itemRenderer.renderItemAndEffectIntoGUI(font, this.mc.func_110434_K(), par1ItemStack, par2, par3);
+        itemRenderer.renderItemOverlayIntoGUI(font, this.mc.func_110434_K(), par1ItemStack, par2, par3 - (this.draggedStack == null ? 0 : 8), par4Str);
         this.zLevel = 0.0F;
         itemRenderer.zLevel = 0.0F;
     }
@@ -430,8 +430,8 @@ public abstract class GuiAdvancedContainer extends GuiScreen
             }
 
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-            itemRenderer.func_110797_b(this.fontRenderer, this.mc.func_110434_K(), itemstack, i, j);
-            itemRenderer.func_110793_a(this.fontRenderer, this.mc.func_110434_K(), itemstack, i, j, s);
+            itemRenderer.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.func_110434_K(), itemstack, i, j);
+            itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.func_110434_K(), itemstack, i, j, s);
         }
 
         itemRenderer.zLevel = 0.0F;
@@ -629,7 +629,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
                 }
             }
         }
-        else if (this.field_94076_q && slot != null && itemstack != null && itemstack.stackSize > this.field_94077_p.size() && Container.func_94527_a(slot, itemstack, true) && slot.isItemValid(itemstack) && this.inventorySlots.func_94531_b(slot) && slot.isVisible)
+        else if (this.field_94076_q && slot != null && itemstack != null && itemstack.stackSize > this.field_94077_p.size() && Container.func_94527_a(slot, itemstack, true) && slot.isItemValid(itemstack) && this.inventorySlots.func_94531_b(slot) && slot.isVisible())
         {
             this.field_94077_p.add(slot);
             this.func_94066_g();
@@ -662,7 +662,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
         Slot slot1;
         Iterator iterator;
 
-        if (this.field_94074_J && slot != null && par3 == 0 && this.inventorySlots.func_94530_a((ItemStack)null, slot) && slot.isVisible)
+        if (this.field_94074_J && slot != null && par3 == 0 && this.inventorySlots.func_94530_a((ItemStack)null, slot) && slot.isVisible())
         {
             if (isShiftKeyDown())
             {
@@ -763,7 +763,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
 
                 this.handleMouseClick((Slot)null, -999, Container.func_94534_d(2, this.field_94071_C), 5);
             }
-            else if (this.mc.thePlayer.inventory.getItemStack() != null  && slot.isVisible)
+            else if (this.mc.thePlayer.inventory.getItemStack() != null  && slot != null && slot.isVisible())
             {
                 if (par3 == this.mc.gameSettings.keyBindPickBlock.keyCode + 100)
                 {

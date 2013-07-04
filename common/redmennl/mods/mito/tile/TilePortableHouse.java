@@ -80,7 +80,7 @@ public class TilePortableHouse extends TileEntity
         stack.getTagCompound().setInteger("hight", hight);
         if (name != ""){stack.getTagCompound().setString("name", name);}
         
-        world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, Library.SOUND_PORTABLEHOUSE, 1.0F, 1.0F);
+        world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "mito:saveBlocks", 1.0F, 1.0F);
         
         //new DelayedAction("Portable House", 5, world, this.xCoord, this.yCoord, this.zCoord, size, hight);
         

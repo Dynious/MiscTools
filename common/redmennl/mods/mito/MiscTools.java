@@ -47,9 +47,11 @@ public class MiscTools
     	
         proxy.initTileEntities();
         
-        proxy.initEntities(this);
+        proxy.initEntities();
         
         proxy.initRenderingAndTextures();
+        
+        proxy.findModels();
         
         MinecraftForge.EVENT_BUS.register(new LightEmitterEvent());
     }

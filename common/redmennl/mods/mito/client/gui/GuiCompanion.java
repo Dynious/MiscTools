@@ -39,27 +39,11 @@ public class GuiCompanion extends GuiAdvancedContainer
 		yStart = (height - ySize) / 2;
 	}
     
-	@SuppressWarnings("unchecked")
 	public void initGui()
     {
 		clearContainerScreen();
-		activeTab = "inventory";
 		drawInventoryScreen();
-		
-        buttonList.clear();
-        buttonList.add(new GuiButton(1, width / 2 - 70, height / 2 - 65, 80, 20, "Change model"));
-        buttonList.add(setOwner = new GuiButton(2, width / 2 - 70, height / 2 - 40, 80, 20, "Follow"));
-        if (e.isSitting() == true)
-        {
-        	setOwner.displayString = "Follow";
-        }
-        else if (e.isSitting() == false)
-        {
-        	setOwner.displayString = "Stop following";
-        }
-        
-        super.initGui();
-        
+        super.initGui();  
     }
 	
 	protected void mouseClicked(int par1, int par2, int par3)
@@ -76,7 +60,6 @@ public class GuiCompanion extends GuiAdvancedContainer
             		{
 	            		clearContainerScreen();
 	            		drawInventoryScreen();
-	            		activeTab = "inventory";
             		}
             	}
             	else if(x >= 30 && x <= 59 && tabs >= 2)
@@ -85,28 +68,24 @@ public class GuiCompanion extends GuiAdvancedContainer
             		{
 	            		clearContainerScreen();
 	            		drawCraftingScreen();
-	            		activeTab = "crafting";
             		}
             	}
             	else if(x >= 60 && x <= 89 && tabs >= 3)
             	{
             		e.activeTab = 3;
             		activeTab = null;
-            		buttonList.clear();
             		clearContainerScreen();
             	}
             	else if(x >= 90 && x <= 119 && tabs >= 4)
             	{
             		e.activeTab = 4;
             		activeTab = null;
-            		buttonList.clear();
             		clearContainerScreen();
             	}
             	else if(x >= 120 && x <= 149 && tabs >= 5)
             	{
             		e.activeTab = 5;
             		activeTab = null;
-            		buttonList.clear();
             		clearContainerScreen();
             	}
             }
@@ -119,6 +98,7 @@ public class GuiCompanion extends GuiAdvancedContainer
 	public void drawInventoryScreen()
     {
 		e.activeTab = 1;
+		activeTab = "inventory";
         buttonList.add(new GuiButton(1, width / 2 - 70, height / 2 - 65, 80, 20, "Change model"));
         buttonList.add(setOwner = new GuiButton(2, width / 2 - 70, height / 2 - 40, 80, 20, "Follow"));
         if (e.isSitting() == true)
@@ -132,34 +112,39 @@ public class GuiCompanion extends GuiAdvancedContainer
         addInventoryScreen();
     }
     
-    public void drawCraftingScreen()
+    @SuppressWarnings("unchecked")
+	public void drawCraftingScreen()
     {
 		e.activeTab = 2;
+		activeTab = "crafting";
+		buttonList.add(new GuiButton(3, width / 2 + 40, height / 2 - 65, 40, 20, "Craft"));
 		addCraftingScreen();
     }
     
+	@SuppressWarnings("unchecked")
 	public void clearContainerScreen()
     {
 		buttonList.clear();
+		buttonList.add(new GuiButton(0, width / 2 + 78, height / 2 - 79, 10, 10, "X"));
 		
     	for (int i = 0; i < this.e.slotInventory.length; i++)
     	{
-    		this.e.slotInventory[i].isVisible = false;
+    		this.e.slotInventory[i].setInvisible();
     	}
         
     	for (int i = 0; i < this.e.slotCrafting.length; i++)
     	{
-    		this.e.slotCrafting[i].isVisible = false;
+    		this.e.slotCrafting[i].setInvisible();
     	}
 		
-		this.e.slotCraftingResult.isVisible = false;
+		this.e.slotCraftingResult.setInvisible();
     }
 	
 	public void addInventoryScreen()
     {
     	for (int i = 0; i < this.e.slotInventory.length; i++)
     	{
-    		this.e.slotInventory[i].isVisible = true;
+    		this.e.slotInventory[i].setVisible();
     	}
     }
     
@@ -167,10 +152,10 @@ public class GuiCompanion extends GuiAdvancedContainer
     {
     	for (int i = 0; i < this.e.slotCrafting.length; i++)
     	{
-    		this.e.slotCrafting[i].isVisible = true;
+    		this.e.slotCrafting[i].setVisible();
     	}
 		
-		this.e.slotCraftingResult.isVisible = true;
+		this.e.slotCraftingResult.setVisible();
     }
 	
     public void updateScreen()
@@ -189,22 +174,26 @@ public class GuiCompanion extends GuiAdvancedContainer
 	
     protected void actionPerformed(GuiButton guibutton)
     {
+    	if (guibutton.id == 0)
+    	{
+    		e.killCompanion();
+    		FMLCommonHandler.instance().showGuiScreen(null);
+    	}
     	if (guibutton.id == 1)
     	{
     		FMLCommonHandler.instance().showGuiScreen(null);
     		
-    		if (e.modelName == "companion")
+    		int index = Resources.modelNames.indexOf(e.modelName);
+    		if (index != Resources.modelNames.size() - 1)
     		{
-    			e.modelName = "weird";
-    			e.refreshModel();
-    			e.readModelData(this.getClass().getResource(Library.MODEL_LOCATION + e.modelName + ".properties"));
+    			e.modelName = Resources.modelNames.get(index + 1);
     		}
-    		else if (e.modelName == "weird")
+    		else
     		{
-    			e.modelName = "companion";
-    			e.refreshModel();
-    			e.readModelData(this.getClass().getResource(Library.MODEL_LOCATION + e.modelName + ".properties"));
+    			e.modelName = Resources.modelNames.get(0);
     		}
+    		e.refreshModel();
+    		e.readModelData();
     	}
     	if (guibutton.id == 2)
     	{
@@ -218,6 +207,11 @@ public class GuiCompanion extends GuiAdvancedContainer
             {
             	e.setSitting(true);
             }
+    	}
+    	if (guibutton.id == 3)
+    	{
+    		e.craft(e.craftResult());
+    		e.onInventoryChanged();
     	}
     }
 	@Override

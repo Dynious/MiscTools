@@ -39,10 +39,10 @@ public class Library
     
     public static final String MODEL_LETTERS = MODEL_LOCATION + "letters.obj";
     
-    public static String[] soundFiles = { SOUND_LOCATION + "makeLetter.ogg", SOUND_LOCATION + "saveBlocks.ogg", SOUND_LOCATION + "companionHurt1.ogg",
-    	SOUND_LOCATION + "companionHurt2.ogg", SOUND_LOCATION + "companionHurt3.ogg", SOUND_LOCATION + "companionHurt4.ogg", SOUND_LOCATION + "companionHurt5.ogg",
-    	SOUND_LOCATION + "companionHurt6.ogg", SOUND_LOCATION + "companionSay1.ogg", SOUND_LOCATION + "companionSay2.ogg", SOUND_LOCATION + "companionSay3.ogg", 
-    	SOUND_LOCATION + "companionSay4.ogg", SOUND_LOCATION + "companionSay5.ogg", SOUND_LOCATION + "companionDeath.ogg", SOUND_LOCATION + "companionWalk.ogg"};
+    public static String[] soundFiles = { "makeLetter.ogg", "saveBlocks.ogg", "companionHurt1.ogg",
+    	"companionHurt2.ogg", "companionHurt3.ogg", "companionHurt4.ogg", "companionHurt5.ogg",
+    	"companionHurt6.ogg", "companionSay1.ogg", "companionSay2.ogg", "companionSay3.ogg", 
+    	"companionSay4.ogg", "companionSay5.ogg", "companionDeath.ogg", "companionWalk.ogg"};
     
     public static final String SOUND_LETTERCONSTRUCTOR = SOUND_PREFIX + "makeLetter";
     public static final String SOUND_PORTABLEHOUSE = SOUND_PREFIX + "saveBlocks";

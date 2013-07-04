@@ -1,15 +1,17 @@
 package redmennl.mods.mito.lib;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.resources.ResourceLocation;
 
 public class Resources
 {
+	public static List<String> modelNames = new ArrayList<String>();
+	
     public static final String MODEL_LOCATION = "/assets/mito/models/";
     
     public static final String MODEL_LETTERS = MODEL_LOCATION + "letters.obj";
-    
-    private static final String SOUND_PREFIX = "mods.mito.sounds.";
-    public static final String SOUND_LOCATION = "mods/mito/sounds/";
     
     public static final String GUI_SHEET_LOCATION = "/textures/gui/";
     public static final String ENTITY_SHEET_LOCATION = "/textures/entities/";

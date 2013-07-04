@@ -2,6 +2,7 @@ package redmennl.mods.mito.client.renderer.living;
 
 import redmennl.mods.mito.client.model.ModelCompanion;
 import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.lib.Resources;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.resources.ResourceLocation;
@@ -37,6 +38,6 @@ public class RendererEntityCompanion extends RenderLiving
 	@Override
 	protected ResourceLocation func_110775_a(Entity entity)
 	{
-		return null;
+		return Resources.MODEL_TEXTURE_COMPANION_BODY;
 	}
 }

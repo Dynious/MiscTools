@@ -35,6 +35,7 @@ public class ConfigurationHandler
 	            ItemIds.MINERSIRONHELMETON = configuration.getItem("minersIronHelmetOn", ItemIds.MINERSIRONHELMETON_DEFAULT).getInt(ItemIds.MINERSIRONHELMETON_DEFAULT);
 	            ItemIds.MINERSGOLDHELMETON = configuration.getItem("minersGoldHelmetOn", ItemIds.MINERSGOLDHELMETON_DEFAULT).getInt(ItemIds.MINERSGOLDHELMETON_DEFAULT);
 	            ItemIds.MINERSDIAMONDHELMETON = configuration.getItem("minersDiamondHelmetOn", ItemIds.MINERSDIAMONDHELMETON_DEFAULT).getInt(ItemIds.MINERSDIAMONDHELMETON_DEFAULT);
+	            ItemIds.COMPANION = configuration.getItem("companion", ItemIds.COMPANION_DEFAULT).getInt(ItemIds.COMPANION_DEFAULT);
 	            
 		 } catch(Exception e) {
 			 FMLLog.log(Level.SEVERE, e, Library.MOD_NAME + " has had a problem loading its configuration");

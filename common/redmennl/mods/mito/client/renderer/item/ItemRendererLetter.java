@@ -168,7 +168,7 @@ public class ItemRendererLetter implements IItemRenderer {
         GL11.glRotatef(r, 0F, 1F, 0F);
 
         // TODO Texture
-        //FMLClientHandler.instance().getClient().renderEngine.bindTexture("/textures/blocks/cloth_0.png");
+        GL11.glColor3f(1F, 1F, 1F);
 
         // Render
         modelLetter.renderPart(letter);

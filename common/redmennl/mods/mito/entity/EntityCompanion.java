@@ -1,13 +1,16 @@
 package redmennl.mods.mito.entity;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -23,6 +26,8 @@ import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.inventory.slots.AdvancedSlot;
 import redmennl.mods.mito.inventory.slots.PhantomSlot;
 import redmennl.mods.mito.inventory.slots.SlotUntouchable;
+import redmennl.mods.mito.item.ItemCompanion;
+import redmennl.mods.mito.item.ItemRegistery;
 import redmennl.mods.mito.lib.GuiIds;
 import redmennl.mods.mito.lib.Library;
 import redmennl.mods.mito.lib.Resources;
@@ -31,16 +36,24 @@ public class EntityCompanion extends EntityTameable implements IInventory
 {
 	private ItemStack inventory[];
 	public int health = 20;
+	
 	public String modelName = "companion";
 	public IModelCustom model;
+	List<String> modelNames = new ArrayList<String>();
+	
 	public float modelOffsetY;
 	public float armOffsetY;
 	public boolean hasWheel = false;
 	public float wheelOffsetY;
 	public boolean hasLegs = false;
 	public float legOffsetY;
-	public int activeTab = 1;
 	
+	public  ResourceLocation textureBody;
+	public  ResourceLocation textureArms;
+	public  ResourceLocation textureWheel;
+	public  ResourceLocation textureLegs;
+	
+	public int activeTab = 1;
 	public InventoryCrafting craftMatrix = new LocalInventoryCrafting();
 	public IInventory craftResult = new InventoryCraftResult();
 	
@@ -69,11 +82,10 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	{
 		super(world);
 		inventory = new ItemStack[19];
-		setAIMoveSpeed(0.3F);
 		setEntityHealth(20F);
 		this.setSize(0.8F, 1.0F);
 		this.getNavigator().setAvoidsWater(true);
-		readModelData(this.getClass().getResource(Resources.MODEL_LOCATION + modelName + ".properties"));
+		readModelData();
 		refreshModel();
 		
         this.tasks.addTask(1, this.aiSit);
@@ -84,29 +96,28 @@ public class EntityCompanion extends EntityTameable implements IInventory
     {
 		if (!this.worldObj.isRemote)
         {
-			/*
+			
 			try
 			{
-				ep.openGui(MiscTools.instance, GuiIds.COMPANION, worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
+				ep.openGui(MiscTools.instance, GuiIds.COMPANION, worldObj, this.entityId, 0, 0);
 			}
 			catch(Exception e)
 			{
 				System.out.println("Failed to open GUI");
 			}
-			*/
-			ep.openGui(MiscTools.instance, GuiIds.COMPANION, worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
 			return true;
         }
 		return super.interact(ep);
     }
 	
-	public void readModelData(URL url)
+	public void readModelData()
 	{
+		URL url = this.getClass().getResource(Resources.MODEL_LOCATION + modelName + ".properties");
+		
         BufferedReader reader = null;
         InputStream inputStream = null;
 
         String currentLine = null;
-        
         try
         {
             inputStream = url.openStream();
@@ -156,7 +167,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
             {
                 reader.close();
             }
-            catch (IOException e)
+            catch (Exception e)
             {
             }
 
@@ -164,10 +175,17 @@ public class EntityCompanion extends EntityTameable implements IInventory
             {
                 inputStream.close();
             }
-            catch (IOException e)
+            catch (Exception e)
             {
             }
         }
+        
+        textureBody = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Body.png");
+        textureArms = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Arms.png");
+        if (hasWheel)
+        	textureWheel = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Wheel.png");
+        if (hasLegs)
+        	textureLegs = new ResourceLocation(Library.MOD_ID, Resources.ENTITY_SHEET_LOCATION + modelName + "Legs.png");
 	}
 	
 	public ItemStack[] craftResult()
@@ -180,29 +198,24 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	        {
 				finishedInventory[y] = slotInventory[y].getStack();
 	        }
-    		//List neededItems = new ArrayList();
     		for (int i = 0; i < this.craftMatrix.getSizeInventory(); ++i)
             {
     			//System.out.println(i);
                 ItemStack neededItemStack = this.craftMatrix.getStackInSlot(i);
-                //neededItems.add(neededItemStack);
                 if (neededItemStack != null)
                 {
 	                for (int y = 0; y < slotInventory.length; ++y)
 	                {
-	                	ItemStack inventoryItemStack = finishedInventory[y];
-	                	//System.out.println(inventoryItemStack);
-	                	if (inventoryItemStack != null && neededItemStack.getItem() == inventoryItemStack.getItem())
+	                	if (finishedInventory[y] != null && neededItemStack.getItem() == finishedInventory[y].getItem())
 	                	{
 	                		
-	                		if(neededItemStack.stackSize < inventoryItemStack.stackSize)
+	                		if(neededItemStack.stackSize < finishedInventory[y].stackSize)
 	                		{
-	                			inventoryItemStack.stackSize -= neededItemStack.stackSize;
-	                			finishedInventory[y] = inventoryItemStack;
+	                			finishedInventory[y].stackSize -= neededItemStack.stackSize;
 	                			neededItemStack = null;
 	                			break;
 	                		}
-	                		else if(neededItemStack.stackSize == inventoryItemStack.stackSize)
+	                		else if(neededItemStack.stackSize == finishedInventory[y].stackSize)
 	                		{
 	                			neededItemStack = null;
 	                			finishedInventory[y] = null;
@@ -210,7 +223,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	                		}
 	                		else
 	                		{
-	                			neededItemStack.stackSize -= inventoryItemStack.stackSize;
+	                			neededItemStack.stackSize -= finishedInventory[y].stackSize;
 	                			finishedInventory[y] = null;
 	                		}
 	                	}
@@ -223,27 +236,21 @@ public class EntityCompanion extends EntityTameable implements IInventory
             }
     		for (int y = 0; y < finishedInventory.length; ++y)
             {
-            	ItemStack inventoryItemStack = null;
-            	if (finishedInventory[y] != null)
-            	{
-            		inventoryItemStack = finishedInventory[y].copy();
-            		System.out.println(inventoryItemStack + " : "+ inventoryItemStack.stackSize);
-            	}
-    			if (inventoryItemStack != null && inventoryItemStack.getItem() == craftedItems.getItem()) 
+    			if (finishedInventory[y] != null && finishedInventory[y].getItem() == craftedItems.getItem()) 
     			{
-        			System.out.println("Adding: " + inventoryItemStack.stackSize + " and " + craftedItems.stackSize);
-	    			if (inventoryItemStack.stackSize + craftedItems.stackSize <= inventoryItemStack.getMaxStackSize())
+        			System.out.println("Adding: " + finishedInventory[y].stackSize + " and " + craftedItems.stackSize);
+	    			if (finishedInventory[y].stackSize + craftedItems.stackSize <= finishedInventory[y].getMaxStackSize())
 	    			{
 	    				System.out.println("Fits!");
-	    				inventoryItemStack.stackSize += craftedItems.stackSize;
-	    				finishedInventory[y] = inventoryItemStack;
+	    				finishedInventory[y].stackSize += craftedItems.stackSize;
+	    				finishedInventory[y] = finishedInventory[y];
 	    				return finishedInventory;
 	    			}
-	    			else
+	    			else if (finishedInventory[y].stackSize != finishedInventory[y].getMaxStackSize())
 	    			{
-	    				inventoryItemStack.stackSize = inventoryItemStack.getMaxStackSize();
-	    				finishedInventory[y] = inventoryItemStack;
-	    				craftedItems.stackSize -= (inventoryItemStack.getMaxStackSize()-inventoryItemStack.stackSize);
+	    				finishedInventory[y].stackSize = finishedInventory[y].getMaxStackSize();
+	    				finishedInventory[y] = finishedInventory[y];
+	    				craftedItems.stackSize -= (finishedInventory[y].getMaxStackSize()-finishedInventory[y].stackSize);
 	    				System.out.println("Didn't fit, adding " + craftedItems.stackSize + " to next slot!");
 	    			}
     			}
@@ -254,14 +261,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
             }
     		for (int y = 0; y < finishedInventory.length; ++y)
             {
-    			System.out.println(y);
-            	ItemStack inventoryItemStack = null;
-            	if (finishedInventory[y] != null)
-            	{
-            		inventoryItemStack = finishedInventory[y].copy();
-            	}
-            	
-    			if (inventoryItemStack == null)
+    			if (finishedInventory[y] == null)
     			{
 					System.out.println("Stack is null " + craftedItems);
 					finishedInventory[y] = craftedItems;
@@ -285,8 +285,23 @@ public class EntityCompanion extends EntityTameable implements IInventory
 		if (canCraft(finishedInventory))
 			for (int y = 0; y < finishedInventory.length; ++y)
 	        {
+				System.out.println(finishedInventory[y]);
 				slotInventory[y].putStack(finishedInventory[y]);
 	        }
+	}
+	
+	public void killCompanion()
+	{
+		ItemCompanion i = (ItemCompanion) ItemRegistery.companion;
+		i.hasLegs = hasLegs;
+		i.hasWheel = hasWheel;
+		i.modelName = modelName;
+		i.model = model;
+		ItemStack item = new ItemStack(i);
+		System.out.println(item);
+		EntityItem entity = new EntityItem(worldObj, posX, posY, posZ, item);
+		worldObj.spawnEntityInWorld(entity);
+		setDead();
 	}
 	
 	@Override
@@ -326,22 +341,22 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	
     protected String getHurtSound()
     {
-        return Library.SOUND_COMPANION_HURT;
+        return "mito:companionHurt";
     }
     
     protected String getLivingSound()
     {
-        return Library.SOUND_COMPANION_SAY;
+        return "mito:companionSay";
     }
     
     protected String getDeathSound()
     {
-        return Library.SOUND_COMPANION_DEATH;
+        return "mito:companionDeath";
     }
     
     protected void playStepSound(int par1, int par2, int par3, int par4)
     {
-    	this.worldObj.playSoundAtEntity(this, Library.SOUND_COMPANION_WALK, 0.15F, 1.0F);
+    	this.worldObj.playSoundAtEntity(this, "mito:companionWalk", 0.15F, 1.0F);
     }
 
     
@@ -421,7 +436,6 @@ public class EntityCompanion extends EntityTameable implements IInventory
 	@Override
 	public void onInventoryChanged()
 	{
-		craft(craftResult());
 	}
 
 	@Override
