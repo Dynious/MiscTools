@@ -50,12 +50,12 @@ public class Library
 
     public static final String MODEL_LETTERS = MODEL_LOCATION + "letters.obj";
 
-    public static String[] soundFiles = { "makeLetter.ogg", "saveBlocks.ogg",
-            "companionHurt1.ogg", "companionHurt2.ogg", "companionHurt3.ogg",
-            "companionHurt4.ogg", "companionHurt5.ogg", "companionHurt6.ogg",
-            "companionSay1.ogg", "companionSay2.ogg", "companionSay3.ogg",
-            "companionSay4.ogg", "companionSay5.ogg", "companionDeath.ogg",
-            "companionWalk.ogg" };
+    public static String[] soundFiles = { "makeletter.ogg", "saveblocks.ogg",
+            "companionhurt1.ogg", "companionhurt2.ogg", "companionhurt3.ogg",
+            "companionhurt4.ogg", "companionhurt5.ogg", "companionhurt6.ogg",
+            "companionsay1.ogg", "companionsay2.ogg", "companionsay3.ogg",
+            "companionsay4.ogg", "companionsay5.ogg", "companionseath.ogg",
+            "companionwalk.ogg" };
 
     public static final String SOUND_LETTERCONSTRUCTOR = SOUND_PREFIX
             + "makeLetter";

@@ -2,6 +2,7 @@ package redmennl.mods.mito.tile;
 
 import java.util.Random;
 
+import redmennl.mods.mito.lib.Library;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -119,7 +120,7 @@ public class TileAdvancedPortableHouse extends TilePortableHouse
         stack.getTagCompound().setIntArray("hasTag", hasTag);
 
         world.playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-                "mito:saveBlocks", 1.0F, 1.0F);
+                Library.MOD_ID + ":saveblocks", 1.0F, 1.0F);
 
         // new DelayedAction("Portable House", 5, world, this.xCoord,
         // this.yCoord, this.zCoord, size, hight);

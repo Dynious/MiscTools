@@ -17,8 +17,7 @@ public class SoundHandler
             // Try to add the custom sound file to the pool of sounds
             try
             {
-                System.out.println(soundFile);
-                event.manager.soundPoolSounds.addSound("mito" + soundFile);
+                event.manager.addSound(Library.MOD_ID + ":" + soundFile);
             }
             // If we cannot add the custom sound file to the pool, log the
             // exception

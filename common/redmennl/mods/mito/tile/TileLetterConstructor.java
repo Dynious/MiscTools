@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import redmennl.mods.mito.lib.BlockIds;
+import redmennl.mods.mito.lib.Library;
 
 public class TileLetterConstructor extends TileEntity implements IInventory
 {
@@ -87,7 +88,7 @@ public class TileLetterConstructor extends TileEntity implements IInventory
             if (i != 0)
             {
                 worldObj.playSoundEffect(xCoord + 0.5D, yCoord + 0.5D,
-                        zCoord + 0.5D, "mito:makeLetter", 1.0F, 1.0F);
+                        zCoord + 0.5D, Library.MOD_ID + ":makeletter", 1.0F, 1.0F);
             }
         }
 
@@ -152,7 +153,7 @@ public class TileLetterConstructor extends TileEntity implements IInventory
     }
 
     @Override
-    public boolean isStackValidForSlot(int i, ItemStack itemstack)
+    public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
         return true;
     }

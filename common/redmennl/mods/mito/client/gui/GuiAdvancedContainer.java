@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -21,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -421,7 +421,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
                 return;
 
             if (Container.func_94527_a(par1Slot, itemstack1, true)
-                    && inventorySlots.func_94531_b(par1Slot))
+                    && inventorySlots.canDragIntoSlot(par1Slot))
             {
                 itemstack = itemstack1.copy();
                 flag = true;
@@ -640,7 +640,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void func_85041_a(int par1, int par2, int par3, long par4)
+    protected void mouseClickMove(int par1, int par2, int par3, long par4)
     {
         AdvancedSlot slot = this.getSlotAtPosition(par1, par2);
         ItemStack itemstack = mc.thePlayer.inventory.getItemStack();
@@ -683,7 +683,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
                 && itemstack.stackSize > field_94077_p.size()
                 && Container.func_94527_a(slot, itemstack, true)
                 && slot.isItemValid(itemstack)
-                && inventorySlots.func_94531_b(slot) && slot.isVisible())
+                && inventorySlots.canDragIntoSlot(slot) && slot.isVisible())
         {
             field_94077_p.add(slot);
             this.func_94066_g();
@@ -951,7 +951,7 @@ public abstract class GuiAdvancedContainer extends GuiScreen
     {
         if (mc.thePlayer != null)
         {
-            inventorySlots.onCraftGuiClosed(mc.thePlayer);
+            inventorySlots.onContainerClosed(mc.thePlayer);
         }
     }
 

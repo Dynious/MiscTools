@@ -1,7 +1,6 @@
 package redmennl.mods.mito.item;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -11,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -83,7 +83,7 @@ public class ItemCompanion extends ItemMito
                 if (entity instanceof EntityLivingBase
                         && par1ItemStack.hasDisplayName())
                 {
-                    ((EntityLiving) entity).func_94058_c(par1ItemStack
+                    ((EntityLiving) entity).setCustomNameTag(par1ItemStack
                             .getDisplayName());
                 }
 

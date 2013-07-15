@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.item.EntityItem;
@@ -19,6 +18,7 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -312,23 +312,26 @@ public class EntityCompanion extends EntityTameable implements IInventory
             for (int y = 0; y < finishedInventory.length; ++y)
             {
                 System.out.println(finishedInventory[y]);
-                slotInventory[y].putStack(finishedInventory[y]);
+                setInventorySlotContents(y, finishedInventory[y]);
             }
         }
     }
 
     public void killCompanion()
     {
-        ItemCompanion i = (ItemCompanion) ItemRegistery.companion;
-        i.hasLegs = hasLegs;
-        i.hasWheel = hasWheel;
-        i.modelName = modelName;
-        i.model = model;
-        ItemStack item = new ItemStack(i);
-        System.out.println(item);
-        EntityItem entity = new EntityItem(worldObj, posX, posY, posZ, item);
-        worldObj.spawnEntityInWorld(entity);
-        setDead();
+        if (!worldObj.isRemote)
+        {
+            ItemCompanion i = (ItemCompanion) ItemRegistery.companion;
+            i.hasLegs = hasLegs;
+            i.hasWheel = hasWheel;
+            i.modelName = modelName;
+            i.model = model;
+            ItemStack item = new ItemStack(i);
+            System.out.println(item);
+            EntityItem entity = new EntityItem(worldObj, posX, posY, posZ, item);
+            worldObj.spawnEntityInWorld(entity);
+            setDead();
+        }
     }
 
     @Override
@@ -372,25 +375,25 @@ public class EntityCompanion extends EntityTameable implements IInventory
     @Override
     protected String getHurtSound()
     {
-        return "mito:companionHurt";
+        return Library.MOD_ID + ":companionhurt";
     }
 
     @Override
     protected String getLivingSound()
     {
-        return "mito:companionSay";
+        return Library.MOD_ID + ":companionsay";
     }
 
     @Override
     protected String getDeathSound()
     {
-        return "mito:companionDeath";
+        return Library.MOD_ID + ":companiondeath";
     }
 
     @Override
     protected void playStepSound(int par1, int par2, int par3, int par4)
     {
-        worldObj.playSoundAtEntity(this, "mito:companionWalk", 0.15F, 1.0F);
+        worldObj.playSoundAtEntity(this, Library.MOD_ID + ":companionwalk", 0.15F, 1.0F);
     }
 
     @Override
@@ -489,7 +492,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
     }
 
     @Override
-    public boolean isStackValidForSlot(int i, ItemStack itemstack)
+    public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
         return true;
     }

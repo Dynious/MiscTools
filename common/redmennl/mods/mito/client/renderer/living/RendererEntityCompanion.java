@@ -2,9 +2,9 @@ package redmennl.mods.mito.client.renderer.living;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.ResourceLocation;
 import redmennl.mods.mito.client.model.ModelCompanion;
 import redmennl.mods.mito.entity.EntityCompanion;
 import redmennl.mods.mito.lib.Resources;

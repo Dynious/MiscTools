@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -169,6 +170,14 @@ public class ItemRendererPortableHouse implements IItemRenderer
                     GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
 
                     // FMLClientHandler.instance().getClient().renderEngine.func_110577_a("/terrain.png");
+                    if (item.getItemSpriteNumber() == 0)
+                    {
+                        FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TextureMap.field_110575_b);
+                    }
+                    else
+                    {
+                        FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TextureMap.field_110576_c);
+                    }
                     float f7 = 0.25F;
                     int j = block.getRenderType();
 

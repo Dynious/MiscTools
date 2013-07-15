@@ -36,17 +36,6 @@ public class ContainerCompanion extends ContainerPhantom
                     8 + actionBarSlotIndex * 18, 151));
         }
 
-        System.out.println("1");
-        initSlots(e);
-        System.out.println("2");
-        addSlots();
-        System.out.println("3");
-
-        onCraftMatrixChanged(e.craftMatrix);
-    }
-
-    public void initSlots(EntityCompanion e)
-    {
         for (int inventoryRowIndex = 0; inventoryRowIndex < 3; ++inventoryRowIndex)
         {
             for (int inventoryColumnIndex = 0; inventoryColumnIndex < 3; ++inventoryColumnIndex)
@@ -71,21 +60,9 @@ public class ContainerCompanion extends ContainerPhantom
             }
         }
         e.slotCraftingResult = new SlotUntouchable(e.craftResult, 0, 98, 43);
-    }
-
-    public void addSlots()
-    {
-        for (int i = 1; i < e.slotInventory.length; i++)
-        {
-            this.addSlotToContainer(e.slotInventory[i]);
-        }
-
-        for (int i = 1; i < e.slotCrafting.length; i++)
-        {
-            this.addSlotToContainer(e.slotCrafting[i]);
-        }
-
         this.addSlotToContainer(e.slotCraftingResult);
+        
+        onCraftMatrixChanged(e.craftMatrix);
     }
 
     @Override
@@ -107,6 +84,7 @@ public class ContainerCompanion extends ContainerPhantom
     {
 
         ItemStack newItemStack = null;
+        int size = e.getSizeInventory();
         Slot slot = (Slot) inventorySlots.get(slotIndex);
 
         if (slot != null && slot.getHasStack())
@@ -114,12 +92,12 @@ public class ContainerCompanion extends ContainerPhantom
             ItemStack itemStack = slot.getStack();
             newItemStack = itemStack.copy();
 
-            if (slotIndex < 3 * 3)
+            if (slotIndex < size)
             {
-                if (!this.mergeItemStack(itemStack, 3 * 3,
-                        inventorySlots.size(), false))
+                if (!this.mergeItemStack(itemStack, 36,
+                        36 + e.slotInventory.length, false))
                     return null;
-            } else if (!this.mergeItemStack(itemStack, 0, 3 * 3, false))
+            } else if (!this.mergeItemStack(itemStack, 0, 36, true))
                 return null;
 
             if (itemStack.stackSize == 0)

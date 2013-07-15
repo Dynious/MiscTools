@@ -1,8 +1,5 @@
 package redmennl.mods.mito.proxy;
 
-import java.io.File;
-import java.io.FileFilter;
-
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import redmennl.mods.mito.client.audio.SoundHandler;
@@ -14,6 +11,7 @@ import redmennl.mods.mito.client.renderer.item.ItemRendererLetter;
 import redmennl.mods.mito.client.renderer.item.ItemRendererPortableHouse;
 import redmennl.mods.mito.client.renderer.living.RendererEntityCompanion;
 import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.helper.ResourceLister;
 import redmennl.mods.mito.lib.BlockIds;
 import redmennl.mods.mito.lib.ItemIds;
 import redmennl.mods.mito.lib.Resources;
@@ -77,22 +75,36 @@ public class ClientProxy extends CommonProxy
     @Override
     public void findModels()
     {
+        try
+        {
+            String[] modelFolderContents = ResourceLister.getResourceListing(this.getClass(), Resources.MODEL_LOCATION.substring(1));
+            for (String folderContent: modelFolderContents)
+            {
+                if (folderContent.endsWith(".obj"))
+                {
+                    folderContent = folderContent.substring(0, folderContent.indexOf("."));
+                    if (this.getClass().getResource(Resources.MODEL_LOCATION + folderContent + ".properties") != null)
+                    {
+                        Resources.modelNames.add(folderContent);
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("Misc Tools found these Compaion models:");
+        for (int i = 0; i < Resources.modelNames.size(); i++)
+        {
+            System.out.println(Resources.modelNames.get(i));
+        }
+        
+        
+        /*
         File dir = new File(this.getClass()
                 .getResource(Resources.MODEL_LOCATION).getFile()
                 .replace("%20", " "));
-        System.out.println(dir);
-        if (!dir.isDirectory())
-        {
-            System.out.println("FILE!");
-        }
-        if (!dir.isFile())
-        {
-            System.out.println("DIR!");
-        }
-        if (!dir.exists())
-        {
-            System.out.println(":(");
-        }
+        //System.out.println(dir);
         File[] list = dir.listFiles(new FileFilter()
         {
             @Override
@@ -120,5 +132,6 @@ public class ClientProxy extends CommonProxy
         {
             System.out.println(Resources.modelNames.get(i));
         }
+        */
     }
 }
