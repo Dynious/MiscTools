@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.util.ResourceLocation;
 
-
 public class Resources
 {
     public static List<String> modelNames = new ArrayList<String>();

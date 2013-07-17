@@ -6,6 +6,7 @@ import redmennl.mods.mito.config.ConfigurationHandler;
 import redmennl.mods.mito.event.LightEmitterEvent;
 import redmennl.mods.mito.item.ItemRegistery;
 import redmennl.mods.mito.lib.Library;
+import redmennl.mods.mito.network.PacketHandler;
 import redmennl.mods.mito.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -17,7 +18,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Library.MOD_ID, name = Library.MOD_NAME, version = Library.VERSION)
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = Library.CHANNEL_NAME, packetHandler = PacketHandler.class)
 public class MiscTools
 {
     @Instance(Library.MOD_ID)

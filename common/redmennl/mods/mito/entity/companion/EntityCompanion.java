@@ -1,31 +1,27 @@
-package redmennl.mods.mito.entity;
+package redmennl.mods.mito.entity.companion;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCraftResult;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import redmennl.mods.mito.MiscTools;
+import redmennl.mods.mito.entity.companion.addon.AddonBase;
+import redmennl.mods.mito.entity.companion.addon.AddonCrafting;
+import redmennl.mods.mito.entity.companion.addon.AddonTest;
 import redmennl.mods.mito.inventory.slots.AdvancedSlot;
-import redmennl.mods.mito.inventory.slots.PhantomSlot;
-import redmennl.mods.mito.inventory.slots.SlotUntouchable;
 import redmennl.mods.mito.item.ItemCompanion;
 import redmennl.mods.mito.item.ItemRegistery;
 import redmennl.mods.mito.lib.GuiIds;
@@ -39,7 +35,6 @@ public class EntityCompanion extends EntityTameable implements IInventory
 
     public String modelName = "companion";
     public IModelCustom model;
-    List<String> modelNames = new ArrayList<String>();
 
     public float modelOffsetY;
     public float armOffsetY;
@@ -53,43 +48,14 @@ public class EntityCompanion extends EntityTameable implements IInventory
     public ResourceLocation textureWheel;
     public ResourceLocation textureLegs;
 
-    public int activeTab = 1;
-    public InventoryCrafting craftMatrix = new LocalInventoryCrafting();
-    public IInventory craftResult = new InventoryCraftResult();
-
     public AdvancedSlot slotInventory[] = new AdvancedSlot[9];
-    public PhantomSlot slotCrafting[] = new PhantomSlot[9];
-    public SlotUntouchable slotCraftingResult;
 
-    private class LocalInventoryCrafting extends InventoryCrafting
-    {
-
-        public LocalInventoryCrafting()
-        {
-            super(new Container()
-            {
-                @Override
-                public boolean canInteractWith(EntityPlayer entityplayer)
-                {
-                    return false;
-                }
-
-                @Override
-                public void onCraftMatrixChanged(IInventory par1IInventory)
-                {
-                    craftResult.setInventorySlotContents(
-                            0,
-                            CraftingManager.getInstance().findMatchingRecipe(
-                                    craftMatrix, worldObj));
-                }
-            }, 3, 3);
-        }
-    }
+    private ArrayList<AddonBase> addons;
 
     public EntityCompanion(World world)
     {
         super(world);
-        inventory = new ItemStack[19];
+        inventory = new ItemStack[9];
         setEntityHealth(20F);
         this.setSize(0.8F, 1.0F);
         this.getNavigator().setAvoidsWater(true);
@@ -99,6 +65,14 @@ public class EntityCompanion extends EntityTameable implements IInventory
         tasks.addTask(1, aiSit);
         tasks.addTask(2, new EntityAIFollowOwner(this, getAIMoveSpeed(), 10.0F,
                 2.0F));
+        addons = new ArrayList<AddonBase>();
+        addons.add(new AddonCrafting(this, addons.size()));
+        addons.add(new AddonTest(this, addons.size()));
+    }
+
+    public ArrayList<AddonBase> getAddons()
+    {
+        return addons;
     }
 
     @Override
@@ -206,117 +180,6 @@ public class EntityCompanion extends EntityTameable implements IInventory
         }
     }
 
-    public ItemStack[] craftResult()
-    {
-        if (craftResult.getStackInSlot(0) != null)
-        {
-            ItemStack craftedItems = CraftingManager.getInstance()
-                    .findMatchingRecipe(craftMatrix, worldObj);
-            ItemStack[] finishedInventory = new ItemStack[9];
-            for (int y = 0; y < slotInventory.length; ++y)
-            {
-                finishedInventory[y] = slotInventory[y].getStack();
-            }
-            for (int i = 0; i < craftMatrix.getSizeInventory(); ++i)
-            {
-                // System.out.println(i);
-                ItemStack neededItemStack = craftMatrix.getStackInSlot(i);
-                if (neededItemStack != null)
-                {
-                    for (int y = 0; y < slotInventory.length; ++y)
-                    {
-                        if (finishedInventory[y] != null
-                                && neededItemStack.getItem() == finishedInventory[y]
-                                        .getItem())
-                        {
-
-                            if (neededItemStack.stackSize < finishedInventory[y].stackSize)
-                            {
-                                finishedInventory[y].stackSize -= neededItemStack.stackSize;
-                                neededItemStack = null;
-                                break;
-                            } else if (neededItemStack.stackSize == finishedInventory[y].stackSize)
-                            {
-                                neededItemStack = null;
-                                finishedInventory[y] = null;
-                                break;
-                            } else
-                            {
-                                neededItemStack.stackSize -= finishedInventory[y].stackSize;
-                                finishedInventory[y] = null;
-                            }
-                        }
-                    }
-                }
-                if (neededItemStack != null)
-                    return null;
-            }
-            for (int y = 0; y < finishedInventory.length; ++y)
-            {
-                if (finishedInventory[y] != null
-                        && finishedInventory[y].getItem() == craftedItems
-                                .getItem())
-                {
-                    System.out.println("Adding: "
-                            + finishedInventory[y].stackSize + " and "
-                            + craftedItems.stackSize);
-                    if (finishedInventory[y].stackSize + craftedItems.stackSize <= finishedInventory[y]
-                            .getMaxStackSize())
-                    {
-                        System.out.println("Fits!");
-                        finishedInventory[y].stackSize += craftedItems.stackSize;
-                        finishedInventory[y] = finishedInventory[y];
-                        return finishedInventory;
-                    } else if (finishedInventory[y].stackSize != finishedInventory[y]
-                            .getMaxStackSize())
-                    {
-                        finishedInventory[y].stackSize = finishedInventory[y]
-                                .getMaxStackSize();
-                        finishedInventory[y] = finishedInventory[y];
-                        craftedItems.stackSize -= finishedInventory[y]
-                                .getMaxStackSize()
-                                - finishedInventory[y].stackSize;
-                        System.out.println("Didn't fit, adding "
-                                + craftedItems.stackSize + " to next slot!");
-                    }
-                } else
-                {
-                    System.out.println("Stack is null OR Item != Same");
-                }
-            }
-            for (int y = 0; y < finishedInventory.length; ++y)
-            {
-                if (finishedInventory[y] == null)
-                {
-                    System.out.println("Stack is null " + craftedItems);
-                    finishedInventory[y] = craftedItems;
-                    return finishedInventory;
-                }
-            }
-        }
-        return null;
-    }
-
-    public boolean canCraft(ItemStack[] finishedInventory)
-    {
-        if (finishedInventory != null)
-            return true;
-        else
-            return false;
-    }
-
-    public void craft(ItemStack[] finishedInventory)
-    {
-        if (canCraft(finishedInventory))
-        {
-            for (int y = 0; y < finishedInventory.length; ++y)
-            {
-                System.out.println(finishedInventory[y]);
-                setInventorySlotContents(y, finishedInventory[y]);
-            }
-        }
-    }
-
     public void killCompanion()
     {
         if (!worldObj.isRemote)
@@ -327,18 +190,10 @@ public class EntityCompanion extends EntityTameable implements IInventory
             i.modelName = modelName;
             i.model = model;
             ItemStack item = new ItemStack(i);
-            System.out.println(item);
             EntityItem entity = new EntityItem(worldObj, posX, posY, posZ, item);
             worldObj.spawnEntityInWorld(entity);
             setDead();
         }
-    }
-
-    @Override
-    public void setSitting(boolean par1)
-    {
-        super.setSitting(par1);
-        aiSit.setSitting(par1);
     }
 
     @Override
@@ -393,18 +248,36 @@ public class EntityCompanion extends EntityTameable implements IInventory
     @Override
     protected void playStepSound(int par1, int par2, int par3, int par4)
     {
-        worldObj.playSoundAtEntity(this, Library.MOD_ID + ":companionwalk", 0.15F, 1.0F);
+        worldObj.playSoundAtEntity(this, Library.MOD_ID + ":companionwalk",
+                0.15F, 1.0F);
     }
 
     @Override
     public int getSizeInventory()
     {
-        return inventory.length;
+        int slots = inventory.length;
+        if (addons != null)
+        {
+            for (AddonBase addon : addons)
+            {
+                slots += addon.getSizeInventory();
+            }
+        }
+        return slots;
     }
 
     @Override
     public ItemStack getStackInSlot(int i)
     {
+        if (i > slotInventory.length && addons != null)
+        {
+            for (AddonBase addon : addons)
+            {
+                if (i < addon.getSizeInventory())
+                    return addon.getStackInSlot(i);
+                i -= addon.getSizeInventory();
+            }
+        }
         return inventory[i];
     }
 
@@ -439,15 +312,30 @@ public class EntityCompanion extends EntityTameable implements IInventory
             setInventorySlotContents(i, null);
         }
         return itemStack;
+
     }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack)
     {
-        inventory[i] = itemStack;
-        if (itemStack != null && itemStack.stackSize > getInventoryStackLimit())
+        if (i > slotInventory.length && addons != null)
         {
-            itemStack.stackSize = getInventoryStackLimit();
+            for (AddonBase addon : addons)
+            {
+                if (i < addon.getSizeInventory())
+                {
+                    addon.setInventorySlotContents(i, itemStack);
+                }
+                i -= addon.getSizeInventory();
+            }
+        } else
+        {
+            inventory[i] = itemStack;
+            if (itemStack != null
+                    && itemStack.stackSize > getInventoryStackLimit())
+            {
+                itemStack.stackSize = getInventoryStackLimit();
+            }
         }
     }
 

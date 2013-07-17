@@ -48,59 +48,28 @@ public abstract class ContainerPhantom extends Container
             {
                 if (stackHeld != null && slot.isItemValid(stackHeld))
                 {
-                    fillPhantomSlot(slot, stackHeld, mouseButton, modifier);
+                    fillPhantomSlot(slot, stackHeld);
                 }
             } else if (stackHeld == null)
             {
-                adjustPhantomSlot(slot, mouseButton, modifier);
-                slot.onPickupFromSlot(player, playerInv.getItemStack());
+                emptyPhantomSlot(slot);
             } else if (slot.isItemValid(stackHeld))
             {
                 if (stackSlot.itemID == stackHeld.itemID
                         && stackSlot.getItemDamage() == stackHeld
                                 .getItemDamage())
                 {
-                    adjustPhantomSlot(slot, mouseButton, modifier);
+                    emptyPhantomSlot(slot);
                 } else
                 {
-                    fillPhantomSlot(slot, stackHeld, mouseButton, modifier);
+                    fillPhantomSlot(slot, stackHeld);
                 }
             }
         }
         return stack;
     }
 
-    protected void adjustPhantomSlot(Slot slot, int mouseButton, int modifier)
-    {
-        if (!((IPhantomSlot) slot).canAdjust())
-            return;
-        ItemStack stackSlot = slot.getStack();
-        int stackSize;
-        if (modifier == 1)
-        {
-            stackSize = mouseButton == 0 ? (stackSlot.stackSize + 1) / 2
-                    : stackSlot.stackSize * 2;
-        } else
-        {
-            stackSize = mouseButton == 0 ? stackSlot.stackSize - 1
-                    : stackSlot.stackSize + 1;
-        }
-
-        if (stackSize > slot.getSlotStackLimit())
-        {
-            stackSize = slot.getSlotStackLimit();
-        }
-
-        stackSlot.stackSize = stackSize;
-
-        if (stackSlot.stackSize <= 0)
-        {
-            slot.putStack((ItemStack) null);
-        }
-    }
-
-    protected void fillPhantomSlot(Slot slot, ItemStack stackHeld,
-            int mouseButton, int modifier)
+    protected void fillPhantomSlot(Slot slot, ItemStack stackHeld)
     {
         if (!((IPhantomSlot) slot).canAdjust())
             return;
@@ -113,5 +82,13 @@ public abstract class ContainerPhantom extends Container
         phantomStack.stackSize = stackSize;
 
         slot.putStack(phantomStack);
+    }
+
+    protected void emptyPhantomSlot(Slot slot)
+    {
+        if (!((IPhantomSlot) slot).canAdjust())
+            return;
+
+        slot.putStack(null);
     }
 }

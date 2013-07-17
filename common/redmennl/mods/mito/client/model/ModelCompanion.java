@@ -6,7 +6,7 @@ import net.minecraft.util.MathHelper;
 
 import org.lwjgl.opengl.GL11;
 
-import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanion;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

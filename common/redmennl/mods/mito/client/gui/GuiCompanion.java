@@ -6,9 +6,13 @@ import net.minecraft.entity.player.InventoryPlayer;
 
 import org.lwjgl.opengl.GL11;
 
-import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanion;
+import redmennl.mods.mito.entity.companion.addon.AddonBase;
+import redmennl.mods.mito.entity.companion.addon.button.ButtonBase;
 import redmennl.mods.mito.inventory.ContainerCompanion;
+import redmennl.mods.mito.inventory.slots.AdvancedSlot;
 import redmennl.mods.mito.lib.Resources;
+import redmennl.mods.mito.network.PacketHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class GuiCompanion extends GuiAdvancedContainer
@@ -19,16 +23,12 @@ public class GuiCompanion extends GuiAdvancedContainer
     int xStart;
     int yStart;
 
-    public String activeTab;
+    private int activeTab;
 
     public GuiButton setOwner;
-    public int tabs = 5;
-    public int slotInventoryIndex0, slotInventoryIndex1, slotInventoryIndex2,
-            slotInventoryIndex3, slotInventoryIndex4, slotInventoryIndex5,
-            slotInventoryIndex6, slotInventoryIndex7, slotInventoryIndex8;
-    public int slotCraftingIndex0, slotCraftingIndex1, slotCraftingIndex2,
-            slotCraftingIndex3, slotCraftingIndex4, slotCraftingIndex5,
-            slotCraftingIndex6, slotCraftingIndex7, slotCraftingIndex8;
+    public int tabs;
+
+    private AddonBase currentAddon;
 
     public GuiCompanion(InventoryPlayer i, EntityCompanion e,
             EntityPlayer player)
@@ -40,6 +40,14 @@ public class GuiCompanion extends GuiAdvancedContainer
         p = player;
         xStart = (width - xSize) / 2;
         yStart = (height - ySize) / 2;
+        if (e.getAddons() != null)
+        {
+            tabs = e.getAddons().size() + 1;
+        } else
+        {
+            tabs = 1;
+        }
+
     }
 
     @Override
@@ -61,33 +69,43 @@ public class GuiCompanion extends GuiAdvancedContainer
             {
                 if (x >= 0 && x <= 29)
                 {
-                    if (activeTab != "inventory")
+                    if (activeTab != 1)
                     {
                         clearContainerScreen();
                         drawInventoryScreen();
                     }
                 } else if (x >= 30 && x <= 59 && tabs >= 2)
                 {
-                    if (activeTab != "crafting")
+                    if (activeTab != 2)
                     {
                         clearContainerScreen();
-                        drawCraftingScreen();
+                        activeTab = 2;
+                        drawAddonScreen();
                     }
                 } else if (x >= 60 && x <= 89 && tabs >= 3)
                 {
-                    e.activeTab = 3;
-                    activeTab = null;
-                    clearContainerScreen();
+                    if (activeTab != 3)
+                    {
+                        clearContainerScreen();
+                        activeTab = 3;
+                        drawAddonScreen();
+                    }
                 } else if (x >= 90 && x <= 119 && tabs >= 4)
                 {
-                    e.activeTab = 4;
-                    activeTab = null;
-                    clearContainerScreen();
+                    if (activeTab != 4)
+                    {
+                        clearContainerScreen();
+                        activeTab = 4;
+                        drawAddonScreen();
+                    }
                 } else if (x >= 120 && x <= 149 && tabs >= 5)
                 {
-                    e.activeTab = 5;
-                    activeTab = null;
-                    clearContainerScreen();
+                    if (activeTab != 5)
+                    {
+                        clearContainerScreen();
+                        activeTab = 5;
+                        drawAddonScreen();
+                    }
                 }
             }
         }
@@ -98,8 +116,7 @@ public class GuiCompanion extends GuiAdvancedContainer
     @SuppressWarnings("unchecked")
     public void drawInventoryScreen()
     {
-        e.activeTab = 1;
-        activeTab = "inventory";
+        activeTab = 1;
         buttonList.add(new GuiButton(1, width / 2 - 70, height / 2 - 65, 80,
                 20, "Change model"));
         buttonList.add(setOwner = new GuiButton(2, width / 2 - 70,
@@ -115,13 +132,28 @@ public class GuiCompanion extends GuiAdvancedContainer
     }
 
     @SuppressWarnings("unchecked")
-    public void drawCraftingScreen()
+    public void drawAddonScreen()
     {
-        e.activeTab = 2;
-        activeTab = "crafting";
-        buttonList.add(new GuiButton(3, width / 2 + 40, height / 2 - 65, 40,
-                20, "Craft"));
-        addCraftingScreen();
+        currentAddon = e.getAddons().get(activeTab - 2);
+        if (currentAddon.hasButtons())
+        {
+            int i = 3;
+            for (ButtonBase button : currentAddon.getButtons())
+            {
+                buttonList.add(new GuiButton(i, width / 2 + button.xPos, height
+                        / 2 + button.yPos, button.sizeX, button.sizeY,
+                        button.text));
+                i++;
+            }
+        }
+
+        if (currentAddon.hasInventory())
+        {
+            for (AdvancedSlot slot : currentAddon.getSlots())
+            {
+                slot.setVisible();
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -136,12 +168,19 @@ public class GuiCompanion extends GuiAdvancedContainer
             e.slotInventory[i].setInvisible();
         }
 
-        for (int i = 0; i < e.slotCrafting.length; i++)
+        if (e.getAddons() != null)
         {
-            e.slotCrafting[i].setInvisible();
+            for (AddonBase addon : e.getAddons())
+            {
+                if (addon.hasInventory())
+                {
+                    for (AdvancedSlot slot : addon.getSlots())
+                    {
+                        slot.setInvisible();
+                    }
+                }
+            }
         }
-
-        e.slotCraftingResult.setInvisible();
     }
 
     public void addInventoryScreen()
@@ -150,16 +189,6 @@ public class GuiCompanion extends GuiAdvancedContainer
         {
             e.slotInventory[i].setVisible();
         }
-    }
-
-    public void addCraftingScreen()
-    {
-        for (int i = 0; i < e.slotCrafting.length; i++)
-        {
-            e.slotCrafting[i].setVisible();
-        }
-
-        e.slotCraftingResult.setVisible();
     }
 
     @Override
@@ -181,7 +210,7 @@ public class GuiCompanion extends GuiAdvancedContainer
     {
         if (guibutton.id == 0)
         {
-            e.killCompanion();
+            PacketHandler.companionKill(e);
             FMLCommonHandler.instance().showGuiScreen(null);
         }
         if (guibutton.id == 1)
@@ -201,21 +230,11 @@ public class GuiCompanion extends GuiAdvancedContainer
         }
         if (guibutton.id == 2)
         {
-            System.out.println(e.isSitting());
-            if (e.isSitting() == true)
-            {
-                System.out.println("setting false...");
-                e.setSitting(false);
-            }
-            if (e.isSitting() == false)
-            {
-                e.setSitting(true);
-            }
+            PacketHandler.companionFollow(e);
         }
-        if (guibutton.id == 3)
+        if (guibutton.id > 2)
         {
-            e.craft(e.craftResult());
-            e.onInventoryChanged();
+            currentAddon.buttonActions(guibutton.id - 2);
         }
     }
 
@@ -230,6 +249,7 @@ public class GuiCompanion extends GuiAdvancedContainer
         yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
 
+        // Unselected tabs
         this.drawTexturedModalRect(xStart, yStart, 176, 12, 39, 12);
         for (int i = 1; i < tabs; i++)
         {
@@ -238,29 +258,28 @@ public class GuiCompanion extends GuiAdvancedContainer
         this.drawTexturedModalRect(xStart + (tabs - 1) * 30, yStart, 176, 36,
                 39, 12);
 
-        if (e.activeTab == 1)
+        // Selected tab
+        if (activeTab == 1)
         {
             this.drawTexturedModalRect(xStart, yStart, 176, 0, 39, 12);
-        } else if (e.activeTab == tabs)
+        } else if (activeTab == tabs)
         {
             this.drawTexturedModalRect(xStart + (tabs - 1) * 30, yStart, 176,
                     24, 39, 12);
         } else
         {
-            this.drawTexturedModalRect(xStart + (e.activeTab - 1) * 30, yStart,
+            this.drawTexturedModalRect(xStart + (activeTab - 1) * 30, yStart,
                     176, 24, 39, 12);
         }
-        if (activeTab == "inventory")
+
+        // Tab contents
+        if (activeTab == 1)
         {
             this.drawTexturedModalRect(xStart + 115, yStart + 24, 176, 48, 54,
                     54);
-        } else if (activeTab == "crafting")
+        } else
         {
-            this.drawTexturedModalRect(xStart + 7, yStart + 24, 176, 48, 54, 54);
-            this.drawTexturedModalRect(xStart + 93, yStart + 38, 176, 102, 26,
-                    26);
-            this.drawTexturedModalRect(xStart + 67, yStart + 43, 202, 102, 24,
-                    15);
+            currentAddon.drawBackground(this, xStart, yStart);
         }
     }
 }

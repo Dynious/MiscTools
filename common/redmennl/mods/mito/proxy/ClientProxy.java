@@ -10,7 +10,7 @@ import redmennl.mods.mito.client.renderer.item.ItemRendererCompanion;
 import redmennl.mods.mito.client.renderer.item.ItemRendererLetter;
 import redmennl.mods.mito.client.renderer.item.ItemRendererPortableHouse;
 import redmennl.mods.mito.client.renderer.living.RendererEntityCompanion;
-import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.helper.ResourceLister;
 import redmennl.mods.mito.lib.BlockIds;
 import redmennl.mods.mito.lib.ItemIds;
@@ -77,13 +77,17 @@ public class ClientProxy extends CommonProxy
     {
         try
         {
-            String[] modelFolderContents = ResourceLister.getResourceListing(this.getClass(), Resources.MODEL_LOCATION.substring(1));
-            for (String folderContent: modelFolderContents)
+            String[] modelFolderContents = ResourceLister.getResourceListing(
+                    this.getClass(), Resources.MODEL_LOCATION.substring(1));
+            for (String folderContent : modelFolderContents)
             {
                 if (folderContent.endsWith(".obj"))
                 {
-                    folderContent = folderContent.substring(0, folderContent.indexOf("."));
-                    if (this.getClass().getResource(Resources.MODEL_LOCATION + folderContent + ".properties") != null)
+                    folderContent = folderContent.substring(0,
+                            folderContent.indexOf("."));
+                    if (this.getClass().getResource(
+                            Resources.MODEL_LOCATION + folderContent
+                                    + ".properties") != null)
                     {
                         Resources.modelNames.add(folderContent);
                     }
@@ -98,40 +102,24 @@ public class ClientProxy extends CommonProxy
         {
             System.out.println(Resources.modelNames.get(i));
         }
-        
-        
+
         /*
-        File dir = new File(this.getClass()
-                .getResource(Resources.MODEL_LOCATION).getFile()
-                .replace("%20", " "));
-        //System.out.println(dir);
-        File[] list = dir.listFiles(new FileFilter()
-        {
-            @Override
-            public boolean accept(File file)
-            {
-                return file.isFile() && file.getName().endsWith(".obj");
-            }
-        });
-
-        if (list.length == 0)
-            return;
-
-        for (File file : list)
-        {
-            String m = file.toString().substring(
-                    file.toString().lastIndexOf("\\") + 1,
-                    file.toString().indexOf("."));
-            if (this.getClass().getResource(
-                    Resources.MODEL_LOCATION + m + ".properties") != null)
-            {
-                Resources.modelNames.add(m);
-            }
-        }
-        for (int i = 0; i < Resources.modelNames.size(); i++)
-        {
-            System.out.println(Resources.modelNames.get(i));
-        }
-        */
+         * File dir = new File(this.getClass()
+         * .getResource(Resources.MODEL_LOCATION).getFile() .replace("%20",
+         * " ")); //System.out.println(dir); File[] list = dir.listFiles(new
+         * FileFilter() {
+         * 
+         * @Override public boolean accept(File file) { return file.isFile() &&
+         * file.getName().endsWith(".obj"); } });
+         * 
+         * if (list.length == 0) return;
+         * 
+         * for (File file : list) { String m = file.toString().substring(
+         * file.toString().lastIndexOf("\\") + 1, file.toString().indexOf("."));
+         * if (this.getClass().getResource( Resources.MODEL_LOCATION + m +
+         * ".properties") != null) { Resources.modelNames.add(m); } } for (int i
+         * = 0; i < Resources.modelNames.size(); i++) {
+         * System.out.println(Resources.modelNames.get(i)); }
+         */
     }
 }

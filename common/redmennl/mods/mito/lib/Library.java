@@ -54,7 +54,7 @@ public class Library
             "companionhurt1.ogg", "companionhurt2.ogg", "companionhurt3.ogg",
             "companionhurt4.ogg", "companionhurt5.ogg", "companionhurt6.ogg",
             "companionsay1.ogg", "companionsay2.ogg", "companionsay3.ogg",
-            "companionsay4.ogg", "companionsay5.ogg", "companionseath.ogg",
+            "companionsay4.ogg", "companionsay5.ogg", "companiondeath.ogg",
             "companionwalk.ogg" };
 
     public static final String SOUND_LETTERCONSTRUCTOR = SOUND_PREFIX

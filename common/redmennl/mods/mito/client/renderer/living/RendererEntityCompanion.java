@@ -6,7 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import redmennl.mods.mito.client.model.ModelCompanion;
-import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.lib.Resources;
 
 public class RendererEntityCompanion extends RenderLiving

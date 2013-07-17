@@ -42,6 +42,7 @@ public class ItemRegistery
                 .setUnlocalizedName("OminersDiamondHelmet");
         companion = new ItemCompanion(ItemIds.COMPANION);
 
+        LanguageRegistry.addName(helmetTorch, "Helmet Torch");
         LanguageRegistry.addName(minersIronHelmet, "Iron Miners Helmet");
         LanguageRegistry.addName(minersGoldHelmet, "Gold Miners Helmet");
         LanguageRegistry.addName(minersDiamondHelmet, "Diamond Miners Helmet");

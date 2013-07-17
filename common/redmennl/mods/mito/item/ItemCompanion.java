@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.lib.Library;
 import redmennl.mods.mito.lib.Resources;
 

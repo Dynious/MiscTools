@@ -3,7 +3,7 @@ package redmennl.mods.mito.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.inventory.ContainerCompanionInventory;
 
 public class GuiCompanionInventory extends GuiContainer

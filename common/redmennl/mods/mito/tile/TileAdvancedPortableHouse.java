@@ -2,7 +2,6 @@ package redmennl.mods.mito.tile;
 
 import java.util.Random;
 
-import redmennl.mods.mito.lib.Library;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -10,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import redmennl.mods.mito.lib.Library;
 
 public class TileAdvancedPortableHouse extends TilePortableHouse
 {

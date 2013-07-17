@@ -172,11 +172,12 @@ public class ItemRendererPortableHouse implements IItemRenderer
                     // FMLClientHandler.instance().getClient().renderEngine.func_110577_a("/terrain.png");
                     if (item.getItemSpriteNumber() == 0)
                     {
-                        FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TextureMap.field_110575_b);
-                    }
-                    else
+                        FMLClientHandler.instance().getClient().renderEngine
+                                .func_110577_a(TextureMap.field_110575_b);
+                    } else
                     {
-                        FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TextureMap.field_110576_c);
+                        FMLClientHandler.instance().getClient().renderEngine
+                                .func_110577_a(TextureMap.field_110576_c);
                     }
                     float f7 = 0.25F;
                     int j = block.getRenderType();

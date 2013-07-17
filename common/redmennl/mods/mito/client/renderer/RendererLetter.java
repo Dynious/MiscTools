@@ -7,7 +7,9 @@ import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import redmennl.mods.mito.client.model.ModelLetter;
+import redmennl.mods.mito.lib.Resources;
 import redmennl.mods.mito.tile.TileLetter;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -59,8 +61,8 @@ public class RendererLetter extends TileEntitySpecialRenderer
             GL11.glScalef(0.7F, 0.70F, 2.5F);
 
             // TODO: Add texture
-            // FMLClientHandler.instance().getClient().renderEngine.bindTexture("/textures/blocks/cloth_"
-            // + tileLetter.color + ".png");
+            FMLClientHandler.instance().getClient().renderEngine
+                    .func_110577_a(Resources.MODEL_TEXTURE_LETTER);
 
             modelLetter.renderPart(tileLetter.letter);
 

@@ -4,10 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import redmennl.mods.mito.entity.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanion;
+import redmennl.mods.mito.entity.companion.addon.AddonBase;
 import redmennl.mods.mito.inventory.slots.AdvancedSlot;
-import redmennl.mods.mito.inventory.slots.PhantomSlot;
-import redmennl.mods.mito.inventory.slots.SlotUntouchable;
 
 public class ContainerCompanion extends ContainerPhantom
 {
@@ -48,21 +47,21 @@ public class ContainerCompanion extends ContainerPhantom
             }
         }
 
-        for (int inventoryRowIndex = 0; inventoryRowIndex < 3; ++inventoryRowIndex)
+        if (e.getAddons() != null)
         {
-            for (int inventoryColumnIndex = 0; inventoryColumnIndex < 3; ++inventoryColumnIndex)
+            for (AddonBase addon : e.getAddons())
             {
-                this.addSlotToContainer(e.slotCrafting[inventoryColumnIndex
-                        + inventoryRowIndex * 3] = new PhantomSlot(
-                        e.craftMatrix, inventoryColumnIndex + inventoryRowIndex
-                                * 3, 8 + inventoryColumnIndex * 18,
-                        25 + inventoryRowIndex * 18));
+                if (addon.hasInventory())
+                {
+                    for (AdvancedSlot slot : addon.getSlots())
+                    {
+                        this.addSlotToContainer(slot);
+                    }
+                }
             }
         }
-        e.slotCraftingResult = new SlotUntouchable(e.craftResult, 0, 98, 43);
-        this.addSlotToContainer(e.slotCraftingResult);
-        
-        onCraftMatrixChanged(e.craftMatrix);
+
+        // onCraftMatrixChanged(e.craftMatrix);
     }
 
     @Override
