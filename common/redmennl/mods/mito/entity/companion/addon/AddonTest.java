@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.entity.companion.addon.button.ButtonBase;
+import redmennl.mods.mito.network.PacketHandler;
 
 public class AddonTest extends AddonBase
 {
 
-    public AddonTest(EntityCompanion e, int addonId)
+    public AddonTest(EntityCompanion e)
     {
-        super(e, addonId);
+        super(e);
         initButtons();
     }
 
@@ -35,7 +36,16 @@ public class AddonTest extends AddonBase
     private void initButtons()
     {
         buttons = new ArrayList<ButtonBase>();
-        buttons.add(new ButtonBase(0, -80, 80, 80, "TEST ME!"));
+        buttons.add(new ButtonBase(0, -80, 80, 20, "Toggle woodcutting"));
+    }
+
+    @Override
+    public void buttonActions(int buttonid)
+    {
+        if (buttonid == 0 + buttonActionOffset)
+        {
+            PacketHandler.companionCutWood(getCompanion());
+        }
     }
 
     @Override

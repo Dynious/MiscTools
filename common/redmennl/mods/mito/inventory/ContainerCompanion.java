@@ -83,7 +83,7 @@ public class ContainerCompanion extends ContainerPhantom
     {
 
         ItemStack newItemStack = null;
-        int size = e.getSizeInventory();
+        // int size = e.getSizeInventory();
         Slot slot = (Slot) inventorySlots.get(slotIndex);
 
         if (slot != null && slot.getHasStack())
@@ -91,7 +91,7 @@ public class ContainerCompanion extends ContainerPhantom
             ItemStack itemStack = slot.getStack();
             newItemStack = itemStack.copy();
 
-            if (slotIndex < size)
+            if (slotIndex < 36)
             {
                 if (!this.mergeItemStack(itemStack, 36,
                         36 + e.slotInventory.length, false))

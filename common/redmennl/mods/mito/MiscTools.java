@@ -3,6 +3,7 @@ package redmennl.mods.mito;
 import net.minecraftforge.common.MinecraftForge;
 import redmennl.mods.mito.block.BlockRegistery;
 import redmennl.mods.mito.config.ConfigurationHandler;
+import redmennl.mods.mito.entity.companion.CompanionGlobalVariables;
 import redmennl.mods.mito.event.LightEmitterEvent;
 import redmennl.mods.mito.item.ItemRegistery;
 import redmennl.mods.mito.lib.Library;
@@ -13,6 +14,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -53,6 +55,12 @@ public class MiscTools
         proxy.findModels();
 
         MinecraftForge.EVENT_BUS.register(new LightEmitterEvent());
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event)
+    {
+        CompanionGlobalVariables.initBlocks();
     }
 
 }

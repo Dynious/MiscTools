@@ -13,16 +13,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class AddonBase
 {
     private EntityCompanion companion;
-    private int addonId;
+    private int guiLocation;
+    protected int buttonActionOffset;
 
     protected ItemStack[] inventory;
     protected ArrayList<AdvancedSlot> slots;
     protected ArrayList<ButtonBase> buttons;
 
-    public AddonBase(EntityCompanion e, int addonId)
+    public AddonBase(EntityCompanion e)
     {
         companion = e;
-        this.addonId = addonId;
     }
 
     public EntityCompanion getCompanion()
@@ -30,14 +30,19 @@ public abstract class AddonBase
         return companion;
     }
 
-    public int getAddonId()
-    {
-        return addonId;
-    }
-
     public boolean hasGui()
     {
         return false;
+    }
+
+    public int getGuiLocation()
+    {
+        return guiLocation;
+    }
+
+    public void setGuiLocation(int location)
+    {
+        guiLocation = location;
     }
 
     @SideOnly(Side.CLIENT)
@@ -54,6 +59,16 @@ public abstract class AddonBase
     public void buttonActions(int buttonid)
     {
 
+    }
+
+    public int getButtonActionOffset()
+    {
+        return buttonActionOffset;
+    }
+
+    public void setButtonActionOffset(int offset)
+    {
+        buttonActionOffset = offset;
     }
 
     public ArrayList<ButtonBase> getButtons()
@@ -73,6 +88,10 @@ public abstract class AddonBase
         return inventory.length;
     }
 
+    public void onInventoryChanged()
+    {
+    }
+
     public ItemStack getStackInSlot(int i)
     {
         return inventory[i];
@@ -80,10 +99,14 @@ public abstract class AddonBase
 
     public void setInventorySlotContents(int i, ItemStack itemStack)
     {
-        inventory[i] = itemStack;
-        if (itemStack != null && itemStack.stackSize > getInventoryStackLimit())
+        if (hasInventory())
         {
-            itemStack.stackSize = getInventoryStackLimit();
+            inventory[i] = itemStack;
+            if (itemStack != null
+                    && itemStack.stackSize > getInventoryStackLimit())
+            {
+                itemStack.stackSize = getInventoryStackLimit();
+            }
         }
     }
 

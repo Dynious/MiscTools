@@ -26,10 +26,11 @@ public class AddonCrafting extends AddonBase
 
     public PhantomSlot slotCrafting[] = new PhantomSlot[9];
     public SlotUntouchable slotCraftingResult;
+    public boolean autoCraft = true;
 
-    public AddonCrafting(EntityCompanion e, int addonId)
+    public AddonCrafting(EntityCompanion e)
     {
-        super(e, addonId);
+        super(e);
         inventory = new ItemStack[10];
         initSlots();
         initButtons();
@@ -81,6 +82,18 @@ public class AddonCrafting extends AddonBase
     }
 
     @Override
+    public void onInventoryChanged()
+    {
+        if (autoCraft)
+        {
+            while (canCraft(craftResult()))
+            {
+                craft(craftResult());
+            }
+        }
+    }
+
+    @Override
     public boolean hasButtons()
     {
         return true;
@@ -89,7 +102,7 @@ public class AddonCrafting extends AddonBase
     @Override
     public void buttonActions(int buttonid)
     {
-        if (buttonid == 0)
+        if (buttonid == 0 + buttonActionOffset)
         {
             PacketHandler.companionCraft(getCompanion());
         }

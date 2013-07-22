@@ -76,7 +76,7 @@ public class ItemCompanion extends ItemMito
             }
 
             Entity entity = spawnCompanion(par3World, par4 + 0.5D, par5 + d0,
-                    par6 + 0.5D);
+                    par6 + 0.5D, par2EntityPlayer);
 
             if (entity != null)
             {
@@ -98,7 +98,7 @@ public class ItemCompanion extends ItemMito
     }
 
     public Entity spawnCompanion(World par0World, double par2, double par4,
-            double par6)
+            double par6, EntityPlayer par2EntityPlayer)
     {
         Entity entity = new EntityCompanion(par0World);
 

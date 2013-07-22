@@ -1,5 +1,7 @@
 package redmennl.mods.mito.client.gui;
 
+import java.util.ArrayList;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -28,8 +30,6 @@ public class GuiCompanion extends GuiAdvancedContainer
     public GuiButton setOwner;
     public int tabs;
 
-    private AddonBase currentAddon;
-
     public GuiCompanion(InventoryPlayer i, EntityCompanion e,
             EntityPlayer player)
     {
@@ -47,13 +47,94 @@ public class GuiCompanion extends GuiAdvancedContainer
         {
             tabs = 1;
         }
+        getAddonTab();
+    }
 
+    public void getAddonTab()
+    {
+        int tab = 2;
+        int halfTabSpace = 0;
+        int quarterTabSpace = 0;
+        for (AddonBase addon : e.getAddons())
+        {
+            if (addon.hasGui())
+            {
+                if (addon.guiSize() == 1)
+                {
+                    addon.setGuiLocation(tab);
+                    addon.setButtonActionOffset(0);
+                    tab++;
+                }
+                if (addon.guiSize() == 2)
+                {
+                    if (halfTabSpace != 0)
+                    {
+                        addon.setGuiLocation(halfTabSpace);
+                        addon.setButtonActionOffset(getOffsetAtTab(halfTabSpace));
+                        halfTabSpace = 0;
+                    } else
+                    {
+                        addon.setGuiLocation(tab);
+                        addon.setButtonActionOffset(0);
+                        halfTabSpace = tab;
+                        tab++;
+                    }
+                }
+                if (addon.guiSize() == 4)
+                {
+                    if (quarterTabSpace != 0)
+                    {
+                        addon.setGuiLocation(quarterTabSpace);
+                        addon.setButtonActionOffset(getOffsetAtTab(quarterTabSpace));
+                        quarterTabSpace = 0;
+                    } else if (halfTabSpace != 0)
+                    {
+                        addon.setGuiLocation(halfTabSpace);
+                        addon.setButtonActionOffset(getOffsetAtTab(halfTabSpace));
+                        quarterTabSpace = halfTabSpace;
+                        halfTabSpace = 0;
+                    } else
+                    {
+                        addon.setGuiLocation(tab);
+                        addon.setButtonActionOffset(0);
+                        halfTabSpace = tab;
+                        quarterTabSpace = tab;
+                        tab++;
+                    }
+                }
+            }
+        }
+    }
+
+    public ArrayList<AddonBase> getAddonsAtTab(int tab)
+    {
+        ArrayList<AddonBase> addons = new ArrayList<AddonBase>();
+        for (AddonBase addon : e.getAddons())
+        {
+            if (addon.getGuiLocation() == tab)
+            {
+                addons.add(addon);
+            }
+        }
+        return addons;
+    }
+
+    public int getOffsetAtTab(int tab)
+    {
+        int offset = 0;
+        ArrayList<AddonBase> addons = getAddonsAtTab(tab);
+        for (AddonBase addon : addons)
+        {
+            offset += addon.getButtonActionOffset() + addon.getButtons().size();
+        }
+        return offset;
     }
 
     @Override
     public void initGui()
     {
         clearContainerScreen();
+        activeTab = 1;
         drawInventoryScreen();
         super.initGui();
     }
@@ -72,6 +153,7 @@ public class GuiCompanion extends GuiAdvancedContainer
                     if (activeTab != 1)
                     {
                         clearContainerScreen();
+                        activeTab = 1;
                         drawInventoryScreen();
                     }
                 } else if (x >= 30 && x <= 59 && tabs >= 2)
@@ -116,15 +198,14 @@ public class GuiCompanion extends GuiAdvancedContainer
     @SuppressWarnings("unchecked")
     public void drawInventoryScreen()
     {
-        activeTab = 1;
         buttonList.add(new GuiButton(1, width / 2 - 70, height / 2 - 65, 80,
                 20, "Change model"));
         buttonList.add(setOwner = new GuiButton(2, width / 2 - 70,
                 height / 2 - 40, 80, 20, "Follow"));
-        if (e.isSitting() == true)
+        if (e.getStandCloseToPlayer() == true)
         {
             setOwner.displayString = "Follow";
-        } else if (e.isSitting() == false)
+        } else
         {
             setOwner.displayString = "Stop following";
         }
@@ -134,24 +215,27 @@ public class GuiCompanion extends GuiAdvancedContainer
     @SuppressWarnings("unchecked")
     public void drawAddonScreen()
     {
-        currentAddon = e.getAddons().get(activeTab - 2);
-        if (currentAddon.hasButtons())
+        ArrayList<AddonBase> addons = getAddonsAtTab(activeTab);
+        int buttonId = 3;
+        for (AddonBase addon : addons)
         {
-            int i = 3;
-            for (ButtonBase button : currentAddon.getButtons())
+            if (addon.hasButtons())
             {
-                buttonList.add(new GuiButton(i, width / 2 + button.xPos, height
-                        / 2 + button.yPos, button.sizeX, button.sizeY,
-                        button.text));
-                i++;
+                for (ButtonBase button : addon.getButtons())
+                {
+                    buttonList.add(new GuiButton(buttonId, width / 2
+                            + button.xPos, height / 2 + button.yPos,
+                            button.sizeX, button.sizeY, button.text));
+                    buttonId++;
+                }
             }
-        }
 
-        if (currentAddon.hasInventory())
-        {
-            for (AdvancedSlot slot : currentAddon.getSlots())
+            if (addon.hasInventory())
             {
-                slot.setVisible();
+                for (AdvancedSlot slot : addon.getSlots())
+                {
+                    slot.setVisible();
+                }
             }
         }
     }
@@ -234,7 +318,13 @@ public class GuiCompanion extends GuiAdvancedContainer
         }
         if (guibutton.id > 2)
         {
-            currentAddon.buttonActions(guibutton.id - 2);
+            ArrayList<AddonBase> addons = getAddonsAtTab(activeTab);
+            for (AddonBase addon : addons)
+            {
+                addon.buttonActions(guibutton.id - 3);
+                System.out.println("ButtonId = " + guibutton.id
+                        + " ButtonOffset = " + addon.getButtonActionOffset());
+            }
         }
     }
 
@@ -279,7 +369,11 @@ public class GuiCompanion extends GuiAdvancedContainer
                     54);
         } else
         {
-            currentAddon.drawBackground(this, xStart, yStart);
+            ArrayList<AddonBase> addons = getAddonsAtTab(activeTab);
+            for (AddonBase addon : addons)
+            {
+                addon.drawBackground(this, xStart, yStart);
+            }
         }
     }
 }

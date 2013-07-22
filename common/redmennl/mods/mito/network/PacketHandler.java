@@ -70,11 +70,23 @@ public class PacketHandler implements IPacketHandler
 
             if (e != null && e instanceof EntityCompanion)
             {
-                ((EntityCompanion) e).setSitting(!((EntityCompanion) e)
-                        .isSitting());
+                ((EntityCompanion) e).toggleStandCloseToPlayer();
             }
             ;
             System.out.println(((EntityCompanion) e).isSitting());
+        }
+
+        // companionCutWood packet
+        if (packetId == 3)
+        {
+            int entityId = reader.readInt();
+            Entity e = ep.worldObj.getEntityByID(entityId);
+
+            if (e != null && e instanceof EntityCompanion)
+            {
+                ((EntityCompanion) e).toggleCollectLogs();
+            }
+            ;
         }
     }
 
@@ -132,6 +144,25 @@ public class PacketHandler implements IPacketHandler
         {
             System.out
                     .print("Misc Tools encountered an error sending a follow packet!");
+        }
+    }
+
+    public static void companionCutWood(EntityCompanion e)
+    {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        DataOutputStream dataStream = new DataOutputStream(byteStream);
+
+        try
+        {
+            dataStream.write(3);
+            dataStream.writeInt(e.entityId);
+
+            PacketDispatcher.sendPacketToServer(PacketDispatcher.getPacket(
+                    Library.CHANNEL_NAME, byteStream.toByteArray()));
+        } catch (IOException ex)
+        {
+            System.out
+                    .print("Misc Tools encountered an error sending a woodcutting packet!");
         }
     }
 

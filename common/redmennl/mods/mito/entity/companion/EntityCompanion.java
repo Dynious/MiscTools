@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +21,8 @@ import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.entity.companion.addon.AddonBase;
 import redmennl.mods.mito.entity.companion.addon.AddonCrafting;
 import redmennl.mods.mito.entity.companion.addon.AddonTest;
+import redmennl.mods.mito.entity.companion.ai.EntityAIBreakBlock;
+import redmennl.mods.mito.entity.companion.ai.EntityAIStandClose;
 import redmennl.mods.mito.inventory.slots.AdvancedSlot;
 import redmennl.mods.mito.item.ItemCompanion;
 import redmennl.mods.mito.item.ItemRegistery;
@@ -32,6 +34,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
 {
     private ItemStack inventory[];
     public int health = 20;
+    public EntityLivingBase owner;
 
     public String modelName = "companion";
     public IModelCustom model;
@@ -52,22 +55,46 @@ public class EntityCompanion extends EntityTameable implements IInventory
 
     private ArrayList<AddonBase> addons;
 
+    private boolean standCloseToPlayer = true;
+    private boolean collectLogs = true;
+
     public EntityCompanion(World world)
     {
         super(world);
         inventory = new ItemStack[9];
         setEntityHealth(20F);
+        // this.owner = owner;
         this.setSize(0.8F, 1.0F);
         this.getNavigator().setAvoidsWater(true);
         readModelData();
         refreshModel();
 
-        tasks.addTask(1, aiSit);
-        tasks.addTask(2, new EntityAIFollowOwner(this, getAIMoveSpeed(), 10.0F,
-                2.0F));
+        tasks.addTask(0, new EntityAIStandClose(this, 0.5D));
+        tasks.addTask(1, new EntityAIBreakBlock(this, 0.5D));
+
         addons = new ArrayList<AddonBase>();
-        addons.add(new AddonCrafting(this, addons.size()));
-        addons.add(new AddonTest(this, addons.size()));
+        addons.add(new AddonCrafting(this));
+        addons.add(new AddonTest(this));
+    }
+
+    public boolean getStandCloseToPlayer()
+    {
+        return standCloseToPlayer;
+    }
+
+    public void toggleStandCloseToPlayer()
+    {
+        standCloseToPlayer = !standCloseToPlayer;
+    }
+
+    public boolean getCollectLogs()
+    {
+        return collectLogs;
+    }
+
+    public void toggleCollectLogs()
+    {
+        collectLogs = !collectLogs;
     }
 
     public ArrayList<AddonBase> getAddons()
@@ -78,6 +105,8 @@ public class EntityCompanion extends EntityTameable implements IInventory
     @Override
     public boolean interact(EntityPlayer ep)
     {
+        owner = ep;
+
         if (!worldObj.isRemote)
         {
 
@@ -269,7 +298,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
     @Override
     public ItemStack getStackInSlot(int i)
     {
-        if (i > slotInventory.length && addons != null)
+        if (i >= slotInventory.length && addons != null)
         {
             for (AddonBase addon : addons)
             {
@@ -318,7 +347,7 @@ public class EntityCompanion extends EntityTameable implements IInventory
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack)
     {
-        if (i > slotInventory.length && addons != null)
+        if (i >= slotInventory.length && addons != null)
         {
             for (AddonBase addon : addons)
             {
@@ -360,6 +389,10 @@ public class EntityCompanion extends EntityTameable implements IInventory
     @Override
     public void onInventoryChanged()
     {
+        for (AddonBase addon : addons)
+        {
+            addon.onInventoryChanged();
+        }
     }
 
     @Override

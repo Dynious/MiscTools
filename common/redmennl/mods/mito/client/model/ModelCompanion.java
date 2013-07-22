@@ -36,8 +36,11 @@ public class ModelCompanion extends ModelBase
         FMLClientHandler.instance().getClient().renderEngine
                 .func_110577_a(e.textureBody);
 
-        e.model.renderAllExcept("rightArm", "leftArm", "wheel", "rightLeg",
-                "leftLeg");
+        /*
+         * e.model.renderAllExcept("rightArm", "leftArm", "wheel", "rightLeg",
+         * "leftLeg");
+         */
+        e.model.renderAll();
 
         if (e.hasWheel)
         {

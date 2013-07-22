@@ -3,8 +3,6 @@ package redmennl.mods.mito.proxy;
 import java.util.Iterator;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityEggInfo;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import redmennl.mods.mito.MiscTools;
@@ -30,8 +28,6 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class CommonProxy implements IGuiHandler
 {
-    static int startEntityId = 300;
-
     public void initRenderingAndTextures()
     {
 
@@ -63,7 +59,6 @@ public class CommonProxy implements IGuiHandler
                 MiscTools.instance, 80, 1, true);
         LanguageRegistry.instance().addStringLocalization(
                 "entity." + Library.MOD_ID + ".companion.name", "Companion");
-        registerEntityEgg(EntityCompanion.class, 0xffffff, 0x000000);
 
         EntityRegistry.registerModEntity(EntityPowerLaser.class, "laser", 1,
                 MiscTools.instance, 40, 1, true);
@@ -124,27 +119,5 @@ public class CommonProxy implements IGuiHandler
 
     public void findModels()
     {
-    }
-
-    public static int getUniqueEntityId()
-    {
-        do
-        {
-            startEntityId++;
-        }
-
-        while (EntityList.getStringFromID(startEntityId) != null);
-
-        return startEntityId;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static void registerEntityEgg(Class<? extends Entity> entity,
-            int primaryColor, int secondaryColor)
-    {
-        int id = getUniqueEntityId();
-        EntityList.IDtoClassMapping.put(id, entity);
-        EntityList.entityEggs.put(id, new EntityEggInfo(id, primaryColor,
-                secondaryColor));
     }
 }
