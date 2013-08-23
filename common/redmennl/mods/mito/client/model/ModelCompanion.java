@@ -6,7 +6,7 @@ import net.minecraft.util.MathHelper;
 
 import org.lwjgl.opengl.GL11;
 
-import redmennl.mods.mito.entity.companion.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanionDummy;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,10 +25,12 @@ public class ModelCompanion extends ModelBase
     public void render(Entity par1Entity, float par2, float par3, float par4,
             float par5, float par6, float par7)
     {
-        EntityCompanion e = (EntityCompanion) par1Entity;
+        EntityCompanionDummy e = (EntityCompanionDummy) par1Entity;
 
         super.render(par1Entity, par2, par3, par4, par5, par6, par7);
-
+        
+        // GL11.glDisable(GL11.GL_LIGHTING);
+        
         GL11.glScalef(0.3F, 0.3F, 0.3F);
         GL11.glTranslatef(0F, -(e.modelOffsetY * blockSizeOffset) + 4.5F, 0F);
         GL11.glRotatef(180F, 1F, 0F, 0F);
@@ -117,5 +119,7 @@ public class ModelCompanion extends ModelBase
         e.model.renderPart("rightArm");
 
         GL11.glPopMatrix();
+        
+        // GL11.glEnable(GL11.GL_LIGHTING);
     }
 }

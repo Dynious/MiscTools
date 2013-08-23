@@ -44,7 +44,7 @@ public class PacketHandler implements IPacketHandler
                     if (addon instanceof AddonCrafting)
                     {
                         ((AddonCrafting) addon).craft(((AddonCrafting) addon)
-                                .craftResult());
+                                .craftResult(reader.readByte()));
                     }
                 }
             }
@@ -72,7 +72,6 @@ public class PacketHandler implements IPacketHandler
             {
                 ((EntityCompanion) e).toggleStandCloseToPlayer();
             }
-            ;
             System.out.println(((EntityCompanion) e).isSitting());
         }
 
@@ -86,11 +85,29 @@ public class PacketHandler implements IPacketHandler
             {
                 ((EntityCompanion) e).toggleCollectLogs();
             }
-            ;
+        }
+        
+        // companionAutoCraft packet
+        if (packetId == 4)
+        {
+            int entityId = reader.readInt();
+            Entity e = ep.worldObj.getEntityByID(entityId);
+            
+            if (e != null && e instanceof EntityCompanion)
+            {
+                for (AddonBase addon : ((EntityCompanion) e).getAddons())
+                {
+                    if (addon instanceof AddonCrafting)
+                    {
+                        ((AddonCrafting) addon).autoCraft = !((AddonCrafting) addon).autoCraft;
+                    }
+                }
+                ((EntityCompanion) e).onInventoryChanged();
+            }
         }
     }
 
-    public static void companionCraft(EntityCompanion e)
+    public static void companionCraft(EntityCompanion e, int enabledTab)
     {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         DataOutputStream dataStream = new DataOutputStream(byteStream);
@@ -99,6 +116,7 @@ public class PacketHandler implements IPacketHandler
         {
             dataStream.write(0);
             dataStream.writeInt(e.entityId);
+            dataStream.write((byte)enabledTab);
 
             PacketDispatcher.sendPacketToServer(PacketDispatcher.getPacket(
                     Library.CHANNEL_NAME, byteStream.toByteArray()));
@@ -163,6 +181,25 @@ public class PacketHandler implements IPacketHandler
         {
             System.out
                     .print("Misc Tools encountered an error sending a woodcutting packet!");
+        }
+    }
+    
+    public static void companionAutoCraft(EntityCompanion e)
+    {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        DataOutputStream dataStream = new DataOutputStream(byteStream);
+
+        try
+        {
+            dataStream.write(4);
+            dataStream.writeInt(e.entityId);
+
+            PacketDispatcher.sendPacketToServer(PacketDispatcher.getPacket(
+                    Library.CHANNEL_NAME, byteStream.toByteArray()));
+        } catch (IOException ex)
+        {
+            System.out
+                    .print("Misc Tools encountered an error sending a craft packet!");
         }
     }
 

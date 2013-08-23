@@ -2,6 +2,7 @@ package redmennl.mods.mito.entity.companion.addon;
 
 import java.util.ArrayList;
 
+import net.minecraft.client.gui.GuiButtonMerchant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -21,43 +22,88 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class AddonCrafting extends AddonBase
 {
-    public InventoryCrafting craftMatrix = new LocalInventoryCrafting();
-    public IInventory craftResult = new InventoryCraftResult();
+    public ArrayList<LocalInventoryCrafting> craftMatrices = new ArrayList<LocalInventoryCrafting>();
+    public ArrayList<IInventory> craftResult = new ArrayList<IInventory>();
 
-    public PhantomSlot slotCrafting[] = new PhantomSlot[9];
-    public SlotUntouchable slotCraftingResult;
-    public boolean autoCraft = true;
+    public ArrayList<PhantomSlot[]> slotCrafting = new ArrayList<PhantomSlot[]>();
+    public ArrayList<SlotUntouchable> slotCraftingResult = new ArrayList<SlotUntouchable>();
+    public boolean autoCraft = false;
+    
+    public int enabledTab = 0;
+    public int maxTab = 0;
+    
+    public GuiButtonMerchant button1;
+    public GuiButtonMerchant button2;
 
     public AddonCrafting(EntityCompanion e)
     {
         super(e);
-        inventory = new ItemStack[10];
+        addSlots();
         initSlots();
         initButtons();
     }
 
-    private void initButtons()
+    public void initButtons()
     {
         buttons = new ArrayList<ButtonBase>();
-        buttons.add(new ButtonBase(40, -65, 40, 20, "Craft"));
+        
+        buttons.add(new ButtonBase(-40, -70, false));
+        buttons.add(new ButtonBase(40, -70, true));
+        
+        if (enabledTab == 0)
+        {
+            buttons.add(new ButtonBase(40, -65, 40, 20, "Craft"));
+            buttons.add(new ButtonBase(40, -40, 40, 20, "Auto Craft"));
+        }
+    }
+    
+    public void addSlots()
+    {
+        craftMatrices.add(new LocalInventoryCrafting(companion, 0));
+        craftResult.add(new InventoryCraftResult());
+        slotCrafting.add(new PhantomSlot[9]);
+        slotCraftingResult.add(new SlotUntouchable(craftResult.get(0), 0, 98, 43));
+        inventory = new ItemStack[10];
     }
 
     public void initSlots()
     {
         slots = new ArrayList<AdvancedSlot>();
-        for (int inventoryRowIndex = 0; inventoryRowIndex < 3; ++inventoryRowIndex)
+        for (int y = 0; y < craftMatrices.size(); y++)
         {
-            for (int inventoryColumnIndex = 0; inventoryColumnIndex < 3; ++inventoryColumnIndex)
+            for (int inventoryRowIndex = 0; inventoryRowIndex < 3; ++inventoryRowIndex)
             {
-                slots.add(slotCrafting[inventoryColumnIndex + inventoryRowIndex
-                        * 3] = new PhantomSlot(craftMatrix,
-                        inventoryColumnIndex + inventoryRowIndex * 3,
-                        8 + inventoryColumnIndex * 18,
-                        25 + inventoryRowIndex * 18));
+                for (int inventoryColumnIndex = 0; inventoryColumnIndex < 3; ++inventoryColumnIndex)
+                {
+                    slots.add(slotCrafting.get(y)[inventoryColumnIndex + inventoryRowIndex
+                            * 3] = new PhantomSlot(craftMatrices.get(y),
+                            inventoryColumnIndex + inventoryRowIndex * 3,
+                            8 + inventoryColumnIndex * 18,
+                            25 + inventoryRowIndex * 18));
+                    if (y != enabledTab)
+                    {
+                        slotCrafting.get(y)[inventoryColumnIndex + inventoryRowIndex
+                                            * 3].setInvisible();
+                    }
+                }
+            }
+        
+            slots.add(slotCraftingResult.get(y));
+            if (y != enabledTab)
+            {
+                slotCraftingResult.get(y).setInvisible();
             }
         }
-        slots.add(slotCraftingResult = new SlotUntouchable(craftResult, 0, 98,
-                43));
+    }
+    
+    @Override
+    public void setSlotsVisible()
+    {
+        for (AdvancedSlot slot : slotCrafting.get(enabledTab))
+        {
+            slot.setVisible();
+        }
+        slotCraftingResult.get(enabledTab).setVisible();
     }
 
     @Override
@@ -86,9 +132,13 @@ public class AddonCrafting extends AddonBase
     {
         if (autoCraft)
         {
-            while (canCraft(craftResult()))
+            for (int y = 0; y < craftMatrices.size(); y++)
             {
-                craft(craftResult());
+                ItemStack[] result;
+                while (canCraft((result = craftResult(y))))
+                {
+                    craft(result);
+                }
             }
         }
     }
@@ -104,7 +154,50 @@ public class AddonCrafting extends AddonBase
     {
         if (buttonid == 0 + buttonActionOffset)
         {
-            PacketHandler.companionCraft(getCompanion());
+            if (enabledTab != 0)
+            {
+                for (PhantomSlot slot : slotCrafting.get(enabledTab))
+                {
+                    slot.setInvisible();
+                }
+                slotCraftingResult.get(enabledTab).setInvisible();
+                
+                enabledTab--;
+                
+                for (PhantomSlot slot : slotCrafting.get(enabledTab))
+                {
+                    slot.setVisible();
+                }
+                slotCraftingResult.get(enabledTab).setVisible();
+            }
+        }
+        if (buttonid == 1 + buttonActionOffset)
+        {
+            if (enabledTab != maxTab)
+            {
+                for (PhantomSlot slot : slotCrafting.get(enabledTab))
+                {
+                    slot.setInvisible();
+                }
+                slotCraftingResult.get(enabledTab).setInvisible();
+                
+                enabledTab++;
+                
+                for (PhantomSlot slot : slotCrafting.get(enabledTab))
+                {
+                    slot.setVisible();
+                }
+                slotCraftingResult.get(enabledTab).setVisible();
+            }
+        }
+        
+        if (buttonid == 2 + buttonActionOffset)
+        {
+            PacketHandler.companionCraft(getCompanion(), enabledTab);
+        }
+        if (buttonid == 3 + buttonActionOffset)
+        {
+            PacketHandler.companionAutoCraft(getCompanion());
         }
     }
 
@@ -114,25 +207,33 @@ public class AddonCrafting extends AddonBase
         return 1;
     }
 
-    public ItemStack[] craftResult()
+    public ItemStack[] craftResult(int tab)
     {
-        if (craftResult.getStackInSlot(0) != null)
+        if (craftResult.get(tab).getStackInSlot(0) != null)
         {
             ItemStack craftedItems = CraftingManager.getInstance()
-                    .findMatchingRecipe(craftMatrix, getCompanion().worldObj);
+                    .findMatchingRecipe(craftMatrices.get(tab), getCompanion().worldObj);
             ItemStack[] finishedInventory = new ItemStack[9];
             for (int y = 0; y < getCompanion().slotInventory.length; ++y)
             {
-                finishedInventory[y] = getCompanion().slotInventory[y]
-                        .getStack();
+                if (getCompanion().slotInventory[y].getStack() != null)
+                {
+                    finishedInventory[y] = getCompanion().slotInventory[y]
+                            .getStack().copy();
+                }
             }
-            for (int i = 0; i < craftMatrix.getSizeInventory(); ++i)
+            for (int i = 0; i < craftMatrices.get(tab).getSizeInventory(); ++i)
             {
                 // System.out.println(i);
-                ItemStack neededItemStack = craftMatrix.getStackInSlot(i);
+                ItemStack neededItemStack = null;
+                
+                if (craftMatrices.get(tab).getStackInSlot(i) != null)
+                {
+                    neededItemStack = craftMatrices.get(tab).getStackInSlot(i).copy();
+                }
                 if (neededItemStack != null)
                 {
-                    for (int y = 0; y < getCompanion().slotInventory.length; ++y)
+                    for (int y = 0; y < finishedInventory.length; ++y)
                     {
                         if (finishedInventory[y] != null
                                 && neededItemStack.getItem() == finishedInventory[y]
@@ -158,7 +259,10 @@ public class AddonCrafting extends AddonBase
                     }
                 }
                 if (neededItemStack != null)
+                {
+                    System.out.println("craft failed");
                     return null;
+                }
             }
             for (int y = 0; y < finishedInventory.length; ++y)
             {
@@ -174,14 +278,14 @@ public class AddonCrafting extends AddonBase
                     {
                         System.out.println("Fits!");
                         finishedInventory[y].stackSize += craftedItems.stackSize;
-                        finishedInventory[y] = finishedInventory[y];
                         return finishedInventory;
-                    } else if (finishedInventory[y].stackSize != finishedInventory[y]
+                    }
+                    
+                    else if (finishedInventory[y].stackSize != finishedInventory[y]
                             .getMaxStackSize())
                     {
                         finishedInventory[y].stackSize = finishedInventory[y]
                                 .getMaxStackSize();
-                        finishedInventory[y] = finishedInventory[y];
                         craftedItems.stackSize -= finishedInventory[y]
                                 .getMaxStackSize()
                                 - finishedInventory[y].stackSize;
@@ -226,10 +330,12 @@ public class AddonCrafting extends AddonBase
         }
     }
 
-    private class LocalInventoryCrafting extends InventoryCrafting
+    class LocalInventoryCrafting extends InventoryCrafting
     {
-
-        public LocalInventoryCrafting()
+        
+        EntityCompanion companion;
+        
+        public LocalInventoryCrafting(EntityCompanion e, final int tab)
         {
             super(new Container()
             {
@@ -242,12 +348,19 @@ public class AddonCrafting extends AddonBase
                 @Override
                 public void onCraftMatrixChanged(IInventory par1IInventory)
                 {
-                    craftResult.setInventorySlotContents(
+                    craftResult.get(tab).setInventorySlotContents(
                             0,
                             CraftingManager.getInstance().findMatchingRecipe(
-                                    craftMatrix, getCompanion().worldObj));
+                                    craftMatrices.get(tab), getCompanion().worldObj));
                 }
             }, 3, 3);
+            this.companion = e;
+        }
+        
+        @Override
+        public void onInventoryChanged()
+        {
+            companion.onInventoryChanged();
         }
     }
 }

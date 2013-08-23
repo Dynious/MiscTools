@@ -35,8 +35,8 @@ public class ModelItemCompanion
 
         FMLClientHandler.instance().getClient().renderEngine
                 .func_110577_a(i.textureBody);
-        model.renderAllExcept("rightArm", "leftArm", "wheel", "rightLeg",
-                "leftLeg");
+        //model.renderAllExcept("rightArm", "leftArm", "wheel", "rightLeg", "leftLeg");
+        model.renderAll();
 
         if (hasWheel)
         {

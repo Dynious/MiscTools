@@ -12,6 +12,8 @@ public class Resources
     public static final String MODEL_LOCATION = "/assets/mito/models/";
 
     public static final String MODEL_LETTERS = MODEL_LOCATION + "letters.obj";
+    public static final String MODEL_COMAPNIONCREATOR1 = MODEL_LOCATION + "companionCreatorFrame1.obj";
+    public static final String MODEL_COMAPNIONCREATOR2 = MODEL_LOCATION + "companionCreatorFrame2.obj";
 
     public static final String GUI_SHEET_LOCATION = "/textures/gui/";
     public static final String ENTITY_SHEET_LOCATION = "/textures/entities/";
@@ -38,5 +40,9 @@ public class Resources
             Library.MOD_ID, GUI_SHEET_LOCATION + "letterConstructor.png");
     public static final ResourceLocation GUI_COMPANION = new ResourceLocation(
             Library.MOD_ID, GUI_SHEET_LOCATION + "companion.png");
+    public static final ResourceLocation GUI_COMPANION_CREATOR = new ResourceLocation(
+            Library.MOD_ID, GUI_SHEET_LOCATION + "companionCreator.png");
+    public static final ResourceLocation GUI_COMPANION_HUD = new ResourceLocation(
+            Library.MOD_ID, GUI_SHEET_LOCATION + "companionHUD.png");
 
 }

@@ -100,17 +100,17 @@ public class ItemCompanion extends ItemMito
     public Entity spawnCompanion(World par0World, double par2, double par4,
             double par6, EntityPlayer par2EntityPlayer)
     {
-        Entity entity = new EntityCompanion(par0World);
+        EntityCompanion entity = new EntityCompanion(par0World);
+        entity.setOwner(par2EntityPlayer);
 
         if (entity != null && entity instanceof EntityLivingBase)
         {
-            EntityLiving entityliving = (EntityLiving) entity;
             entity.setLocationAndAngles(par2, par4, par6, MathHelper
                     .wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F),
                     0.0F);
-            entityliving.rotationYawHead = entityliving.rotationYaw;
-            entityliving.renderYawOffset = entityliving.rotationYaw;
-            entityliving.func_110161_a((EntityLivingData) null);
+            entity.rotationYawHead = entity.rotationYaw;
+            entity.renderYawOffset = entity.rotationYaw;
+            entity.func_110161_a((EntityLivingData) null);
             par0World.spawnEntityInWorld(entity);
         }
         return entity;

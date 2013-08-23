@@ -25,10 +25,10 @@ public class EntityAIStandClose extends EntityAIBase
     public boolean shouldExecute()
     {
 
-        if (companion.getStandCloseToPlayer() && companion.owner != null
-                && companion.owner.getDistanceSqToEntity(companion) > 5F * 5F)
+        if (companion.getStandCloseToPlayer() && companion.getOwner() != null
+                && companion.getOwner().getDistanceSqToEntity(companion) > 5F * 5F)
         {
-            target = companion.owner;
+            target = companion.getOwner();
             return true;
         }
         return false;

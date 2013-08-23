@@ -3,6 +3,7 @@ package redmennl.mods.mito.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import redmennl.mods.mito.block.item.ItemCompanionCreator;
 import redmennl.mods.mito.block.item.ItemLetter;
 import redmennl.mods.mito.block.item.ItemLetter2;
 import redmennl.mods.mito.block.item.ItemPortableHouse;
@@ -41,7 +42,7 @@ public class BlockRegistery
                 + letter2.getUnlocalizedName().substring(5));
         GameRegistry.registerBlock(letterConstructor, Library.MOD_ID
                 + letterConstructor.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(companionCreator, Library.MOD_ID
+        GameRegistry.registerBlock(companionCreator, ItemCompanionCreator.class, Library.MOD_ID
                 + companionCreator.getUnlocalizedName().substring(5));
 
         LanguageRegistry.addName(new ItemStack(portableHouse, 1, 0),
@@ -82,7 +83,9 @@ public class BlockRegistery
         LanguageRegistry.addName(new ItemStack(letter2, 1, 9), "Letter Z");
 
         LanguageRegistry.addName(letterConstructor, "Letter Constructor");
-        LanguageRegistry.addName(companionCreator, "Companion Creator");
+        LanguageRegistry.addName(new ItemStack(companionCreator, 1, 0), "Companion Creator Base");
+        LanguageRegistry.addName(new ItemStack(companionCreator, 1, 1), "Companion Creator");
+        LanguageRegistry.addName(new ItemStack(companionCreator, 1, 2), "Companion Creator");
 
         registerBlockRecipes();
     }

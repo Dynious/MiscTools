@@ -2,8 +2,11 @@ package redmennl.mods.mito.proxy;
 
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import redmennl.mods.mito.client.KeybindingHandler;
 import redmennl.mods.mito.client.audio.SoundHandler;
 import redmennl.mods.mito.client.model.ModelCompanion;
+import redmennl.mods.mito.client.renderer.RendererCompanionCreator;
+import redmennl.mods.mito.client.renderer.RendererCompanionCreatorBase;
 import redmennl.mods.mito.client.renderer.RendererLetter;
 import redmennl.mods.mito.client.renderer.RendererPortableHouse;
 import redmennl.mods.mito.client.renderer.item.ItemRendererCompanion;
@@ -11,20 +14,30 @@ import redmennl.mods.mito.client.renderer.item.ItemRendererLetter;
 import redmennl.mods.mito.client.renderer.item.ItemRendererPortableHouse;
 import redmennl.mods.mito.client.renderer.living.RendererEntityCompanion;
 import redmennl.mods.mito.entity.companion.EntityCompanion;
+import redmennl.mods.mito.entity.companion.EntityCompanionDummy;
 import redmennl.mods.mito.helper.ResourceLister;
 import redmennl.mods.mito.lib.BlockIds;
 import redmennl.mods.mito.lib.ItemIds;
 import redmennl.mods.mito.lib.Resources;
 import redmennl.mods.mito.tile.TileAdvancedPortableHouse;
 import redmennl.mods.mito.tile.TileAdvancedPortableHouseDeployer;
+import redmennl.mods.mito.tile.TileCompanionCreator;
+import redmennl.mods.mito.tile.TileCompanionCreatorBase;
 import redmennl.mods.mito.tile.TileLetter;
 import redmennl.mods.mito.tile.TilePortableHouse;
 import redmennl.mods.mito.tile.TilePortableHouseDeployer;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
+    @Override
+    public void registerKeyBindingHandler() {
+
+        KeyBindingRegistry.registerKeyBinding(new KeybindingHandler());
+    }
+    
     @Override
     public void initRenderingAndTextures()
     {
@@ -54,6 +67,10 @@ public class ClientProxy extends CommonProxy
                 new RendererPortableHouse());
         ClientRegistry.bindTileEntitySpecialRenderer(TileLetter.class,
                 new RendererLetter());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCompanionCreatorBase.class,
+                new RendererCompanionCreatorBase());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCompanionCreator.class,
+                new RendererCompanionCreator());
     }
 
     @Override
@@ -62,6 +79,8 @@ public class ClientProxy extends CommonProxy
         super.initEntities();
 
         RenderingRegistry.registerEntityRenderingHandler(EntityCompanion.class,
+                new RendererEntityCompanion(new ModelCompanion()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCompanionDummy.class,
                 new RendererEntityCompanion(new ModelCompanion()));
     }
 
@@ -102,24 +121,5 @@ public class ClientProxy extends CommonProxy
         {
             System.out.println(Resources.modelNames.get(i));
         }
-
-        /*
-         * File dir = new File(this.getClass()
-         * .getResource(Resources.MODEL_LOCATION).getFile() .replace("%20",
-         * " ")); //System.out.println(dir); File[] list = dir.listFiles(new
-         * FileFilter() {
-         * 
-         * @Override public boolean accept(File file) { return file.isFile() &&
-         * file.getName().endsWith(".obj"); } });
-         * 
-         * if (list.length == 0) return;
-         * 
-         * for (File file : list) { String m = file.toString().substring(
-         * file.toString().lastIndexOf("\\") + 1, file.toString().indexOf("."));
-         * if (this.getClass().getResource( Resources.MODEL_LOCATION + m +
-         * ".properties") != null) { Resources.modelNames.add(m); } } for (int i
-         * = 0; i < Resources.modelNames.size(); i++) {
-         * System.out.println(Resources.modelNames.get(i)); }
-         */
     }
 }

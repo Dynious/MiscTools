@@ -4,9 +4,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import redmennl.mods.mito.block.BlockRegistery;
 
-public class ItemLetter extends ItemBlock
+public class ItemCompanionCreator extends ItemBlock
 {
-    public ItemLetter(int i)
+    public ItemCompanionCreator(int i)
     {
         super(i);
         setHasSubtypes(true);
@@ -21,7 +21,7 @@ public class ItemLetter extends ItemBlock
     @Override
     public String getUnlocalizedName(ItemStack i)
     {
-        return BlockRegistery.letter.getUnlocalizedName()
+        return BlockRegistery.companionCreator.getUnlocalizedName()
                 + i.getItemDamage();
     }
 }

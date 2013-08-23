@@ -1,157 +1,70 @@
 package redmennl.mods.mito.tile;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import redmennl.mods.mito.helper.Pos3;
 
-public class TileCompanionCreator extends TileEntity implements IInventory
+public class TileCompanionCreator extends TileEntity
 {
-    private ItemStack inventory[];
-
-    public TileCompanionCreator()
+    public Pos3 tileBasePos;
+    
+    public void setTileBasePos(Pos3 pos)
     {
-        inventory = new ItemStack[4];
+        this.tileBasePos = pos;
     }
-
-    @Override
-    public int getSizeInventory()
+    
+    public Pos3 getTileBasePos()
     {
-        return inventory.length;
+        return tileBasePos;
     }
-
+    
     @Override
-    public ItemStack getStackInSlot(int i)
+    public void readFromNBT(NBTTagCompound nbtTagCompound) 
     {
-        return inventory[i];
-    }
-
-    @Override
-    public ItemStack decrStackSize(int i, int j)
-    {
-        ItemStack itemStack = getStackInSlot(i);
-        ItemStack is = getStackInSlot(0);
-        if (is != null)
-        {
-            if (is.stackSize <= j)
-            {
-                setInventorySlotContents(0, null);
-            } else
-            {
-                is = is.splitStack(j);
-                if (is.stackSize == 0)
-                {
-                    setInventorySlotContents(0, null);
-                }
-            }
-        }
-
-        return itemStack;
-    }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int i)
-    {
-        ItemStack itemStack = getStackInSlot(i);
-        if (itemStack != null)
-        {
-            setInventorySlotContents(i, null);
-        }
-        return itemStack;
-    }
-
-    @Override
-    public void setInventorySlotContents(int j, ItemStack i)
-    {
-        inventory[j] = i;
-        if (i != null && i.stackSize > getInventoryStackLimit())
-        {
-            i.stackSize = getInventoryStackLimit();
-        }
-    }
-
-    @Override
-    public String getInvName()
-    {
-        return "container.companionCreator";
-    }
-
-    @Override
-    public boolean isInvNameLocalized()
-    {
-        return false;
-    }
-
-    @Override
-    public int getInventoryStackLimit()
-    {
-        return 1;
-    }
-
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
-    {
-        return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false
-                : par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
-                        zCoord + 0.5D) <= 64.0D;
-    }
-
-    @Override
-    public void openChest()
-    {
-    }
-
-    @Override
-    public void closeChest()
-    {
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemstack)
-    {
-        return true;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound)
-    {
-
         super.readFromNBT(nbtTagCompound);
-
-        // Read in the ItemStacks in the inventory from NBT
-        NBTTagList tagList = nbtTagCompound.getTagList("Items");
-        inventory = new ItemStack[this.getSizeInventory()];
-        for (int i = 0; i < tagList.tagCount(); ++i)
-        {
-            NBTTagCompound tagCompound = (NBTTagCompound) tagList.tagAt(i);
-            byte slot = tagCompound.getByte("Slot");
-            if (slot >= 0 && slot < inventory.length)
-            {
-                inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
-            }
-        }
+        
+        if (nbtTagCompound.hasKey("baseX"))
+            tileBasePos = new Pos3(nbtTagCompound.getInteger("baseX"), nbtTagCompound.getInteger("baseY"), nbtTagCompound.getInteger("baseZ"));
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound)
+    public void writeToNBT(NBTTagCompound nbtTagCompound) 
     {
-
         super.writeToNBT(nbtTagCompound);
-
-        // Write the ItemStacks in the inventory to NBT
-        NBTTagList tagList = new NBTTagList();
-        for (int currentIndex = 0; currentIndex < inventory.length; ++currentIndex)
+        
+        if (tileBasePos != null)
         {
-            if (inventory[currentIndex] != null)
+            nbtTagCompound.setInteger("baseX", tileBasePos.x);
+            nbtTagCompound.setInteger("baseY", tileBasePos.y);
+            nbtTagCompound.setInteger("baseZ", tileBasePos.z);
+        }
+    }
+    
+    public Pos3 getFurthestBlock()
+    {
+        if (tileBasePos == null)
+            return null;
+        Pos3 pos = tileBasePos;
+        
+        TileCompanionCreatorBase base = (TileCompanionCreatorBase)worldObj.getBlockTileEntity(xCoord - getTileBasePos().x,
+                yCoord - getTileBasePos().y, zCoord - getTileBasePos().z);
+        if (base != null)
+        {
+            Pos3 pos2 = base.furthestBlock;
+            
+            if (pos.x == 0)
             {
-                NBTTagCompound tagCompound = new NBTTagCompound();
-                tagCompound.setByte("Slot", (byte) currentIndex);
-                inventory[currentIndex].writeToNBT(tagCompound);
-                tagList.appendTag(tagCompound);
+                pos.x = pos2.x;
+            }
+            if (pos.y == 0)
+            {
+                pos.y = pos2.y;
+            }
+            if (pos.z == 0)
+            {
+                pos.z = pos2.z;
             }
         }
-        nbtTagCompound.setTag("Items", tagList);
+        return pos;
     }
 }

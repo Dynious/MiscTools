@@ -7,16 +7,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.client.gui.GuiCompanion;
+import redmennl.mods.mito.client.gui.GuiCompanionCreator;
 import redmennl.mods.mito.client.gui.GuiLetterConstructor;
 import redmennl.mods.mito.entity.EntityPowerLaser;
 import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.inventory.ContainerCompanion;
+import redmennl.mods.mito.inventory.ContainerCompanionCreator;
 import redmennl.mods.mito.inventory.ContainerLetterConstructor;
 import redmennl.mods.mito.lib.GuiIds;
 import redmennl.mods.mito.lib.Library;
 import redmennl.mods.mito.tile.TileAdvancedPortableHouse;
 import redmennl.mods.mito.tile.TileAdvancedPortableHouseDeployer;
 import redmennl.mods.mito.tile.TileCompanionCreator;
+import redmennl.mods.mito.tile.TileCompanionCreatorBase;
 import redmennl.mods.mito.tile.TileLetter;
 import redmennl.mods.mito.tile.TileLetterConstructor;
 import redmennl.mods.mito.tile.TilePortableHouse;
@@ -28,10 +31,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class CommonProxy implements IGuiHandler
 {
-    public void initRenderingAndTextures()
-    {
-
-    }
+    public void initRenderingAndTextures() {}
 
     public void initTileEntities()
     {
@@ -47,20 +47,23 @@ public class CommonProxy implements IGuiHandler
         GameRegistry.registerTileEntity(TileLetter.class, "letter");
         GameRegistry.registerTileEntity(TileLetterConstructor.class,
                 "letterConstructor");
+        GameRegistry.registerTileEntity(TileCompanionCreatorBase.class,
+                "companionCreatorBase");
         GameRegistry.registerTileEntity(TileCompanionCreator.class,
                 "companionCreator");
     }
 
     public void initEntities()
     {
-        // EntityRegistry.registerGlobalEntityID(EntityCompanion.class,
-        // "companion", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityCompanion.class, "companion", 0,
                 MiscTools.instance, 80, 1, true);
         LanguageRegistry.instance().addStringLocalization(
                 "entity." + Library.MOD_ID + ".companion.name", "Companion");
+        
+        EntityRegistry.registerModEntity(EntityCompanion.class, "companionDummy", 1,
+                MiscTools.instance, 80, 1, true);
 
-        EntityRegistry.registerModEntity(EntityPowerLaser.class, "laser", 1,
+        EntityRegistry.registerModEntity(EntityPowerLaser.class, "laser", 2,
                 MiscTools.instance, 40, 1, true);
     }
 
@@ -78,6 +81,11 @@ public class CommonProxy implements IGuiHandler
             EntityCompanion e = findCompanion(x, world);
             if (e != null)
                 return new ContainerCompanion(player.inventory, e);
+        } else if (ID == GuiIds.COMPANIONCREATOR)
+        {
+            TileCompanionCreatorBase tile = (TileCompanionCreatorBase) world
+                    .getBlockTileEntity(x, y, z);
+            return new ContainerCompanionCreator(player.inventory, tile);
         }
         return null;
     }
@@ -96,6 +104,11 @@ public class CommonProxy implements IGuiHandler
             EntityCompanion e = findCompanion(x, world);
             if (e != null)
                 return new GuiCompanion(player.inventory, e, player);
+        } else if (ID == GuiIds.COMPANIONCREATOR)
+        {
+            TileCompanionCreatorBase tile = (TileCompanionCreatorBase) world
+                    .getBlockTileEntity(x, y, z);
+            return new GuiCompanionCreator(player.inventory, tile);
         }
         return null;
     }
@@ -113,11 +126,9 @@ public class CommonProxy implements IGuiHandler
         return null;
     }
 
-    public void registerSoundHandler()
-    {
-    }
+    public void registerSoundHandler() {}
 
-    public void findModels()
-    {
-    }
+    public void findModels() {}
+
+    public void registerKeyBindingHandler() {}
 }

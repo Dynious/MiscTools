@@ -3,6 +3,7 @@ package redmennl.mods.mito.client.gui;
 import java.util.ArrayList;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiButtonMerchant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -216,26 +217,30 @@ public class GuiCompanion extends GuiAdvancedContainer
     public void drawAddonScreen()
     {
         ArrayList<AddonBase> addons = getAddonsAtTab(activeTab);
-        int buttonId = 3;
+        System.out.println("ID = " + buttonList.size());
         for (AddonBase addon : addons)
         {
             if (addon.hasButtons())
             {
                 for (ButtonBase button : addon.getButtons())
                 {
-                    buttonList.add(new GuiButton(buttonId, width / 2
-                            + button.xPos, height / 2 + button.yPos,
-                            button.sizeX, button.sizeY, button.text));
-                    buttonId++;
+                    if (button.type == 0)
+                    {
+                        buttonList.add(new GuiButton(buttonList.size() + 2, width / 2
+                                + button.xPos, height / 2 + button.yPos,
+                                button.sizeX, button.sizeY, button.text));
+                    }
+                    else if (button.type == 1)
+                    {
+                        buttonList.add(new GuiButtonMerchant(buttonList.size() + 2, width / 2
+                                + button.xPos, height / 2 + button.yPos, button.inverted));
+                    }
                 }
             }
 
             if (addon.hasInventory())
             {
-                for (AdvancedSlot slot : addon.getSlots())
-                {
-                    slot.setVisible();
-                }
+                addon.setSlotsVisible();
             }
         }
     }

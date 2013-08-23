@@ -1,7 +1,9 @@
 package redmennl.mods.mito;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import redmennl.mods.mito.block.BlockRegistery;
+import redmennl.mods.mito.client.gui.hud.GuiCompanionHUD;
 import redmennl.mods.mito.config.ConfigurationHandler;
 import redmennl.mods.mito.entity.companion.CompanionGlobalVariables;
 import redmennl.mods.mito.event.LightEmitterEvent;
@@ -39,6 +41,8 @@ public class MiscTools
         ItemRegistery.register();
 
         proxy.registerSoundHandler();
+        
+        proxy.registerKeyBindingHandler();
     }
 
     @EventHandler
@@ -60,6 +64,7 @@ public class MiscTools
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+        MinecraftForge.EVENT_BUS.register(new GuiCompanionHUD(Minecraft.getMinecraft()));
         CompanionGlobalVariables.initBlocks();
     }
 

@@ -1,9 +1,8 @@
 package redmennl.mods.mito.block.item;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import redmennl.mods.mito.lib.BlockIds;
+import redmennl.mods.mito.block.BlockRegistery;
 
 public class ItemLetter2 extends ItemBlock
 {
@@ -22,7 +21,7 @@ public class ItemLetter2 extends ItemBlock
     @Override
     public String getUnlocalizedName(ItemStack i)
     {
-        return Block.blocksList[BlockIds.LETTER2].getUnlocalizedName()
+        return BlockRegistery.letter2.getUnlocalizedName()
                 + i.getItemDamage();
     }
 }

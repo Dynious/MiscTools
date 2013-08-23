@@ -34,15 +34,13 @@ public class EntityAIBreakBlock extends EntityAIBase
     @Override
     public boolean isInterruptible()
     {
-        return false;
+        return true;
     }
 
     @Override
     public boolean shouldExecute()
     {
-        if (companion.getCollectLogs() && companion.owner != null
-                && companion.owner.getDistanceSqToEntity(companion) < 5F * 5F
-                && isLogNear())
+        if (companion.getCollectLogs() && companion.getOwner() != null && isLogNear())
         {
             System.out.println("Checking...");
             return true;
@@ -212,8 +210,6 @@ public class EntityAIBreakBlock extends EntityAIBase
                             MathHelper.floor_double(companion.posY) + 1,
                             MathHelper.floor_double(companion.posZ), false);
                     companion.posY += 1.1;
-                    companion.worldObj.setBlock(x, (int) companion.posY - 1, z,
-                            Block.dirt.blockID);
                     timesTried = 0;
                 } else
                 {

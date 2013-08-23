@@ -5,7 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import redmennl.mods.mito.tile.TileCompanionCreator;
+import redmennl.mods.mito.tile.TileCompanionCreatorBase;
 
 public class ContainerCompanionCreator extends Container
 {
@@ -13,7 +13,7 @@ public class ContainerCompanionCreator extends Container
     private final int PLAYER_INVENTORY_COLUMNS = 9;
 
     public ContainerCompanionCreator(InventoryPlayer i,
-            TileCompanionCreator tile)
+            TileCompanionCreatorBase tile)
     {
 
         for (int inventoryRowIndex = 0; inventoryRowIndex < PLAYER_INVENTORY_ROWS; ++inventoryRowIndex)

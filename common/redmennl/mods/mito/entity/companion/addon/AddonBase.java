@@ -12,8 +12,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class AddonBase
 {
-    private EntityCompanion companion;
-    private int guiLocation;
+    protected EntityCompanion companion;
+    protected int guiLocation;
     protected int buttonActionOffset;
 
     protected ItemStack[] inventory;
@@ -118,6 +118,14 @@ public abstract class AddonBase
     public ArrayList<AdvancedSlot> getSlots()
     {
         return slots;
+    }
+    
+    public void setSlotsVisible()
+    {
+        for (AdvancedSlot slot : getSlots())
+        {
+            slot.setVisible();
+        }
     }
 
     /*
