@@ -19,7 +19,7 @@ public class Library
     public static final String GUI_SHEET_LOCATION = "/mods/mito/textures/gui/";
     public static final String ENTITY_SHEET_LOCATION = "/mods/mito/textures/entities/";
     public static final String MODEL_SHEET_LOCATION = "/mods/mito/textures/models/";
-    public static final String ARMOR_SHEET_LOCATION = "/mods/mito/textures/armor/";
+    public static final String ARMOR_SHEET_LOCATION = "/textures/armor/";
 
     public static final String GUI_PORTABLEHOUSE = GUI_SHEET_LOCATION
             + "portableHouse.png";

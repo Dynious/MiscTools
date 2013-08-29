@@ -16,6 +16,7 @@ import redmennl.mods.mito.entity.companion.addon.button.ButtonBase;
 import redmennl.mods.mito.inventory.slots.AdvancedSlot;
 import redmennl.mods.mito.inventory.slots.PhantomSlot;
 import redmennl.mods.mito.inventory.slots.SlotUntouchable;
+import redmennl.mods.mito.lib.Resources;
 import redmennl.mods.mito.network.PacketHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,6 +39,7 @@ public class AddonCrafting extends AddonBase
     public AddonCrafting(EntityCompanion e)
     {
         super(e);
+        texture = Resources.GUI_COMPANION_CRAFTER;
         addSlots();
         initSlots();
         initButtons();
@@ -50,11 +52,8 @@ public class AddonCrafting extends AddonBase
         buttons.add(new ButtonBase(-40, -70, false));
         buttons.add(new ButtonBase(40, -70, true));
         
-        if (enabledTab == 0)
-        {
-            buttons.add(new ButtonBase(40, -65, 40, 20, "Craft"));
-            buttons.add(new ButtonBase(40, -40, 40, 20, "Auto Craft"));
-        }
+        buttons.add(new ButtonBase(40, -65, 40, 20, "Craft"));
+        buttons.add(new ButtonBase(40, -40, 40, 20, "Auto Craft"));
     }
     
     public void addSlots()
@@ -116,9 +115,9 @@ public class AddonCrafting extends AddonBase
     @SideOnly(Side.CLIENT)
     public void drawBackground(GuiCompanion gui, int xStart, int yStart)
     {
-        gui.drawTexturedModalRect(xStart + 7, yStart + 24, 176, 48, 54, 54);
-        gui.drawTexturedModalRect(xStart + 93, yStart + 38, 176, 102, 26, 26);
-        gui.drawTexturedModalRect(xStart + 67, yStart + 43, 202, 102, 24, 15);
+        gui.drawTexturedModalRect(xStart + 7, yStart + 24, 0, 0, 54, 54);
+        gui.drawTexturedModalRect(xStart + 93, yStart + 38, 0, 54, 26, 26);
+        gui.drawTexturedModalRect(xStart + 67, yStart + 43, 26, 54, 24, 15);
     }
 
     @Override
@@ -152,7 +151,7 @@ public class AddonCrafting extends AddonBase
     @Override
     public void buttonActions(int buttonid)
     {
-        if (buttonid == 0 + buttonActionOffset)
+        if (buttonid == 0)
         {
             if (enabledTab != 0)
             {
@@ -171,7 +170,7 @@ public class AddonCrafting extends AddonBase
                 slotCraftingResult.get(enabledTab).setVisible();
             }
         }
-        if (buttonid == 1 + buttonActionOffset)
+        if (buttonid == 1)
         {
             if (enabledTab != maxTab)
             {
@@ -191,11 +190,11 @@ public class AddonCrafting extends AddonBase
             }
         }
         
-        if (buttonid == 2 + buttonActionOffset)
+        if (buttonid == 2)
         {
             PacketHandler.companionCraft(getCompanion(), enabledTab);
         }
-        if (buttonid == 3 + buttonActionOffset)
+        if (buttonid == 3)
         {
             PacketHandler.companionAutoCraft(getCompanion());
         }

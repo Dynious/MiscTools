@@ -26,7 +26,7 @@ public class BlockCompanionCreator extends BlockContainer
     {
         super(id, Material.iron);
         this.setHardness(2F);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        this.setCreativeTab(MiscTools.tabMito);
     }
 
     @Override

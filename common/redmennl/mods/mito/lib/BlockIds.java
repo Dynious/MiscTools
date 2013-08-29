@@ -10,6 +10,7 @@ public class BlockIds
     public static int LETTER2_DEFAULT = 1533;
     public static int LETTERCONSTRUCTOR_DEFAULT = 1534;
     public static int COMPANIONCREATOR_DEFAULT = 1535;
+    public static int POWERCONNECTOR_DEFAULT = 1536;
 
     // Used block ids
     public static int PORTABLEHOUSE;
@@ -18,4 +19,5 @@ public class BlockIds
     public static int LETTER2;
     public static int LETTERCONSTRUCTOR;
     public static int COMPANIONCREATOR;
+    public static int POWERCONNECTOR;
 }

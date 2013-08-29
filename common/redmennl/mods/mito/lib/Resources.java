@@ -44,5 +44,10 @@ public class Resources
             Library.MOD_ID, GUI_SHEET_LOCATION + "companionCreator.png");
     public static final ResourceLocation GUI_COMPANION_HUD = new ResourceLocation(
             Library.MOD_ID, GUI_SHEET_LOCATION + "companionHUD.png");
+    
+    public static final ResourceLocation GUI_COMPANION_CRAFTER = new ResourceLocation(
+            Library.MOD_ID, GUI_SHEET_LOCATION + "companionCrafter.png");
+    public static final ResourceLocation GUI_COMPANION_CHEST = new ResourceLocation(
+            Library.MOD_ID, GUI_SHEET_LOCATION + "companionChest.png");
 
 }

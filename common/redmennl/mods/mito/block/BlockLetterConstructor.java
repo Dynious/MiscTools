@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -30,7 +29,7 @@ public class BlockLetterConstructor extends BlockContainer
         super(id, Material.rock);
         this.setUnlocalizedName("letterConstructor");
         this.setHardness(2F);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        this.setCreativeTab(MiscTools.tabMito);
     }
 
     @SideOnly(Side.CLIENT)

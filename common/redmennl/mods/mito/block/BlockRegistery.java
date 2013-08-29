@@ -20,6 +20,7 @@ public class BlockRegistery
     public static Block letter2;
     public static Block letterConstructor;
     public static Block companionCreator;
+    public static Block powerConnector;
 
     public static void register()
     {
@@ -30,6 +31,7 @@ public class BlockRegistery
         letterConstructor = new BlockLetterConstructor(
                 BlockIds.LETTERCONSTRUCTOR);
         companionCreator = new BlockCompanionCreator(BlockIds.COMPANIONCREATOR);
+        powerConnector = new BlockPowerConnector(BlockIds.POWERCONNECTOR);
 
         GameRegistry.registerBlock(portableHouse, ItemPortableHouse.class,
                 Library.MOD_ID
@@ -44,6 +46,8 @@ public class BlockRegistery
                 + letterConstructor.getUnlocalizedName().substring(5));
         GameRegistry.registerBlock(companionCreator, ItemCompanionCreator.class, Library.MOD_ID
                 + companionCreator.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(powerConnector, Library.MOD_ID
+                + powerConnector.getUnlocalizedName().substring(5));
 
         LanguageRegistry.addName(new ItemStack(portableHouse, 1, 0),
                 "Portable House");

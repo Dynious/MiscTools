@@ -3,6 +3,7 @@ package redmennl.mods.mito.entity.companion.addon;
 import java.util.ArrayList;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import redmennl.mods.mito.client.gui.GuiCompanion;
 import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.entity.companion.addon.button.ButtonBase;
@@ -19,6 +20,8 @@ public abstract class AddonBase
     protected ItemStack[] inventory;
     protected ArrayList<AdvancedSlot> slots;
     protected ArrayList<ButtonBase> buttons;
+    
+    public ResourceLocation texture = null;
 
     public AddonBase(EntityCompanion e)
     {
@@ -43,6 +46,15 @@ public abstract class AddonBase
     public void setGuiLocation(int location)
     {
         guiLocation = location;
+    }
+    
+    /*
+     * Size the GUI needs 0 for none, 1 for full page, 2 for half page, 4 for
+     * quarter page
+     */
+    public int guiSize()
+    {
+        return 0;
     }
 
     @SideOnly(Side.CLIENT)
@@ -126,14 +138,5 @@ public abstract class AddonBase
         {
             slot.setVisible();
         }
-    }
-
-    /*
-     * Size the GUI needs 0 for none, 1 for full page, 2 for half page, 4 for
-     * quarter page
-     */
-    public int guiSize()
-    {
-        return 0;
     }
 }

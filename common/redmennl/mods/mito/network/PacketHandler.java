@@ -11,6 +11,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.entity.companion.addon.AddonBase;
 import redmennl.mods.mito.entity.companion.addon.AddonCrafting;
+import redmennl.mods.mito.entity.companion.addon.AddonPowerConnector;
 import redmennl.mods.mito.lib.Library;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -100,9 +101,29 @@ public class PacketHandler implements IPacketHandler
                     if (addon instanceof AddonCrafting)
                     {
                         ((AddonCrafting) addon).autoCraft = !((AddonCrafting) addon).autoCraft;
+                        ((EntityCompanion) e).onInventoryChanged();
+                        break;
                     }
                 }
-                ((EntityCompanion) e).onInventoryChanged();
+            }
+        }
+        
+        //companionDeployConnector packet
+        if (packetId == 5)
+        {
+            int entityId = reader.readInt();
+            Entity e = ep.worldObj.getEntityByID(entityId);
+
+            if (e != null && e instanceof EntityCompanion)
+            {
+                for (AddonBase addon : ((EntityCompanion) e).getAddons())
+                {
+                    if (addon instanceof AddonPowerConnector)
+                    {
+                        ((AddonPowerConnector) addon).createConnection();
+                        break;
+                    }
+                }
             }
         }
     }
@@ -200,6 +221,25 @@ public class PacketHandler implements IPacketHandler
         {
             System.out
                     .print("Misc Tools encountered an error sending a craft packet!");
+        }
+    }
+    
+    public static void companionDeployConnector(EntityCompanion e)
+    {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        DataOutputStream dataStream = new DataOutputStream(byteStream);
+
+        try
+        {
+            dataStream.write(5);
+            dataStream.writeInt(e.entityId);
+
+            PacketDispatcher.sendPacketToServer(PacketDispatcher.getPacket(
+                    Library.CHANNEL_NAME, byteStream.toByteArray()));
+        } catch (IOException ex)
+        {
+            System.out
+                    .print("Misc Tools encountered an error sending a deploy connector packet!");
         }
     }
 

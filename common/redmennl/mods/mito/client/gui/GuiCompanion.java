@@ -26,10 +26,7 @@ public class GuiCompanion extends GuiAdvancedContainer
     int xStart;
     int yStart;
 
-    private int activeTab;
-
     public GuiButton setOwner;
-    public int tabs;
 
     public GuiCompanion(InventoryPlayer i, EntityCompanion e,
             EntityPlayer player)
@@ -41,13 +38,6 @@ public class GuiCompanion extends GuiAdvancedContainer
         p = player;
         xStart = (width - xSize) / 2;
         yStart = (height - ySize) / 2;
-        if (e.getAddons() != null)
-        {
-            tabs = e.getAddons().size() + 1;
-        } else
-        {
-            tabs = 1;
-        }
         getAddonTab();
     }
 
@@ -58,25 +48,25 @@ public class GuiCompanion extends GuiAdvancedContainer
         int quarterTabSpace = 0;
         for (AddonBase addon : e.getAddons())
         {
-            if (addon.hasGui())
+            if (addon.hasGui() && addon.getGuiLocation() == 0)
             {
                 if (addon.guiSize() == 1)
                 {
-                    addon.setGuiLocation(tab);
                     addon.setButtonActionOffset(0);
+                    addon.setGuiLocation(tab);
                     tab++;
                 }
                 if (addon.guiSize() == 2)
                 {
                     if (halfTabSpace != 0)
                     {
-                        addon.setGuiLocation(halfTabSpace);
                         addon.setButtonActionOffset(getOffsetAtTab(halfTabSpace));
+                        addon.setGuiLocation(halfTabSpace);
                         halfTabSpace = 0;
                     } else
                     {
-                        addon.setGuiLocation(tab);
                         addon.setButtonActionOffset(0);
+                        addon.setGuiLocation(tab);
                         halfTabSpace = tab;
                         tab++;
                     }
@@ -85,25 +75,29 @@ public class GuiCompanion extends GuiAdvancedContainer
                 {
                     if (quarterTabSpace != 0)
                     {
-                        addon.setGuiLocation(quarterTabSpace);
                         addon.setButtonActionOffset(getOffsetAtTab(quarterTabSpace));
+                        addon.setGuiLocation(quarterTabSpace);
                         quarterTabSpace = 0;
                     } else if (halfTabSpace != 0)
                     {
-                        addon.setGuiLocation(halfTabSpace);
                         addon.setButtonActionOffset(getOffsetAtTab(halfTabSpace));
+                        addon.setGuiLocation(halfTabSpace);
                         quarterTabSpace = halfTabSpace;
                         halfTabSpace = 0;
                     } else
                     {
-                        addon.setGuiLocation(tab);
                         addon.setButtonActionOffset(0);
+                        addon.setGuiLocation(tab);
                         halfTabSpace = tab;
                         quarterTabSpace = tab;
                         tab++;
                     }
                 }
             }
+        }
+        if (e.tabs == 1)
+        {
+            e.tabs = tab - 1;
         }
     }
 
@@ -126,7 +120,8 @@ public class GuiCompanion extends GuiAdvancedContainer
         ArrayList<AddonBase> addons = getAddonsAtTab(tab);
         for (AddonBase addon : addons)
         {
-            offset += addon.getButtonActionOffset() + addon.getButtons().size();
+            System.out.println("Button size: " + addon.getButtons().size());
+            offset += addon.getButtons().size();
         }
         return offset;
     }
@@ -135,8 +130,14 @@ public class GuiCompanion extends GuiAdvancedContainer
     public void initGui()
     {
         clearContainerScreen();
-        activeTab = 1;
-        drawInventoryScreen();
+        if (e.activeTab == 1 || e.activeTab == 0)
+        {
+            drawInventoryScreen();
+        }
+        else
+        {
+            drawAddonScreen();
+        }
         super.initGui();
     }
 
@@ -151,42 +152,42 @@ public class GuiCompanion extends GuiAdvancedContainer
             {
                 if (x >= 0 && x <= 29)
                 {
-                    if (activeTab != 1)
+                    if (e.activeTab != 1)
                     {
                         clearContainerScreen();
-                        activeTab = 1;
+                        e.activeTab = 1;
                         drawInventoryScreen();
                     }
-                } else if (x >= 30 && x <= 59 && tabs >= 2)
+                } else if (x >= 30 && x <= 59 && e.tabs >= 2)
                 {
-                    if (activeTab != 2)
+                    if (e.activeTab != 2)
                     {
                         clearContainerScreen();
-                        activeTab = 2;
+                        e.activeTab = 2;
                         drawAddonScreen();
                     }
-                } else if (x >= 60 && x <= 89 && tabs >= 3)
+                } else if (x >= 60 && x <= 89 && e.tabs >= 3)
                 {
-                    if (activeTab != 3)
+                    if (e.activeTab != 3)
                     {
                         clearContainerScreen();
-                        activeTab = 3;
+                        e.activeTab = 3;
                         drawAddonScreen();
                     }
-                } else if (x >= 90 && x <= 119 && tabs >= 4)
+                } else if (x >= 90 && x <= 119 && e.tabs >= 4)
                 {
-                    if (activeTab != 4)
+                    if (e.activeTab != 4)
                     {
                         clearContainerScreen();
-                        activeTab = 4;
+                        e.activeTab = 4;
                         drawAddonScreen();
                     }
-                } else if (x >= 120 && x <= 149 && tabs >= 5)
+                } else if (x >= 120 && x <= 149 && e.tabs >= 5)
                 {
-                    if (activeTab != 5)
+                    if (e.activeTab != 5)
                     {
                         clearContainerScreen();
-                        activeTab = 5;
+                        e.activeTab = 5;
                         drawAddonScreen();
                     }
                 }
@@ -216,7 +217,7 @@ public class GuiCompanion extends GuiAdvancedContainer
     @SuppressWarnings("unchecked")
     public void drawAddonScreen()
     {
-        ArrayList<AddonBase> addons = getAddonsAtTab(activeTab);
+        ArrayList<AddonBase> addons = getAddonsAtTab(e.activeTab);
         System.out.println("ID = " + buttonList.size());
         for (AddonBase addon : addons)
         {
@@ -284,11 +285,11 @@ public class GuiCompanion extends GuiAdvancedContainer
     public void updateScreen()
     {
         super.updateScreen();
-
-        if (e.isSitting() == true)
+        
+        if (e.activeTab == 1 && e.isSitting() == true)
         {
             setOwner.displayString = "Follow";
-        } else if (e.isSitting() == false)
+        } else if (e.activeTab == 1 && e.isSitting() == false)
         {
             setOwner.displayString = "Stop following";
         }
@@ -323,10 +324,10 @@ public class GuiCompanion extends GuiAdvancedContainer
         }
         if (guibutton.id > 2)
         {
-            ArrayList<AddonBase> addons = getAddonsAtTab(activeTab);
+            ArrayList<AddonBase> addons = getAddonsAtTab(e.activeTab);
             for (AddonBase addon : addons)
             {
-                addon.buttonActions(guibutton.id - 3);
+                addon.buttonActions(guibutton.id - (3 + addon.getButtonActionOffset()));
                 System.out.println("ButtonId = " + guibutton.id
                         + " ButtonOffset = " + addon.getButtonActionOffset());
             }
@@ -344,40 +345,51 @@ public class GuiCompanion extends GuiAdvancedContainer
         yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
 
-        // Unselected tabs
+        // Unselected e.tabs
         this.drawTexturedModalRect(xStart, yStart, 176, 12, 39, 12);
-        for (int i = 1; i < tabs; i++)
+        for (int i = 1; i < e.tabs; i++)
         {
             this.drawTexturedModalRect(xStart + i * 30, yStart, 176, 36, 39, 12);
         }
-        this.drawTexturedModalRect(xStart + (tabs - 1) * 30, yStart, 176, 36,
+        this.drawTexturedModalRect(xStart + (e.tabs - 1) * 30, yStart, 176, 36,
                 39, 12);
 
         // Selected tab
-        if (activeTab == 1)
+        if (e.activeTab == 1)
         {
             this.drawTexturedModalRect(xStart, yStart, 176, 0, 39, 12);
-        } else if (activeTab == tabs)
+        } else if (e.activeTab == e.tabs)
         {
-            this.drawTexturedModalRect(xStart + (tabs - 1) * 30, yStart, 176,
+            this.drawTexturedModalRect(xStart + (e.tabs - 1) * 30, yStart, 176,
                     24, 39, 12);
         } else
         {
-            this.drawTexturedModalRect(xStart + (activeTab - 1) * 30, yStart,
+            this.drawTexturedModalRect(xStart + (e.activeTab - 1) * 30, yStart,
                     176, 24, 39, 12);
         }
 
         // Tab contents
-        if (activeTab == 1)
+        if (e.activeTab == 1)
         {
             this.drawTexturedModalRect(xStart + 115, yStart + 24, 176, 48, 54,
                     54);
         } else
         {
-            ArrayList<AddonBase> addons = getAddonsAtTab(activeTab);
+            ArrayList<AddonBase> addons = getAddonsAtTab(e.activeTab);
             for (AddonBase addon : addons)
             {
-                addon.drawBackground(this, xStart, yStart);
+                if (addon.hasGui())
+                {
+                    if (addon.texture != null)
+                    {
+                        mc.renderEngine.func_110577_a(addon.texture);
+                    }
+                    else
+                    {
+                        mc.renderEngine.func_110577_a(Resources.GUI_COMPANION);
+                    }
+                    addon.drawBackground(this, xStart, yStart);
+                }
             }
         }
     }

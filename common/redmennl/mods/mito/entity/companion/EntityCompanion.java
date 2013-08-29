@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.entity.companion.addon.AddonBase;
 import redmennl.mods.mito.entity.companion.addon.AddonCraftingMk2;
+import redmennl.mods.mito.entity.companion.addon.AddonEnderChest;
+import redmennl.mods.mito.entity.companion.addon.AddonPowerConnector;
 import redmennl.mods.mito.entity.companion.addon.AddonTest;
 import redmennl.mods.mito.entity.companion.ai.EntityAIBreakBlock;
 import redmennl.mods.mito.entity.companion.ai.EntityAIStandClose;
@@ -32,6 +34,9 @@ public class EntityCompanion extends EntityCompanionDummy implements IInventory
 
     private boolean standCloseToPlayer = true;
     private boolean collectLogs = false;
+    
+    public int tabs = 1;
+    public int activeTab = 1;
 
     public EntityCompanion(World world)
     {
@@ -47,6 +52,10 @@ public class EntityCompanion extends EntityCompanionDummy implements IInventory
 
         addons.add(new AddonCraftingMk2(this));
         addons.add(new AddonTest(this));
+        ArrayList<AddonPowerConnector.powerType> powerTypes = new ArrayList<AddonPowerConnector.powerType>();
+        powerTypes.add(AddonPowerConnector.powerType.MJ);
+        addons.add(new AddonPowerConnector(this, powerTypes));
+        addons.add(new AddonEnderChest(this));
     }
     
     public void setOwner(EntityPlayer owner)

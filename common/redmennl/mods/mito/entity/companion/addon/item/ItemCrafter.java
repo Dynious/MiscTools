@@ -1,21 +1,19 @@
-package redmennl.mods.mito.item;
+package redmennl.mods.mito.entity.companion.addon.item;
 
 import net.minecraft.client.renderer.texture.IconRegister;
-import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.lib.Library;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemHelmetTorch extends ItemMito
+public class ItemCrafter extends ItemAddonBase
 {
 
-    public ItemHelmetTorch(int id)
+    public ItemCrafter(int id)
     {
         super(id);
-        this.setCreativeTab(MiscTools.tabMito);
-        this.setUnlocalizedName("helmetTorch");
+        this.setUnlocalizedName("crafter");
     }
-
+    
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister ir)

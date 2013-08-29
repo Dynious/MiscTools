@@ -1,7 +1,6 @@
 package redmennl.mods.mito.item;
 
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.entity.companion.EntityCompanion;
 import redmennl.mods.mito.lib.Library;
 import redmennl.mods.mito.lib.Resources;
@@ -33,7 +33,7 @@ public class ItemCompanion extends ItemMito
     public ItemCompanion(int id)
     {
         super(id);
-        this.setCreativeTab(CreativeTabs.tabMisc);
+        this.setCreativeTab(MiscTools.tabMito);
         this.setUnlocalizedName("companion");
 
         model = AdvancedModelLoader.loadModel(Resources.MODEL_LOCATION

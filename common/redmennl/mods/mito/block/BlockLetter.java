@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.tile.TileLetter;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +27,7 @@ public class BlockLetter extends BlockContainer
         super(id, Material.rock);
         this.setUnlocalizedName("letter");
         this.setHardness(2F);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        this.setCreativeTab(MiscTools.tabMito);
     }
 
     @Override

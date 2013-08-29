@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.client.gui.GuiPortableHouse;
 import redmennl.mods.mito.lib.Library;
 import redmennl.mods.mito.tile.TileAdvancedPortableHouse;
@@ -29,7 +30,7 @@ public class BlockPortableHouse extends BlockContainer
     {
         super(id, Material.iron);
         this.setUnlocalizedName("portableHouse");
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        this.setCreativeTab(MiscTools.tabMito);
         this.setHardness(50.0F);
     }
 

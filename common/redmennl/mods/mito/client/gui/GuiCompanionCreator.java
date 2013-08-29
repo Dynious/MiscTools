@@ -21,8 +21,8 @@ public class GuiCompanionCreator extends GuiContainer
     public GuiCompanionCreator(InventoryPlayer i, TileCompanionCreatorBase tile)
     {
         super(new ContainerCompanionCreator(i, tile));
-        xSize = 176;
-        ySize = 166;
+        xSize = 256;
+        ySize = 198;
         this.tile = tile;
     }
     
@@ -45,9 +45,10 @@ public class GuiCompanionCreator extends GuiContainer
         
         RenderHelper.enableStandardItemLighting();
         tile.createCompanionDummy();
+        
         GL11.glPushMatrix();
-        GL11.glTranslatef(250F, 120F, 50F);
-        GL11.glScalef(50F, 50F, 50F);
+        GL11.glTranslatef(xStart + 45, yStart + 188, 50F);
+        GL11.glScalef(45F, 45F, 45F);
         GL11.glRotatef(180F, 0F, 0F, 1F);
         GL11.glRotatef(20F, 0F, 1F, 0F);
         GL11.glRotatef(tile.companionRotation, 0F, 1F, 0F);
@@ -55,6 +56,7 @@ public class GuiCompanionCreator extends GuiContainer
         GL11.glPopMatrix();
     }
     
+    /*
     @Override
     protected void mouseClickMove(int par1, int par2, int par3, long par4)
     {
@@ -65,12 +67,34 @@ public class GuiCompanionCreator extends GuiContainer
             tile.companionRotationSpeed = (clickX - par1)/(par4/5);
         }
     }
+    */
     
     @Override
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
-        clickX = par1;
+        
+        int xStart = (width - xSize) / 2;
+        int yStart = (height - ySize) / 2;
+        
+        if (par1 > xStart + 8 && par1 < xStart + 83 && par2 > yStart + 115 && par2 < yStart + 192)
+        {
+            clickX = par1;
+        }
+        else 
+        {
+            clickX = 300000;
+        }
+    }
+    
+    @Override
+    protected void mouseMovedOrUp(int par1, int par2, int par3)
+    {
+        super.mouseMovedOrUp(par1, par2, par3);
+         if (par3 == 0 && clickX != 300000)
+         {
+             tile.companionRotationSpeed = (clickX - par1) / 5;
+         }
     }
     
     @Override

@@ -38,6 +38,9 @@ public class ConfigurationHandler
             BlockIds.COMPANIONCREATOR = configuration.getBlock(
                     "companionCreator", BlockIds.COMPANIONCREATOR_DEFAULT)
                     .getInt(BlockIds.COMPANIONCREATOR_DEFAULT);
+            BlockIds.POWERCONNECTOR = configuration.getBlock(
+                    "powerConnector", BlockIds.POWERCONNECTOR_DEFAULT)
+                    .getInt(BlockIds.POWERCONNECTOR_DEFAULT);
 
             ItemIds.HELMETTORCH = configuration.getItem("helmetTorch",
                     ItemIds.HELMETTORCH_DEFAULT).getInt(
@@ -64,6 +67,15 @@ public class ConfigurationHandler
             ItemIds.COMPANION = configuration.getItem("companion",
                     ItemIds.COMPANION_DEFAULT)
                     .getInt(ItemIds.COMPANION_DEFAULT);
+            ItemIds.CONNECTIONINTERFACE = configuration.getItem("connectionInterface",
+                    ItemIds.CONNECTIONINTERFACE_DEFAULT)
+                    .getInt(ItemIds.CONNECTIONINTERFACE_DEFAULT);
+            ItemIds.POWERCONNECTOR = configuration.getItem("powerConnector",
+                    ItemIds.POWERCONNECTOR_DEFAULT)
+                    .getInt(ItemIds.POWERCONNECTOR_DEFAULT);
+            ItemIds.CRAFTER = configuration.getItem("crafter",
+                    ItemIds.CRAFTER_DEFAULT)
+                    .getInt(ItemIds.CRAFTER_DEFAULT);
 
         } catch (Exception e)
         {

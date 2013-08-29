@@ -23,7 +23,6 @@ public class ItemMinersHelmetOn extends ItemArmor
     {
         super(id - Library.ITEM_ID_OFFSET, par2EnumArmorMaterial, renderIndex,
                 slot);
-        this.setCreativeTab(null);
     }
 
     @Override
@@ -39,8 +38,7 @@ public class ItemMinersHelmetOn extends ItemArmor
     public String getArmorTexture(ItemStack stack, Entity entity, int slot,
             int layer)
     {
-        return Library.ARMOR_SHEET_LOCATION
-                + this.getUnlocalizedName().substring(6) + ".png";
+        return Library.MOD_ID + ":" + Library.ARMOR_SHEET_LOCATION + this.getUnlocalizedName().substring(6) + ".png";
     }
 
     @Override

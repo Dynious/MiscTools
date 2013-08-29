@@ -36,13 +36,13 @@ public class AddonTest extends AddonBase
     private void initButtons()
     {
         buttons = new ArrayList<ButtonBase>();
-        buttons.add(new ButtonBase(0, -80, 80, 20, "Toggle woodcutting"));
+        buttons.add(new ButtonBase(-80, -80, 80, 20, "Toggle woodcutting"));
     }
 
     @Override
     public void buttonActions(int buttonid)
     {
-        if (buttonid == 0 + buttonActionOffset)
+        if (buttonid == 0)
         {
             PacketHandler.companionCutWood(getCompanion());
         }
@@ -51,7 +51,7 @@ public class AddonTest extends AddonBase
     @Override
     public int guiSize()
     {
-        return 1;
+        return 4;
     }
 
 }

@@ -22,15 +22,15 @@ public class ContainerCompanionCreator extends Container
             {
                 this.addSlotToContainer(new Slot(i, inventoryColumnIndex
                         + inventoryRowIndex * 9 + 9,
-                        8 + inventoryColumnIndex * 18,
-                        84 + inventoryRowIndex * 18));
+                        88 + inventoryColumnIndex * 18,
+                        116 + inventoryRowIndex * 18));
             }
         }
 
         for (int actionBarSlotIndex = 0; actionBarSlotIndex < PLAYER_INVENTORY_COLUMNS; ++actionBarSlotIndex)
         {
             this.addSlotToContainer(new Slot(i, actionBarSlotIndex,
-                    8 + actionBarSlotIndex * 18, 142));
+                    88 + actionBarSlotIndex * 18, 174));
         }
     }
 

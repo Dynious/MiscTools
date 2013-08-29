@@ -3,7 +3,6 @@ package redmennl.mods.mito.item;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumArmorMaterial;
@@ -11,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import redmennl.mods.mito.MiscTools;
 import redmennl.mods.mito.lib.ItemIds;
 import redmennl.mods.mito.lib.Library;
 import cpw.mods.fml.relauncher.Side;
@@ -23,7 +23,7 @@ public class ItemMinersHelmet extends ItemArmor
     {
         super(id - Library.ITEM_ID_OFFSET, par2EnumArmorMaterial, renderIndex,
                 slot);
-        setCreativeTab(CreativeTabs.tabCombat);
+        setCreativeTab(MiscTools.tabMito);
     }
 
     @Override
@@ -39,8 +39,7 @@ public class ItemMinersHelmet extends ItemArmor
     public String getArmorTexture(ItemStack stack, Entity entity, int slot,
             int layer)
     {
-        return Library.ARMOR_SHEET_LOCATION
-                + this.getUnlocalizedName().substring(5) + ".png";
+        return Library.MOD_ID + ":" + Library.ARMOR_SHEET_LOCATION + this.getUnlocalizedName().substring(5) + ".png";
     }
 
     @Override

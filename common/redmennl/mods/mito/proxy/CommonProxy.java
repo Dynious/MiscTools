@@ -24,6 +24,7 @@ import redmennl.mods.mito.tile.TileLetter;
 import redmennl.mods.mito.tile.TileLetterConstructor;
 import redmennl.mods.mito.tile.TilePortableHouse;
 import redmennl.mods.mito.tile.TilePortableHouseDeployer;
+import redmennl.mods.mito.tile.TilePowerConnector;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -51,6 +52,8 @@ public class CommonProxy implements IGuiHandler
                 "companionCreatorBase");
         GameRegistry.registerTileEntity(TileCompanionCreator.class,
                 "companionCreator");
+        GameRegistry.registerTileEntity(TilePowerConnector.class,
+                "powerConnector");
     }
 
     public void initEntities()
